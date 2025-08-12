@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mainc.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/11 13:16:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:07:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,26 @@ int main(int argc, char *argv[])
 	(void)argc;
 	(void)argv;
 
-	printf("Minishell test\n");
+	if (argc != 1)
+	{
+		ft_putstr_fd("Usage: ./minishell\n", 2);
+		return (1);
+	}
+	printf("Minishell test\n"); //test
 	while (1)
 	{
 		input = readline("minishell> ");
-		if (!input)
+		if (!input) //Ctrl-D
 			break;
-		if (ft_strncmp(input, "exit", 4) == 0)
+		if (ft_strncmp(input, "exit", 4) == 0) //test
 		{
 			free (input);
 			break;
 		}
-		printf("Input: %s\n", input);
-	free(input);
+		//parse input
+		//execute commands
+		printf("Input: %s\n", input); //test
+		free(input);
 	}
 	return (0);
 }
