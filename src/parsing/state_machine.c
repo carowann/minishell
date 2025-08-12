@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/12 19:47:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:05:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ void handle_default_state(char c, t_parser *parser)
 {
 	if (c = '"')
 	{
-		
+		parser->state = IN_DOUBLE_QUOTES;
+		//buffer
 	}
+	else if (c == '\'')
+	{	
+		//
+	}
+	else if (c == '$')
+	{
+		parser->state = IN_VARIABLE;
+		//buffer
+	}
+	//ecc
 }
