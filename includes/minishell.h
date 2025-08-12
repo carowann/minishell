@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/12 19:25:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/12 19:29:26 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ typedef enum e_token_type
 	HEREDOC,
 	QUOTED_STRING,
 	VARIABLE
-} t_token_type;
+}	t_token_type;
 
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*content;
 	struct s_token	*next;
-} t_token;
+}	t_token;
 
 typedef struct s_token_list
 {
 	t_token			*head;
 	int				count;
-} t_token_list;
+}	t_token_list;
 
 typedef enum e_state
 {
@@ -54,6 +54,12 @@ typedef enum e_state
 	IN_OPERATOR
 }	t_state;
 
-typedef struct s
+typedef struct s_parser
+{
+	char	*buffer;
+	int		buffer_pos;
+	t_state	state;
+	t_token_list	*tokens;
+}	t_parser;
 
 #endif
