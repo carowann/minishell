@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/12 16:07:18 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:20:57 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int main(int argc, char *argv[])
 {
 
-	char	*input;
+	char			*input;
+	t_token_list	*tokens;
 
 	(void)argc;
 	(void)argv;
@@ -36,6 +37,7 @@ int main(int argc, char *argv[])
 			free (input);
 			break;
 		}
+		tokens = tokenize(input)
 		//parse input
 		//execute commands
 		printf("Input: %s\n", input); //test
