@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/12 19:29:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:45:47 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,11 @@ typedef struct s_parser
 	t_state	state;
 	t_token_list	*tokens;
 }	t_parser;
+
+/****************PARSING**************** */
+
+//cleanup.c
+void	free_token(t_token *token);
+void	free_token_list(t_token_list *token_list);
 
 #endif
