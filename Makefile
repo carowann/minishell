@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/11 13:28:34 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/13 18:09:50 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,12 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDES = -I./includes  -I./$(LIBFT_DIR)
 
-SRC =	src/main.c		\
+SRC =	src/main.c			\
+	src/parsing/cleanup.c		\
+	src/parsing/parser.c		\
+	src/parsing/parsing_utils.c	\
+	src/parsing/state_machine.c	\
+	src/parsing/tokenizer.c		\
 
 FLAGS = -g
 FLAGS += -Wall -Werror -Wextra
