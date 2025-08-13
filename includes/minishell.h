@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 16:42:40 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:09:32 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
 
 //parsing_utils.c
+t_parser init_parser(t_parser parser, char *buffer, t_token_list *tokens);
 void	reset_buffer(t_parser *parser);
 
 #endif
