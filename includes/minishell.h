@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 15:45:47 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:42:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,22 @@ typedef enum e_state
 
 typedef struct s_parser
 {
-	char	*buffer;
-	int		buffer_pos;
-	t_state	state;
+	char			*buffer;
+	int				buffer_pos;
+	t_state			state;
 	t_token_list	*tokens;
 }	t_parser;
 
 /****************PARSING**************** */
 
+//tokenizer.c
+int	safe_create_and_add_token(t_parser *parser, t_token_type type);
+
 //cleanup.c
 void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
+
+//parsing_utils.c
+void	reset_buffer(t_parser *parser);
 
 #endif
