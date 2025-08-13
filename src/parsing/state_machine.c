@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 13:00:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:20:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,25 @@ void handle_default_state(char c, t_parser *parser)
 		create_pipe_token(parser); //TODO
 	}
 	else
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	{
 		parser->buffer[parser->buffer_pos] = c;
 		parser->buffer_pos++;

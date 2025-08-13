@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/12 19:45:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/13 14:39:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_token_list *tokenize(char *input)
 	
 	tokens = ft_calloc(1, sizeof(t_token_list));
 	if (!tokens)
-		handle_error();
+		handle_error(); //TODO
 	buffer = ft_calloc(1, sizeof(ft_strlen(input) + 1));
 	if (!buffer)
 		handle_error();
@@ -44,12 +44,34 @@ t_token_list *tokenize(char *input)
 	while (*input)
 	{
 		handle_state_machine(*input, &parser);
-		//a seconda dello stato in cui mi trovo creo o meno il token (automa a stati finit)
-		//se ho creato il token lo aggiungo alla fine della lista
 		input++;
 	}
 	free(buffer);
 	return (tokens);
+}
+
+t_token	*create_token(t_parser *parser, t_token_type type)
+{
+	t_token	*token;
+
+	token = ft_calloc(1, sizeof(t_token));
+	if (!token)
+		handle_error(); //TODO
+	token->type = type;
+	if (type == PIPE)
+		token->content = ft_strdup("|");
+	else if (type == REDIRECT_IN)
+		token->content = ft_strdup("<");
+	else if (type == REDIRECT_OUT)
+		token->content = ft_strdup(">");
+	else if (type == APPEND)
+		token->content = ft_strdup(">>");
+	else if (type ==HEREDOC)
+		token->content = ft_strdup("<<");
+	else
+		token->content = ft_strdup(parser->buffer);
+	token->next = NULL;
+	return (token);
 }
 
 
