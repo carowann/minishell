@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 14:39:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:18:12 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 int main()
 {
-	char			*input;
-	t_token_list	*tokens;
+	char		*input;
+	t_cmd_list	*commands;
 
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = readline(BOLD"minishell> "RESET);
 		if (!input) //Ctrl-D
 			break;
-		if (tokenize(input, &tokens) == -1)
+		if (parse_input(input, &commands) == -1)
 		{
 			ft_putstr_fd("Error while parsing\n", 2);
 			free (input);
 			continue;
 		}
-			//execute commands
-		printf("Input: %s\n", input); //test
-		printf("Tokens creati: %d\n", tokens->count); //test
-		free_token_list(tokens);
+		printf("Parsing successful!\n"); //debug
+		//execute_commands(commands);
+		//free_command_list(commands);
 		free(input);
 	}
 	return (0);

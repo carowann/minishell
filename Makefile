@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/14 14:41:00 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/14 19:11:26 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC =	src/main.c			\
 	src/parsing/parsing_utils.c	\
 	src/parsing/state_machine.c	\
 	src/parsing/tokenizer.c		\
+	src/parsing/debug.c		#debug!
 
 FLAGS = -g
 FLAGS += -Wall -Werror -Wextra

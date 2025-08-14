@@ -6,10 +6,33 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 14:40:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:09:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Parsing functions here
+int	parse_input(char *input, t_cmd_list	**commands)
+{
+	t_tokenizer_ctx	ctx;
+	
+	(void)commands;
+	
+	if (init_tokenizer_ctx(&ctx, input) == -1)
+		return (-1);
+	if (tokenize(input, &ctx) == -1)
+	{
+		cleanup_tokenizer_ctx(&ctx);
+		return (-1);
+	}
+	//TODO convert tokens to commands
+	// if (tokens_to_commands(ctx.tokens, commands) == -1)
+	// {
+	// 	cleanup_tokenizer_ctx(&ctx);
+	// 	return (-1);
+	// }
+	printf("Tokens creati: %d\n", ctx.tokens->count);
+	print_token_list(ctx.tokens);
+	cleanup_tokenizer_ctx(&ctx);
+	return (0);
+}

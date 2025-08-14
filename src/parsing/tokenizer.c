@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 15:10:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 18:59:26 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,42 +18,21 @@
  * @param tokens: output token list
  * @return: 0 success, -1 error
  */
-int	tokenize(char *input, t_token_list **tokens)
-{
-	char		*buffer;
-	t_parser	parser;
-	
-	if (!input || !tokens)
+int	tokenize(char *input, t_tokenizer_ctx *ctx)
+{	
+	if (!input || !ctx)
 		return (-1);
-	*tokens = ft_calloc(1, sizeof(t_token_list));
-	if (!*tokens)
-		return (-1);
-	buffer = ft_calloc(1, sizeof(ft_strlen(input) + 1));
-	if (!buffer)
-	{
-		free_token_list(*tokens);
-		return (-1);
-	}
-	**tokens = (t_token_list){0};
-	parser = init_parser(parser, buffer, *tokens);
 	while (*input)
 	{
-		if (handle_state_machine(*input, &parser) == -1)
-		{
-			free_token_list(*tokens);
+		if (handle_state_machine(*input, ctx) == -1)
 			return (-1);
-		}
 		input++;
 	}
-	if (parser.buffer_pos > 0)
+	if (ctx->parser.buffer_pos > 0)
 	{
-		if (safe_create_and_add_token(&parser, WORD) == -1)
-		{
-			free_token_list(*tokens);
+		if (safe_create_and_add_token(ctx, WORD) == -1)
 			return (-1);
-		}
 	}
-	free(buffer);
 	return (0);
 }
 
@@ -64,7 +43,7 @@ int	tokenize(char *input, t_token_list **tokens)
  * @param type: token type (WORD, PIPE, etc.)
  * @return: 0 success, -1 on ft_strdup failure
  */
-int	create_token(t_token *token, char	*buffer, t_token_type type)
+int	create_token(t_token *token, char *buffer, t_token_type type)
 {
 	token->type = type;
 	token->next = NULL;
@@ -92,17 +71,17 @@ int	create_token(t_token *token, char	*buffer, t_token_type type)
  * @param type: token type to create
  * @return: 0 success, -1 error
  */
-int safe_create_and_add_token(t_parser *parser, t_token_type type)
+int safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 {
 	if (type == PIPE)
-		return (create_and_add_token(parser, type));
+		return (create_and_add_token(ctx, type));
 	else
 	{
-		if (parser->buffer_pos == 0)
+		if (ctx->parser.buffer_pos == 0)
 			return (0);
-		if (create_and_add_token(parser, type) == -1)
+		if (create_and_add_token(ctx, type) == -1)
 			return (-1);
-		reset_buffer(parser);
+		reset_buffer(&ctx->parser);
 	}
 	return (0);	
 }
@@ -113,19 +92,19 @@ int safe_create_and_add_token(t_parser *parser, t_token_type type)
  * @param type: token type to create
  * @return: 0 success, -1 allocation error
  */
-int	create_and_add_token(t_parser *parser, t_token_type	type)
+int	create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 {
 	t_token	*token;
 
 	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (-1);
-	if (create_token(token, parser->buffer, type) == -1)
+	if (create_token(token, ctx->parser.buffer, type) == -1)
 	{
 		free(token);
 		return (-1);
 	}
-	add_token_list(parser->tokens, token);
+	add_token_list(ctx->tokens, token);
 	return (0);
 }
 

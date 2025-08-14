@@ -6,12 +6,15 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 15:01:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:18:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	MINISHELL_H
 # define MINISHELL_H
+
+# define BOLD	"\033[1m"
+# define RESET	"\033[0m"
 
 # include "../libft/libft.h"
 # include <stdio.h>
@@ -59,30 +62,58 @@ typedef struct s_parser
 	char			*buffer;
 	int				buffer_pos;
 	t_state			state;
-	t_token_list	*tokens;
 }	t_parser;
+
+typedef struct s_tokenizer_ctx
+{
+	t_parser		parser;
+	t_token_list	*tokens;
+}	t_tokenizer_ctx;
+
+typedef struct s_cmd
+{
+	char			**args;
+	char			*input_file;
+	char			*output_file;
+	int				append_mode;
+	int				is_heredoc;
+	struct s_cmd	*next;
+}	t_cmd;
+
+typedef struct s_cmd_list
+{
+	t_cmd	*head;
+	int		count;
+}	t_cmd_list;
 
 /****************PARSING**************** */
 
-//tokenizer.c
-int	tokenize(char *input, t_token_list **tokens);
-int	safe_create_and_add_token(t_parser *parser, t_token_type type);
-int	create_and_add_token(t_parser *parser, t_token_type	type);
-void	add_token_list(t_token_list *token_list, t_token *token);
+//DEBUG!
+void print_token_list(t_token_list *tokens);
 
 //cleanup.c
 void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
 
+//parser.c
+int	parse_input(char *input, t_cmd_list	**commands);
+
+//tokenizer.c
+int		tokenize(char *input, t_tokenizer_ctx *ctx);
+int 	safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
+int		create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
+void	add_token_list(t_token_list *token_list, t_token *token);
+
 //parsing_utils.c
-t_parser	init_parser(t_parser parser, char *buffer, t_token_list *tokens);
-void		reset_buffer(t_parser *parser);
+int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
+void	reset_buffer(t_parser *parser);
+void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);
 
 //state_machine.c
-int handle_state_machine(char c, t_parser *parser);
-int	handle_default_state(char c, t_parser *parser);
-int	handle_double_quotes(char c, t_parser *parser);
-int	handle_single_quotes(char c, t_parser *parser);
-int	handle_variable_state(char c, t_parser *parser);
-int	handle_operator_state(char c, t_parser *parser);
+int handle_state_machine(char c, t_tokenizer_ctx *ctx);
+int	handle_default_state(char c, t_tokenizer_ctx *ctx);
+int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
+int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
+int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
+int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
 #endif
