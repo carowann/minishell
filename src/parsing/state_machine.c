@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 14:40:46 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:58:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int handle_state_machine(char c, t_parser *parser)
  * @param parser: parser state with buffer and token list
  * @return: 0 success, -1 error
  */
-int handle_default_state(char c, t_parser *parser)
+int	handle_default_state(char c, t_parser *parser)
 {
 	if (c == '"')
 		parser->state = IN_DOUBLE_QUOTES;
@@ -53,7 +53,7 @@ int handle_default_state(char c, t_parser *parser)
 		if (safe_create_and_add_token(parser, WORD) == -1)
 			return (-1);
 	}
-	else if (c == '<' || c =='>')
+	else if (c == '<' || c == '>')
 	{
 		if (safe_create_and_add_token(parser, WORD) == -1)
 			return (-1);
@@ -73,5 +73,38 @@ int handle_default_state(char c, t_parser *parser)
 	}
 	return (0);
 }
+
+int	handle_double_quotes(char c, t_parser *parser)
+{
+	(void)c;
+	(void)parser;
+	printf("TODO: handle_double_quotes called with '%c'\n", c);
+	return (0);
+}
+
+int	handle_single_quotes(char c, t_parser *parser)
+{
+	(void)c;
+	(void)parser;
+	printf("TODO: handle_single_quotes called with '%c'\n", c);
+	return (0);
+}
+
+int	handle_variable_state(char c, t_parser *parser)
+{
+	(void)c;
+	(void)parser;
+	printf("TODO: handle_variable_state called with '%c'\n", c);
+	return (0);
+}
+
+int	handle_operator_state(char c, t_parser *parser)
+{
+	(void)c;
+	(void)parser;
+	printf("TODO: handle_operator_state called with '%c'\n", c);
+	return (0);
+}
+
 
 

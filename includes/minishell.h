@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 14:41:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:01:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_parser
 //tokenizer.c
 int	tokenize(char *input, t_token_list **tokens);
 int	safe_create_and_add_token(t_parser *parser, t_token_type type);
+int	create_and_add_token(t_parser *parser, t_token_type	type);
+void	add_token_list(t_token_list *token_list, t_token *token);
 
 //cleanup.c
 void	free_token(t_token *token);
@@ -76,4 +78,11 @@ void	free_token_list(t_token_list *token_list);
 t_parser	init_parser(t_parser parser, char *buffer, t_token_list *tokens);
 void		reset_buffer(t_parser *parser);
 
+//state_machine.c
+int handle_state_machine(char c, t_parser *parser);
+int	handle_default_state(char c, t_parser *parser);
+int	handle_double_quotes(char c, t_parser *parser);
+int	handle_single_quotes(char c, t_parser *parser);
+int	handle_variable_state(char c, t_parser *parser);
+int	handle_operator_state(char c, t_parser *parser);
 #endif
