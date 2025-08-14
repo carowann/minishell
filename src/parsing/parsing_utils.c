@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 16:31:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:40:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@
 void reset_buffer(t_parser *parser)
 {
 	parser->buffer[0] = '\0';
-	parser->buffer_pos= 0;
+	parser->buffer_pos = 0;
 }
 
+/*
+ * Initializes tokenizer context with input string
+ * Allocates token list and buffer, sets up parser state
+ * @param ctx: context to initialize
+ * @param input: string to tokenize
+ * @return: 0 success, -1 allocation error
+ */
 int	init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input)
 {
 	*ctx = (t_tokenizer_ctx){0};
@@ -40,6 +47,11 @@ int	init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input)
 	return (0);
 }
 
+/*
+ * Cleans up all resources in tokenizer context
+ * Frees token list, buffer, and zeros context
+ * @param ctx: context to cleanup (can be NULL)
+ */
 void cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
 {
 	if (ctx->tokens)

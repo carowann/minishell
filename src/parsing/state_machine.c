@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 18:58:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:39:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Dispatches character processing based on current parser state
  * @param c: character to process
- * @param parser: parser state (includes current state)
+ * @param ctx: tokenizer context with parser state and token list
  * @return: 0 success, -1 error from state handlers
  */
 int handle_state_machine(char c, t_tokenizer_ctx *ctx)
@@ -34,10 +34,10 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 }
 
 /*
- * Handles character processing in NORMAL state
+ * Handles character processing in DEFAULT state
  * Manages state transitions and token creation for quotes, operators, pipes
  * @param c: character to process
- * @param parser: parser state with buffer and token list
+ * @param ctx: tokenizer context with parser state and token list
  * @return: 0 success, -1 error
  */
 int	handle_default_state(char c, t_tokenizer_ctx *ctx)
@@ -74,6 +74,13 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
 	return (0);
 }
 
+/*
+ * Stub: handles character processing in double quotes
+ * TODO: implement quote content accumulation and variable expansion
+ * @param c: character to process
+ * @param ctx: tokenizer context
+ * @return: 0 (always success for now)
+ */
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 {
 	(void)c;
@@ -82,6 +89,13 @@ int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 	return (0);
 }
 
+/*
+ * Stub: handles character processing in double quotes
+ * TODO: implement quote content accumulation and variable expansion
+ * @param c: character to process
+ * @param ctx: tokenizer context
+ * @return: 0 (always success for now)
+ */
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 {
 	(void)c;
@@ -90,6 +104,13 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 	return (0);
 }
 
+/*
+ * Stub: handles character processing in double quotes
+ * TODO: implement quote content accumulation and variable expansion
+ * @param c: character to process
+ * @param ctx: tokenizer context
+ * @return: 0 (always success for now)
+ */
 int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
 {
 	(void)c;
@@ -98,6 +119,13 @@ int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
 	return (0);
 }
 
+/*
+ * Stub: handles character processing in double quotes
+ * TODO: implement quote content accumulation and variable expansion
+ * @param c: character to process
+ * @param ctx: tokenizer context
+ * @return: 0 (always success for now)
+ */
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 {
 	(void)c;

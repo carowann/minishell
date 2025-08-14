@@ -6,12 +6,19 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 19:09:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:41:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Parses input string into command list ready for execution
+ * Handles tokenization internally using context pattern
+ * @param input: command string to parse
+ * @param commands: output command list (TODO: implement)
+ * @return: 0 success, -1 error
+ */
 int	parse_input(char *input, t_cmd_list	**commands)
 {
 	t_tokenizer_ctx	ctx;

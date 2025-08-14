@@ -6,16 +6,16 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 18:59:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:37:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
- * Tokenizes input using finite state machine
+ * Tokenizes input using finite state machine with context
  * @param input: command string to parse
- * @param tokens: output token list
+ * @param ctx: tokenizer context (pre-initialized)
  * @return: 0 success, -1 error
  */
 int	tokenize(char *input, t_tokenizer_ctx *ctx)
@@ -65,9 +65,9 @@ int	create_token(t_token *token, char *buffer, t_token_type type)
 }
 
 /*
- * Creates and adds token, with buffer validation
+ * Creates and adds token with buffer validation
  * PIPE tokens bypass buffer check, others require non-empty buffer
- * @param parser: parser state with buffer and token list
+ * @param ctx: tokenizer context with parser state and token list
  * @param type: token type to create
  * @return: 0 success, -1 error
  */
@@ -87,8 +87,8 @@ int safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 }
 
 /*
- * Creates token and adds it to parser's token list
- * @param parser: parser with target token list
+ * Creates token and adds it to context token list
+ * @param ctx: tokenizer context
  * @param type: token type to create
  * @return: 0 success, -1 allocation error
  */
