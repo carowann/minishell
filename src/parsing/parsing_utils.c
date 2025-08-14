@@ -6,12 +6,19 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 17:35:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 12:06:56 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Initializes parser structure with buffer and token list
+ * @param parser: parser struct to initialize
+ * @param buffer: character buffer for token building
+ * @param tokens: target token list
+ * @return: initialized parser struct
+ */
 t_parser init_parser(t_parser parser, char *buffer, t_token_list *tokens)
 {
 	parser.buffer = buffer;
@@ -21,6 +28,10 @@ t_parser init_parser(t_parser parser, char *buffer, t_token_list *tokens)
 	return (parser);
 }
 
+/*
+ * Clears parser buffer and resets position to start
+ * @param parser: parser with buffer to reset
+ */
 void	reset_buffer(t_parser *parser)
 {
 	parser->buffer[0] = '\0';

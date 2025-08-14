@@ -6,16 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 18:02:09 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 12:05:41 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//token list: struttura temportanea per i token
-//command list: struttura finale per execution
-//dopo il parsing, token list viene distrutta e command list viene usata per l'esecuzione
-
+/*
+ * Tokenizes input using finite state machine
+ * @param input: command string to parse
+ * @param tokens: output token list
+ * @return: 0 success, -1 error
+ */
 int	tokenize(char *input, t_token_list **tokens)
 {
 	t_state		state;
@@ -49,6 +51,13 @@ int	tokenize(char *input, t_token_list **tokens)
 	return (0);
 }
 
+/*
+ * Initializes token with type and content
+ * @param token: pre-allocated token to fill
+ * @param buffer: content source for WORD types  
+ * @param type: token type (WORD, PIPE, etc.)
+ * @return: 0 success, -1 on ft_strdup failure
+ */
 int	create_token(t_token *token, char	*buffer, t_token_type type)
 {
 	token->type = type;
@@ -70,6 +79,13 @@ int	create_token(t_token *token, char	*buffer, t_token_type type)
 	return (0);
 }
 
+/*
+ * Creates and adds token, with buffer validation
+ * PIPE tokens bypass buffer check, others require non-empty buffer
+ * @param parser: parser state with buffer and token list
+ * @param type: token type to create
+ * @return: 0 success, -1 error
+ */
 int safe_create_and_add_token(t_parser *parser, t_token_type type)
 {
 	if (type == PIPE)
@@ -85,6 +101,12 @@ int safe_create_and_add_token(t_parser *parser, t_token_type type)
 	return (0);	
 }
 
+/*
+ * Creates token and adds it to parser's token list
+ * @param parser: parser with target token list
+ * @param type: token type to create
+ * @return: 0 success, -1 allocation error
+ */
 int	create_and_add_token(t_parser *parser, t_token_type	type)
 {
 	t_token	*token;
@@ -101,6 +123,11 @@ int	create_and_add_token(t_parser *parser, t_token_type	type)
 	return (0);
 }
 
+/*
+ * Appends token to end of token list
+ * @param token_list: target list
+ * @param token: token to append
+ */
 void	add_token_list(t_token_list *token_list, t_token *token)
 {
 	t_token	*curr_token;

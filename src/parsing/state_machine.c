@@ -6,12 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 18:12:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 12:05:22 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Dispatches character processing based on current parser state
+ * @param c: character to process
+ * @param parser: parser state (includes current state)
+ * @return: 0 success, -1 error from state handlers
+ */
 int handle_state_machine(char c, t_parser *parser)
 {
 	if (parser->state == DEFAULT)
@@ -27,6 +33,13 @@ int handle_state_machine(char c, t_parser *parser)
 	return (0);
 }
 
+/*
+ * Handles character processing in NORMAL state
+ * Manages state transitions and token creation for quotes, operators, pipes
+ * @param c: character to process
+ * @param parser: parser state with buffer and token list
+ * @return: 0 success, -1 error
+ */
 int handle_default_state(char c, t_parser *parser)
 {
 	if (c == '"')

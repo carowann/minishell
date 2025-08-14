@@ -6,12 +6,16 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/13 15:23:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/14 12:08:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Frees single token and its content
+ * @param token: token to free (can be NULL)
+ */
 void	free_token(t_token *token)
 {
 	if (!token)
@@ -22,6 +26,10 @@ void	free_token(t_token *token)
 	token = NULL;
 }
 
+/*
+ * Frees entire token list and all tokens
+ * @param token_list: list to free (can be NULL)
+ */
 void	free_token_list(t_token_list *token_list)
 {
 	t_token	*curr_token;
