@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 19:44:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/16 20:13:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,12 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
 {
-	(void)c;
-	(void)ctx;
-	printf("TODO: handle_variable_state called with '%c'\n", c);
+	if (ctx->parser.buffer_pos == 0)
+	{
+		
+	}
+	else
+	
 	return (0);
 }
 
