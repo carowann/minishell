@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 19:39:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:19:24 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,17 @@ int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 {
-	(void)c;
-	(void)ctx;
-	printf("TODO: handle_single_quotes called with '%c'\n", c);
+	if (c == '\'')
+	{
+		if (safe_create_and_add_token(ctx, WORD) == -1)
+			return (-1);
+		ctx->parser.state = DEFAULT;
+	}
+	else
+	{
+		ctx->parser.buffer[ctx->parser.buffer_pos] = c;
+		ctx->parser.buffer_pos++;
+	}
 	return (0);
 }
 

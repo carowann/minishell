@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 19:18:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/16 18:59:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ typedef struct s_token
 
 typedef struct s_token_list
 {
-	t_token			*head;
-	int				count;
+	t_token		*head;
+	int			count;
 }	t_token_list;
 
 typedef enum e_state
