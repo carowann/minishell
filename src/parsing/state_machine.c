@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 19:19:24 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:44:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 	else if (ctx->parser.state == IN_DOUBLE_QUOTES)
 		return (handle_double_quotes(c, ctx)); //TODO handle_double_quotes
 	else if (ctx->parser.state == IN_SINGLE_QUOTES)
-		return (handle_single_quotes(c,  ctx)); //TODO handle_single_quotes
+		return (handle_single_quotes(c,  ctx));
 	else if (ctx->parser.state == IN_VARIABLE)
 		return (handle_variable_state(c,  ctx)); //TODO handle_variable_state
-	else if (ctx->parser.state == IN_OPERATOR)
-		return (handle_operator_state(c,  ctx)); //TODO handle_operator_state
 	return (0);
 }
 
@@ -55,9 +53,8 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
 	}
 	else if (c == '<' || c == '>')
 	{
-		if (safe_create_and_add_token(ctx, WORD) == -1)
+		if (handle_operator_state(c, ctx) == -1)
 			return (-1);
-		ctx->parser.state = IN_OPERATOR;
 	}
 	else if (c == '|')
 	{
@@ -136,11 +133,14 @@ int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 {
-	(void)c;
-	(void)ctx;
-	printf("TODO: handle_operator_state called with '%c'\n", c);
+	if (safe_create_and_add_token(ctx, WORD) == -1)
+		return (-1);
+	if (c == '<')
+	{
+		if (safe_create_and_add_token(ctx, REDIRECT_IN) == -1)
+			return (-1);
+	}
+	else if (safe_create_and_add_token(ctx, REDIRECT_OUT) == -1)
+		return (-1);
 	return (0);
 }
-
-
-

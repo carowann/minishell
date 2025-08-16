@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 18:59:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/16 19:35:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef enum e_state
 	IN_SINGLE_QUOTES,
 	IN_DOUBLE_QUOTES,
 	IN_VARIABLE,
-	IN_OPERATOR
 }	t_state;
 
 typedef struct s_parser
