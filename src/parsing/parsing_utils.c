@@ -6,11 +6,17 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 19:40:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:49:56 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	add_to_buffer(char c, t_parser *parser)
+{
+	parser->buffer[parser->buffer_pos] = c;
+	parser->buffer_pos++;
+}
 
 /*
  * Clears parser buffer and resets position to start

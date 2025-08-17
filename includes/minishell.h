@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 19:35:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 15:25:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int		create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 void	add_token_list(t_token_list *token_list, t_token *token);
 
 //parsing_utils.c
+void	add_to_buffer(char c, t_parser *parser);
 int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
 void	reset_buffer(t_parser *parser);
 void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);

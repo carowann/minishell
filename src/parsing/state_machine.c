@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 20:13:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 16:09:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,24 +106,6 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 		ctx->parser.buffer[ctx->parser.buffer_pos] = c;
 		ctx->parser.buffer_pos++;
 	}
-	return (0);
-}
-
-/*
- * Stub: handles character processing in double quotes
- * TODO: implement quote content accumulation and variable expansion
- * @param c: character to process
- * @param ctx: tokenizer context
- * @return: 0 (always success for now)
- */
-int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
-{
-	if (ctx->parser.buffer_pos == 0)
-	{
-		
-	}
-	else
-	
 	return (0);
 }
 
