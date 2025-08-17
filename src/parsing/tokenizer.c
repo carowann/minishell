@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/16 19:22:48 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:48:37 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,7 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
 			return (-1);
 		input++;
 	}
-	if (ctx->parser.state != DEFAULT) //left open quotes
-		return (-1);
-	if (ctx->parser.buffer_pos > 0)
-	{
-		if (safe_create_and_add_token(ctx, WORD) == -1)
-			return (-1);
-	}
-	return (0);
+	return (finalize_pending_token(ctx));
 }
 
 /*
@@ -51,14 +44,6 @@ int	create_token(t_token *token, char *buffer, t_token_type type)
 	token->next = NULL;
 	if (type == PIPE)
 		token->content = ft_strdup("|");
-	else if (type == REDIRECT_IN)
-		token->content = ft_strdup("<");
-	else if (type == REDIRECT_OUT)
-		token->content = ft_strdup(">");
-	else if (type == APPEND)
-		token->content = ft_strdup(">>");
-	else if (type ==HEREDOC)
-		token->content = ft_strdup("<<");
 	else
 		token->content = ft_strdup(buffer);
 	if (!token->content)
@@ -131,4 +116,15 @@ void	add_token_list(t_token_list *token_list, t_token *token)
 		curr_token->next = token;
 	}
 	token_list->count++;
+}
+
+int	finalize_pending_token(t_tokenizer_ctx *ctx)
+{
+	if (ctx->parser.buffer_pos == 0)
+		return (0);
+	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
+		return (-1);
+	else if (ctx->parser.state == IN_VARIABLE)
+		return (safe_create_and_add_token(ctx, VARIABLE));
+	return (safe_create_and_add_token(ctx, WORD));
 }

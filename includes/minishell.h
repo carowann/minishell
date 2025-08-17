@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 15:25:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:58:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef enum e_state
 	IN_SINGLE_QUOTES,
 	IN_DOUBLE_QUOTES,
 	IN_VARIABLE,
+	IN_OPERATOR
 }	t_state;
 
 typedef struct s_parser
@@ -88,7 +89,9 @@ typedef struct s_cmd_list
 /****************PARSING**************** */
 
 //DEBUG!
-void print_token_list(t_token_list *tokens);
+void		print_token_list(t_token_list *tokens);
+const char *get_token_type_name(t_token_type type);
+
 
 //cleanup.c
 void	free_token(t_token *token);
@@ -102,6 +105,7 @@ int		tokenize(char *input, t_tokenizer_ctx *ctx);
 int 	safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 int		create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 void	add_token_list(t_token_list *token_list, t_token *token);
+int		finalize_pending_token(t_tokenizer_ctx *ctx);
 
 //parsing_utils.c
 void	add_to_buffer(char c, t_parser *parser);
@@ -114,6 +118,11 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx);
 int	handle_default_state(char c, t_tokenizer_ctx *ctx);
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
-int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
+
+//var_state_handler.c
+int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
+int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
+int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
+
 #endif

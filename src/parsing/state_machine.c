@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 16:09:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:02:14 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 	else if (ctx->parser.state == IN_DOUBLE_QUOTES)
 		return (handle_double_quotes(c, ctx)); //TODO handle_double_quotes
 	else if (ctx->parser.state == IN_SINGLE_QUOTES)
-		return (handle_single_quotes(c,  ctx));
+		return (handle_single_quotes(c, ctx));
 	else if (ctx->parser.state == IN_VARIABLE)
 		return (handle_variable_state(c,  ctx)); //TODO handle_variable_state
+	else if (ctx->parser.state == IN_OPERATOR)
+		return (handle_operator_state(c, ctx));
 	return (0);
 }
 
@@ -55,6 +57,7 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
 	{
 		if (handle_operator_state(c, ctx) == -1)
 			return (-1);
+		ctx->parser.state = IN_OPERATOR;
 	}
 	else if (c == '|')
 	{
@@ -118,14 +121,31 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 {
-	if (safe_create_and_add_token(ctx, WORD) == -1)
-		return (-1);
-	if (c == '<')
+	if (ctx->parser.buffer_pos == 0)
+	{
+		add_to_buffer(c, &ctx->parser);
+		return (0);
+	}
+	if (ctx->parser.buffer[0] == '<' && c == '<')
+	{
+		add_to_buffer(c, &ctx->parser);
+		return (safe_create_and_add_token(ctx, HEREDOC));
+	}
+	if (ctx->parser.buffer[0] == '>' && c == '>')
+	{
+		add_to_buffer(c, &ctx->parser);
+		return (safe_create_and_add_token(ctx, APPEND));
+	}
+	ctx->parser.state = DEFAULT;
+	if (ctx->parser.buffer[0] == '>')
+	{
+		if (safe_create_and_add_token(ctx, REDIRECT_OUT) == -1)
+			return (-1);		
+	}
+	if (ctx->parser.buffer[0] == '<')
 	{
 		if (safe_create_and_add_token(ctx, REDIRECT_IN) == -1)
-			return (-1);
+			return (-1);		
 	}
-	else if (safe_create_and_add_token(ctx, REDIRECT_OUT) == -1)
-		return (-1);
-	return (0);
+	return (handle_state_machine(c, ctx));
 }

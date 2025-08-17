@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 15:49:56 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 19:40:35 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	add_to_buffer(char c, t_parser *parser)
 {
 	parser->buffer[parser->buffer_pos] = c;
 	parser->buffer_pos++;
+	parser->buffer[parser->buffer_pos] = '\0';
 }
 
 /*
@@ -24,7 +25,7 @@ void	add_to_buffer(char c, t_parser *parser)
  */
 void reset_buffer(t_parser *parser)
 {
-	parser->buffer[0] = '\0';
+	ft_bzero(parser->buffer, ft_strlen(parser->buffer));
 	parser->buffer_pos = 0;
 }
 
