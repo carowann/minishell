@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 19:48:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:20:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ int	create_token(t_token *token, char *buffer, t_token_type type)
 
 /*
  * Creates and adds token with buffer validation
- * PIPE tokens bypass buffer check, others require non-empty buffer
+ * PIPE tokens bypass buffer check, all others require non-empty buffer
+ * Automatically resets buffer after successful token creation
  * @param ctx: tokenizer context with parser state and token list
  * @param type: token type to create
- * @return: 0 success, -1 error
+ * @return: 0 on success, -1 on error
  */
 int safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 {
@@ -96,9 +97,10 @@ int	create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 }
 
 /*
- * Appends token to end of token list
- * @param token_list: target list
- * @param token: token to append
+ * Appends token to end of token list (linked list)
+ * Handles empty list case and updates token counter
+ * @param token_list: target list to append to
+ * @param token: token to append (must be valid, not checked)
  */
 void	add_token_list(t_token_list *token_list, t_token *token)
 {
@@ -118,6 +120,13 @@ void	add_token_list(t_token_list *token_list, t_token *token)
 	token_list->count++;
 }
 
+/*
+ * Processes any remaining content in buffer at end of tokenization
+ * Handles unclosed quotes as syntax errors, creates final tokens
+ * Called after all input characters have been processed
+ * @param ctx: tokenizer context with potential pending content
+ * @return: 0 on success, -1 on syntax error (unclosed quotes)
+ */
 int	finalize_pending_token(t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.buffer_pos == 0)

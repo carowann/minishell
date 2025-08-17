@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 20:02:14 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:17:58 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,12 @@ int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 }
 
 /*
- * Stub: handles character processing in double quotes
- * TODO: implement quote content accumulation and variable expansion
+ * Handles character processing inside single quotes
+ * Single quotes preserve all characters literally (no variable expansion)
+ * Only the closing quote has special meaning
  * @param c: character to process
  * @param ctx: tokenizer context
- * @return: 0 (always success for now)
+ * @return: 0 on success, -1 on token creation failure
  */
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 {
@@ -113,11 +114,12 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 }
 
 /*
- * Stub: handles character processing in double quotes
- * TODO: implement quote content accumulation and variable expansion
+ * Handles operator parsing with support for both single and double operators
+ * Recognizes: < > << >> and creates appropriate redirect tokens
+ * Uses buffer to accumulate operator characters before deciding token type
  * @param c: character to process
  * @param ctx: tokenizer context
- * @return: 0 (always success for now)
+ * @return: 0 on success, -1 on error
  */
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 {

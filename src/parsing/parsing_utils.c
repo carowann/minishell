@@ -6,12 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 19:40:35 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/17 20:17:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Safely appends character to parser buffer
+ * Automatically null-terminates string after addition
+ * @param c: character to append to buffer
+ * @param parser: parser context containing buffer and position
+ */
 void	add_to_buffer(char c, t_parser *parser)
 {
 	parser->buffer[parser->buffer_pos] = c;
