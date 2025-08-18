@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 19:58:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:32:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,13 @@ typedef struct s_cmd_list
 
 /****************PARSING**************** */
 
-//DEBUG!
-void		print_token_list(t_token_list *tokens);
-const char *get_token_type_name(t_token_type type);
-
-
 //cleanup.c
 void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
+
+//DEBUG!
+void		print_token_list(t_token_list *tokens);
+const char *get_token_type_name(t_token_type type);
 
 //parser.c
 int	parse_input(char *input, t_cmd_list	**commands);
@@ -124,5 +123,11 @@ int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
 int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
 int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
 int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
+
+//parse_commands.c
+int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands);
+
+
+/****************EXECUTION**************** */
 
 #endif

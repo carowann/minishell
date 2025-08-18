@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 20:21:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:16:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@
 int	parse_input(char *input, t_cmd_list	**commands)
 {
 	t_tokenizer_ctx	ctx;
-	
 	(void)commands;
-	
+
 	if (init_tokenizer_ctx(&ctx, input) == -1)
 		return (-1);
 	if (tokenize(input, &ctx) == -1)
@@ -32,7 +31,12 @@ int	parse_input(char *input, t_cmd_list	**commands)
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);
 	}
-	//TODO convert tokens to commands
+	// if (expand_variables(ctx.tokens) == -1) //TODO: expand_variables
+	// {
+	// 	cleanup_tokenizer_ctx(&ctx);
+	// 	return (-1);
+	// }
+	// *commands = (t_cmd_list *){0};
 	// if (tokens_to_commands(ctx.tokens, commands) == -1)
 	// {
 	// 	cleanup_tokenizer_ctx(&ctx);
