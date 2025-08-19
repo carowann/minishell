@@ -1,6 +1,6 @@
-FILES = echo.c
+FILES = echo.c printfd.c
 OBJ = $(FILES:.c=.o)
-NAME = MiniTest
+NAME = test
 LIBFT_PATH = ../../libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
 CFLAGS = -Wall -Wextra -Werror -g
@@ -16,7 +16,7 @@ adittionallibs:
 	@make -C $(LIBFT_PATH) all
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_LIB) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_LIB) $(TEMPLIB_LIB) -o $(NAME)
 	
 clean:
 	make -C $(LIBFT_PATH) clean
