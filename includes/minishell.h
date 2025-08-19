@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/18 17:32:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:02:58 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ typedef struct s_tokenizer_ctx
 
 typedef struct s_cmd
 {
-	char			**args;
-	char			*input_file;
-	char			*output_file;
-	int				append_mode;
-	int				is_heredoc;
-	struct s_cmd	*next;
+	char			**args; //array di stringhe null terminated per execve e builtin
+	int				arg_count; //numero di args, senza contare null termiantor
+	char			*input_file; //per input redirect <, if null usa stdin normale
+	int				is_heredoc; //1 se usa <<, 0 altri menti. if 1 ignora input file e usa heredoc_delimiter
+	char			*heredoc_delimiter;
+	char			*output_file; // per out redirect > o >>, if null stdout normale
+	int				append_mode; //0 sovrascrivi, 1 append
+	struct s_cmd	*next; //prossimo cmd nella pipeline
 }	t_cmd;
 
 typedef struct s_cmd_list

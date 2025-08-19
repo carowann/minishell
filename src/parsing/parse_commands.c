@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/18 17:27:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 09:50:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands)
 	{
 		if (curr_token->type == WORD || curr_token->type == VARIABLE)
 		{
-			//TODO: add_arg_to_command(curr_token, curr_cmd)
+			//TODO: add_arg_to_command(curr_token.content, curr_cmd)
 		}
 		else if (curr_token->type == PIPE)
 		{
@@ -42,9 +42,11 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands)
 	return (0);
 }
 
-int	add_arg_to_command(t_token *token, t_cmd *cmd)
+int	add_arg_to_command(char *arg, t_cmd *cmd)
 {
-	if (!token || !cmd)
+	
+	if (!arg || !cmd)
 		return (-1);
+	while (cmd->args)
 	return (0);
 }
