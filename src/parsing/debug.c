@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:02:52 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 17:47:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:06:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void print_token_list(t_token_list *tokens)
 		current = current->next;
 		i++;
 	}
-	printf("=== END TOKEN LIST ===\n");
+	printf("=== END TOKEN LIST ===\n\n");
 }
 
 const char *get_token_type_name(t_token_type type)
@@ -58,4 +58,37 @@ const char *get_token_type_name(t_token_type type)
 	default:
 		return "UNKNOWN";
 	}
+}
+
+void	print_cmd_list(t_cmd_list *cmd_list)
+{
+	t_cmd	*curr_cmd;
+	int		cmd_num;
+	int		i;
+
+	cmd_num = 0;
+	if (!cmd_list || !cmd_list->head)
+	{
+		printf("Command list is empty\n");
+		return ;
+	}
+	printf("=== COMMAND LIST (%d commands) ===\n", cmd_list->count);
+	curr_cmd = cmd_list->head;
+	while (curr_cmd)
+	{
+		printf("[CMD %d] args: ", cmd_num);
+		if (curr_cmd->args)
+		{
+			i = 0;
+			while (curr_cmd->args[i])
+			{
+				printf("\"%s\" ", curr_cmd->args[i]);
+				i++;
+			}
+		}
+		printf("(count: %d)\n", curr_cmd->arg_count);
+		curr_cmd = curr_cmd->next;
+		cmd_num++;
+	}
+	printf("=== END COMMAND LIST ===\n\n");
 }

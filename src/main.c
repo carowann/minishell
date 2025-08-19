@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/14 19:18:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:03:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int main()
 		}
 		printf("Parsing successful!\n"); //debug
 		//execute_commands(commands);
-		//free_command_list(commands);
+		free_command_list(commands);
 		free(input);
 	}
 	return (0);

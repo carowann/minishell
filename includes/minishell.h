@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 10:02:58 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:01:46 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,16 @@ typedef struct s_cmd_list
 //cleanup.c
 void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
+void	free_command_list(t_cmd_list *cmd_list);
+void	free_cmd(t_cmd *cmd);
 
 //DEBUG!
 void		print_token_list(t_token_list *tokens);
 const char *get_token_type_name(t_token_type type);
+void		print_cmd_list(t_cmd_list *cmd_list);
 
 //parser.c
-int	parse_input(char *input, t_cmd_list	**commands);
+int		parse_input(char *input, t_cmd_list	**commands);
 
 //tokenizer.c
 int		tokenize(char *input, t_tokenizer_ctx *ctx);
@@ -128,7 +131,8 @@ int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //parse_commands.c
 int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands);
-
+int	add_arg_to_command(char *arg, t_cmd *cmd);
+int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 
 /****************EXECUTION**************** */
 
