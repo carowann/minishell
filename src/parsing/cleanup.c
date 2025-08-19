@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 15:08:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:07:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ void	free_token_list(t_token_list *token_list)
 	free(token_list);
 }
 
+/*
+ * Frees entire command list and all single commands
+ * @param cmd_list: command list to free (can be NULL)
+ */
 void	free_command_list(t_cmd_list *cmd_list)
 {
 	t_cmd	*curr_cmd;
@@ -65,6 +69,10 @@ void	free_command_list(t_cmd_list *cmd_list)
 	free(cmd_list);
 }
 
+/*
+ * Frees single command
+ * @param cmd: comand to free (can be NULL)
+ */
 void	free_cmd(t_cmd *cmd)
 {
 	int	i;

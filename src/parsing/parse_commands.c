@@ -6,12 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 13:16:58 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:11:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * Parses token list into command list ready for execution
+ * @param tokens: token list to convert in command list
+ * @param commands: output command list
+ * @return: 0 success, -1 error
+ */
 int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 {
 	t_token	*curr_token;
@@ -54,6 +60,12 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 	return (0);
 }
 
+/*
+ * Adds argument to array of arguments of command
+ * @param arg: argument to append to array
+ * @param cmd: command to update with new argument
+ * @return: 0 success, -1 error
+ */
 int	add_arg_to_command(char *arg, t_cmd *cmd)
 {
 	char	**new_args;
@@ -83,6 +95,12 @@ int	add_arg_to_command(char *arg, t_cmd *cmd)
 	return (0);
 }
 
+/*
+ * Adds command to list of commands
+ * @param new_cmd: new command to add to list
+ * @param cmd_list: output command list
+ * @return: 0 success, -1 error
+ */
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list)
 {
 	t_cmd	*curr_cmd;

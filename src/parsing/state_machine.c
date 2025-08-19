@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 15:35:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:15:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 	else if (ctx->parser.state == IN_SINGLE_QUOTES)
 		return (handle_single_quotes(c, ctx));
 	else if (ctx->parser.state == IN_VARIABLE)
-		return (handle_variable_state(c,  ctx)); //TODO handle_variable_state
+		return (handle_variable_state(c,  ctx));
 	else if (ctx->parser.state == IN_OPERATOR)
 		return (handle_operator_state(c, ctx));
 	return (0);

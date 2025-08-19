@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:34:55 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 15:35:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:24:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,30 @@ int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 		return (safe_create_and_add_token(ctx, APPEND));
 	}
 	ctx->parser.state = DEFAULT;
+	if (ctx->parser.buffer[0] == '>' || ctx->parser.buffer[0] == '<')
+	{
+		if (handle_redirect_token(ctx) == -1)
+			return (-1);
+	}
+	return (handle_state_machine(c, ctx));
+}
+
+/*
+ * Creates appropriate redirect tokens
+ * @param ctx: tokenizer context
+ * @return: 0 on success, -1 on error
+ */
+int	handle_redirect_token(t_tokenizer_ctx *ctx)
+{
 	if (ctx->parser.buffer[0] == '>')
 	{
 		if (safe_create_and_add_token(ctx, REDIRECT_OUT) == -1)
-			return (-1);		
+			return (-1);
 	}
 	if (ctx->parser.buffer[0] == '<')
 	{
 		if (safe_create_and_add_token(ctx, REDIRECT_IN) == -1)
-			return (-1);		
+			return (-1);
 	}
-	return (handle_state_machine(c, ctx));
+	return (0);
 }
