@@ -1,35 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 20:20:04 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:37:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-/*
- * Tokenizes input using finite state machine with context
- * @param input: command string to parse
- * @param ctx: tokenizer context (pre-initialized)
- * @return: 0 success, -1 error
- */
-int	tokenize(char *input, t_tokenizer_ctx *ctx)
-{	
-	if (!input || !ctx)
-		return (-1);
-	while (*input)
-	{
-		if (handle_state_machine(*input, ctx) == -1)
-			return (-1);
-		input++;
-	}
-	return (finalize_pending_token(ctx));
-}
 
 /*
  * Initializes token with type and content
