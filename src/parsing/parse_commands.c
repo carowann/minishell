@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 18:11:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:22:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 		return (-1);
 	while (curr_token)
 	{
-		if (curr_token->type == WORD || curr_token->type == VARIABLE)
+		if (curr_token->type == WORD || curr_token->type == VARIABLE || curr_token->type == QUOTED_STRING)
 		{
 			if (add_arg_to_command(curr_token->content, curr_cmd) == -1)
 			{

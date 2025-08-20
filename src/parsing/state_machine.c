@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 18:15:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:18:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 	if (ctx->parser.state == DEFAULT)
 		return (handle_default_state(c, ctx));
 	else if (ctx->parser.state == IN_DOUBLE_QUOTES)
-		return (handle_double_quotes(c, ctx)); //TODO handle_double_quotes
+		return (handle_double_quotes(c, ctx));
 	else if (ctx->parser.state == IN_SINGLE_QUOTES)
 		return (handle_single_quotes(c, ctx));
 	else if (ctx->parser.state == IN_VARIABLE)
-		return (handle_variable_state(c,  ctx));
+		return (handle_variable_state(c, ctx));
 	else if (ctx->parser.state == IN_OPERATOR)
 		return (handle_operator_state(c, ctx));
 	return (0);
@@ -83,9 +83,15 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 {
-	(void)c;
-	(void)ctx;
-	printf("TODO: handle_double_quotes called with '%c'\n", c);
+	
+	if (c == '"')
+	{
+		if (safe_create_and_add_token(ctx, QUOTED_STRING) == -1)
+			return (-1);
+		ctx->parser.state = DEFAULT;
+	}
+	else
+		add_to_buffer(c, &ctx->parser);
 	return (0);
 }
 
