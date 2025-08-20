@@ -1,9 +1,9 @@
-FILES = echo.c printfd.c
+FILES = echo.c printfd.c execution.c pwd.c env.c enviroment.c
 OBJ = $(FILES:.c=.o)
 NAME = test
 LIBFT_PATH = ../../libft/
 LIBFT_LIB = $(LIBFT_PATH)libft.a
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS =  -g
 CC = cc
 RM = rm -f
 

@@ -6,12 +6,13 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:43:56 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/19 18:16:43 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/20 13:59:24 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../libft/libft.h"
-# include "templib.h"
+#include "../../libft/libft.h"
+#include "../../includes/minishell.h"
+#include "templib.h"
 
 int	check_param_fd(int fd, va_list arg, char c)
 {
