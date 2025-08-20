@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 11:18:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:08:43 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,10 +112,7 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 		ctx->parser.state = DEFAULT;
 	}
 	else
-	{
-		ctx->parser.buffer[ctx->parser.buffer_pos] = c;
-		ctx->parser.buffer_pos++;
-	}
+		add_to_buffer(c, &ctx->parser);
 	return (0);
 }
 
