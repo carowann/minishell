@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/19 17:59:27 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/20 14:13:47 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,8 @@ SRC =	src/main.c				\
 	src/parsing/parsing_utils.c		\
 	src/parsing/state_machine.c		\
 	src/parsing/token_utils.c		\
-	src/parsing/var_state_handler.c 
+	src/parsing/var_state_handler.c 	\
+	src/parsing/var_expansion.c
 
 
 FLAGS = -g

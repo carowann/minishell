@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 15:37:13 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:32:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ int	parse_input(char *input, t_cmd_list	**commands)
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);
 	}
-	// if (expand_variables(ctx.tokens) == -1) //TODO: expand_variables
-	// {
-	// 	cleanup_tokenizer_ctx(&ctx);
-	// 	return (-1);
-	// }
+	if (expand_variables(ctx.tokens) == -1)
+	{
+		cleanup_tokenizer_ctx(&ctx);
+		return (-1);
+	}
 	*commands = ft_calloc(1, sizeof(t_cmd_list));
 	if (!*commands)
 	{

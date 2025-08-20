@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 18:23:16 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:14:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,10 @@ int		finalize_pending_token(t_tokenizer_ctx *ctx);
 int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
 int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
 int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
+
+//var_expansion.c
+int	expand_variables(t_token_list *token_list);
+int	expand_var_token(t_token *token);
 
 /****************EXECUTION**************** */
 
