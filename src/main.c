@@ -6,13 +6,13 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 15:03:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:50:11 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main()
+int main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_cmd_list	*commands;
@@ -29,7 +29,7 @@ int main()
 			continue;
 		}
 		printf("Parsing successful!\n"); //debug
-		//execute_commands(commands);
+		//execute_commands(commands, envp);
 		free_command_list(commands);
 		free(input);
 	}

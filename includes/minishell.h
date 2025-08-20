@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 14:14:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:20:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,11 @@ typedef struct s_cmd_list
 	int		count;
 }	t_cmd_list;
 
+// typedef struct s_shell_state
+// {
+// 	//lista parsata di envp
+// 	//codice errore ultimo comando
+// }
 /****************PARSING**************** */
 
 //cleanup.c
@@ -138,8 +143,8 @@ int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
 int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //var_expansion.c
-int	expand_variables(t_token_list *token_list);
-int	expand_var_token(t_token *token);
+int		expand_variables(t_token_list *token_list);
+void	expand_var_token(t_token *token);
 
 /****************EXECUTION**************** */
 
