@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 17:58:45 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:03:39 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ int main(int argc, char **argv, char **envp)
 {
 	char		*input;
 	t_cmd_list	*commands;
-	(void)argc;
 	(void)argv;
 	(void)envp;
 	
+	if (argc != 1)
+	{
+		ft_putstr_fd("Usage:	./minishell\n", 2);
+		return (1);
+	}
 	while (1)
 	{
 		input = readline(BOLD"minishell> "RESET);
