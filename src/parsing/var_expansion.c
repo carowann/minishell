@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 17:57:22 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:24:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 //TODO: gestire $?
 
+
+/*
+ * Expands variables if token type is variable or quoted string
+ * @param token_list: list of tokens to possibly expand
+ * @return: 0 success, -1 error
+ */
 int	expand_variables(t_token_list *token_list) 
 {
 	t_token	*curr_token;
@@ -38,6 +44,11 @@ int	expand_variables(t_token_list *token_list)
 	return (0);
 }
 
+/*
+ * Expands variable in a token of type variable
+ * @param token: token to expand
+ * @return: 0 success, -1 error
+ */
 int expand_single_var(t_token *token)
 {
 	char *var_value;
@@ -51,6 +62,11 @@ int expand_single_var(t_token *token)
 	return (0);
 }
 
+/*
+ * Expansion of variable in string of token of type quoted string
+ * @param token: token with string with variable to expand
+ * @return: 0 success, -1 error
+ */
 int handle_var_in_str(t_token *token)
 {
 	char *expanded_content;
@@ -64,6 +80,11 @@ int handle_var_in_str(t_token *token)
 	return (0);
 }
 
+/*
+ * Looks for var to expand in string, expands it and puts value back in string
+ * @param str: string with variable to expand
+ * @return: finalized string with expansion
+ */
 char *process_string_expansion(char *str)
 {
 	char	*result;
@@ -85,6 +106,13 @@ char *process_string_expansion(char *str)
 	return (result);
 }
 
+/*
+ * Extracts, var name from string, expands it and joins with old string
+ * @param str: string with variable to expand
+ * @param i: index of dollar sign in string
+ * @param old_str: old string to update w/ expansion of variable
+ * @return: finalized string with expansion
+ */
 char	*expand_var_in_str(char *str, int *i, char *old_str)
 {
 	int		var_len;

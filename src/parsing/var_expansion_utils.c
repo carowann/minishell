@@ -6,12 +6,17 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 18:10:39 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:41:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Expands variable end returns value
+ * @param var_name: name of variable to expand
+ * @return: value of expanded variable
+ */
 char *get_env_value(char *var_name)
 {
 	char *value;
@@ -22,6 +27,13 @@ char *get_env_value(char *var_name)
 	return ("");
 }
 
+/*
+ * Extracts variable name from string
+ * @param str: string source of variable name
+ * @param dollar_pos: index fo dollar position in string
+ * @param var_len: length ov variable name
+ * @return: name of variable to expand
+ */
 char	*extract_var_name(char *str, int *dollar_pos, int *var_len)
 {
 	int	start;
@@ -38,6 +50,12 @@ char	*extract_var_name(char *str, int *dollar_pos, int *var_len)
 	return (ft_substr(str, start, *var_len));
 }
 
+/*
+ * Appends char to string
+ * @param str: string
+ * @param c: character to append to string
+ * @return: finalized string
+ */
 char	*append_char(char *old_str, char c)
 {
 	char	to_app[2];
