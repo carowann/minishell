@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 17:20:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:00:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,15 @@ int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //var_expansion.c
 int		expand_variables(t_token_list *token_list);
-void	expand_var_token(t_token *token);
+int 	expand_single_var(t_token *token);
+int 	handle_var_in_str(t_token *token);
+char 	*process_string_expansion(char *str);
+char	*expand_var_in_str(char *str, int *i, char *old_str);
+
+//var_expansion_utils.c
+char 	*get_env_value(char *var_name);
+char	*extract_var_name(char *str, int *dollar_pos, int *var_len);
+char	*append_char(char *old_str, char c);
 
 /****************EXECUTION**************** */
 

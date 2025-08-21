@@ -6,13 +6,15 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 17:45:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:57:22 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	expand_variables(t_token_list *token_list) //TODO: gestire $?
+//TODO: gestire $?
+
+int	expand_variables(t_token_list *token_list) 
 {
 	t_token	*curr_token;
 
@@ -22,56 +24,87 @@ int	expand_variables(t_token_list *token_list) //TODO: gestire $?
 	while (curr_token)
 	{
 		if (curr_token->type == VARIABLE)
-			expand_var_token(curr_token);
+		{
+			if (expand_single_var(curr_token) == -1)
+				return (-1);
+		}
 		else if (curr_token->type == QUOTED_STRING)
-			expand_var_in_string(curr_token, curr_token->content);
+		{
+			if (handle_var_in_str(curr_token) == -1)
+				return (-1);
+		}
 		curr_token = curr_token->next;
 	}
 	return (0);
 }
 
-void	expand_var_token(t_token *token)
+int expand_single_var(t_token *token)
 {
-	char	*expanded_val;
+	char *var_value;
 
-	expanded_val = getenv(token->content);
+	var_value = get_env_value(token->content);
 	free(token->content);
-	if (expanded_val)
-		token->content = ft_strdup(expanded_val);
-	else
-		token->content = ft_strdup("");
+	token->content = ft_strdup(var_value);
+	if (!token->content)
+		return (-1);
 	token->type = WORD;
+	return (0);
 }
 
-int	expand_var_in_string(t_token *token, char *str)
+int handle_var_in_str(t_token *token)
 {
-	int		i;
-	int		start;
-	int		end;
-	char	*var_name;
-	char	*res_str;
+	char *expanded_content;
 
-	if (!token)
+	expanded_content = process_string_expansion(token->content);
+	if (!expanded_content)
 		return (-1);
+	free(token->content);
+	token->content = expanded_content;
+	token->type = WORD;
+	return (0);
+}
+
+char *process_string_expansion(char *str)
+{
+	char	*result;
+	int		i;
+
+	result = ft_strdup("");
+	if (!result)
+		return (NULL);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
-		{
-			start = i + 1;
-			end = start;
-			while (str[end] && (ft_isalnum(str[end] || str[end] == '_')))
-				end++;
-			var_name = ft_substr(str, start, end - start);
-			if (!var_name)
-				return (-1);
-			if (!)
-			i = end;
-		}
+			result = expand_var_in_str(str, &i, result);
 		else
-		//concatenare a stringa
-		i++;
+			result = append_char(result, str[i++]);
+		if (!result)
+			return (NULL);
 	}
-	return (0);
+	return (result);
+}
+
+char	*expand_var_in_str(char *str, int *i, char *old_str)
+{
+	int		var_len;
+	char	*var_name;
+	char	*var_value;
+	char	*new_str;
+
+	var_len = 0;
+	var_name = extract_var_name(str, i, &var_len);
+	if (!var_name)
+		return (NULL);
+	var_value = get_env_value(var_name);
+	free(var_name);
+	new_str = ft_strjoin(old_str, var_value);
+	if (!new_str)
+	{
+		free(old_str);
+		return (NULL);
+	}
+	free(old_str);
+	return (new_str);
 }
 

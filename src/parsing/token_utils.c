@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 12:08:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:09:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 /*
  * Initializes token with type and content
  * @param token: pre-allocated token to fill
- * @param buffer: content source for WORD types  
+ * @param buffer: content source for WORD types
  * @param type: token type (WORD, PIPE, etc.)
  * @return: 0 success, -1 on ft_strdup failure
  */
-int	create_token(t_token *token, char *buffer, t_token_type type)
+int create_token(t_token *token, char *buffer, t_token_type type)
 {
 	token->type = type;
 	token->next = NULL;
@@ -52,7 +52,7 @@ int safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 			return (-1);
 		reset_buffer(&ctx->parser);
 	}
-	return (0);	
+	return (0);
 }
 
 /*
@@ -61,9 +61,9 @@ int safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
  * @param type: token type to create
  * @return: 0 success, -1 allocation error
  */
-int	create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
+int create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 {
-	t_token	*token;
+	t_token *token;
 
 	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
@@ -83,12 +83,12 @@ int	create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
  * @param token_list: target list to append to
  * @param token: token to append (must be valid, not checked)
  */
-void	add_token_list(t_token_list *token_list, t_token *token)
+void add_token_list(t_token_list *token_list, t_token *token)
 {
-	t_token	*curr_token;
+	t_token *curr_token;
 
 	if (!token_list)
-		return ;
+		return;
 	curr_token = token_list->head;
 	if (!token_list->head)
 		token_list->head = token;
@@ -108,7 +108,7 @@ void	add_token_list(t_token_list *token_list, t_token *token)
  * @param ctx: tokenizer context with potential pending content
  * @return: 0 on success, -1 on syntax error (unclosed quotes)
  */
-int	finalize_pending_token(t_tokenizer_ctx *ctx)
+int finalize_pending_token(t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
 		return (-1);
