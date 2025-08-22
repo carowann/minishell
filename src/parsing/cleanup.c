@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/19 18:07:09 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:03:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,12 @@ void	free_token_list(t_token_list *token_list)
 	if (!token_list)
 		return ;
 	curr_token = token_list->head;
-	while (curr_token && curr_token->next)
+	while (curr_token)
 	{
 		temp_token = curr_token->next;
 		free_token(curr_token);
 		curr_token = temp_token;
 	}
-	free_token(curr_token);
 	free(token_list);
 }
 
