@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:22:47 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 17:49:10 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 			return (-1);	
 		}
 	}
-    if (is_valid_cmd(cmd->args[1]))
+    if (is_valid_cmd(cmd->args[0]))
         command_select(cmd, fd, envar);
     else
     {
@@ -69,17 +69,17 @@ int	is_valid_cmd(char *cmd)
 // It returns 1 on success, -1 on failure
 int command_select(t_cmd *cmd, int fd, t_env *envar)
 {
-	if (ft_strncmp(cmd->args[1], "echo", 5) == 0)
+	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		return (echo(cmd->args, fd));
 	// else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 	// 	return (cd_exec(cmd->args));
-	else if (ft_strncmp(cmd->args[1], "pwd", 4) == 0)
+	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		return (pwd(fd));
-	else if (ft_strncmp(cmd->args[1], "export", 7) == 0)
+	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		return (export(cmd, fd, envar));
 	// else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 	// 	return (unset_exec(cmd->args));
-	else if (ft_strncmp(cmd->args[1], "env", 4) == 0)
+	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		return (env(fd, envar, 0));
 	// else    if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 	// 	return (exit_exec(cmd->args));

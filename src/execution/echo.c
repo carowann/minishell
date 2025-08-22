@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:25 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 17:55:40 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	echo(char	**args, int redirect_fd)
 		return(1);
 	}
 //	check for -n option, witch skips the terminating /n
-	if (ft_strncmp(args[2], "-n", 3) == 0)
+	if (ft_strncmp(args[1], "-n", 3) == 0)
 		n_var = 1;
 	else 
 		n_var = 0;
@@ -79,17 +79,17 @@ int	echo(char	**args, int redirect_fd)
 	return(1);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_cmd cmd;
-	t_env *envar;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_cmd cmd;
+// 	t_env *envar;
 
-	cmd.args = argv;
-	cmd.input_file = NULL;
-	envar = env_to_list(envp);
-	if (argc)
-		execute_cmd(&cmd, envar);
-	free_env(envar);
-	return(0);
-}
+// 	cmd.args = argv;
+// 	cmd.input_file = NULL;
+// 	envar = env_to_list(envp);
+// 	if (argc)
+// 		execute_cmd(&cmd, envar);
+// 	free_env(envar);
+// 	return(0);
+// }
 
