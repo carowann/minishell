@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 11:04:58 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:54:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
  * @param var_name: name of variable to expand
  * @return: value of expanded variable
  */
-char *get_env_value(char *var_name)
+char *get_env_value(t_env *env, char *var_name)
 {
 	char *value;
 
-	value = getenv(var_name);
+	value = extract_value_from_env_list(env, var_name);
 	if (value)
 		return (value);
 	return ("");
@@ -71,4 +71,33 @@ char	*append_char(char *old_str, char c)
 	}
 	free(old_str);
 	return (new_str);
+}
+
+char	*extract_value_from_env_list(t_env *env, char *var_name)
+{
+	t_env	*env_node;
+	char	*var_value;
+
+	env_node = find_env(env, var_name);
+	if (!env_node)
+		return (NULL);
+	var_value = get_value_from_env_str(env_node->value);
+	if (!var_value)
+		return (NULL);
+	return (var_value);
+}
+
+char	*get_value_from_env_str(char *env_str)
+{
+	char	*var_value;
+	char	*start_var_value;
+
+	start_var_value = ft_strchr(env_str, '=');
+	if (!start_var_value)
+		return (NULL);
+	start_var_value = start_var_value + 1;
+	var_value = ft_strdup(start_var_value);
+	if (!var_value)
+		return (NULL);
+	return (var_value);
 }

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 17:00:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 17:53:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,13 @@ typedef struct s_cmd_list
 // 	//lista parsata di envp
 // 	//codice errore ultimo comando
 // }
+
+typedef struct	s_env
+{
+	char			*value;
+	struct s_env	*next;
+}				t_env;
+
 /****************PARSING**************** */
 
 //cleanup.c
@@ -116,7 +123,7 @@ int	add_arg_to_command(char *arg, t_cmd *cmd);
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 
 //parser.c
-int		parse_input(char *input, t_cmd_list	**commands);
+int		parse_input(char *input, t_cmd_list	**commands, t_env **env);
 
 //parsing_utils.c
 void	add_to_buffer(char c, t_parser *parser);
@@ -143,16 +150,18 @@ int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
 int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //var_expansion.c
-int		expand_variables(t_token_list *token_list);
-int 	expand_single_var(t_token *token);
-int 	handle_var_in_str(t_token *token);
-char 	*process_string_expansion(char *str);
-char	*expand_var_in_str(char *str, int *i, char *old_str);
+int		expand_variables(t_env *env, t_token_list *token_list);
+int 	expand_single_var(t_env *env, t_token *token);
+int 	handle_var_in_str(t_env *env, t_token *token);
+char 	*process_string_expansion(t_env *env, char *str);
+char	*expand_var_in_str(t_env *env, char *str, int *i, char *old_str);
 
 //var_expansion_utils.c
-char 	*get_env_value(char *var_name);
+char 	*get_env_value(t_env *env, char *var_name);
 char	*extract_var_name(char *str, int *dollar_pos, int *var_len);
 char	*append_char(char *old_str, char c);
+char	*extract_value_from_env_list(t_env *env, char *var_name);
+char	*get_value_from_env_str(char *env_str);
 
 /****************EXECUTION**************** */
 
