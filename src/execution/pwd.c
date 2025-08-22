@@ -1,8 +1,7 @@
 
-#include "../../libft/libft.h"
+
 #include "../../includes/minishell.h"
 #include <linux/limits.h>
-#include "templib.h"
 
 int		pwd(int fd)
 {

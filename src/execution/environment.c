@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:28:25 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:22:58 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../../includes/minishell.h"
-#include "../execution/templib.h"
 
 // Function to convert the envp to a linked list
 t_env	*env_to_list(char **envp)

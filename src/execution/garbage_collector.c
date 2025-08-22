@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 15:50:34 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/20 18:37:40 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:23:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../../includes/minishell.h"
-#include "templib.h"
 
 // Global head pointer for the garbage collector
 t_grb_node *init_grb_collector(void)

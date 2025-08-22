@@ -1,8 +1,7 @@
 
 
-#include "../../libft/libft.h"
+
 #include "../../includes/minishell.h"
-#include "templib.h"
 
 // Function to print the environment variables in sorted order
 int export(t_cmd *cmd, int fd, t_env *envar)
@@ -10,7 +9,7 @@ int export(t_cmd *cmd, int fd, t_env *envar)
 	int i;
 
 	i = 1;
-	if (!cmd->args[2])
+	if (!cmd->args[1])
 		return (env(fd, envar, 1));
 	while (cmd->args[i])
 	{
@@ -25,7 +24,6 @@ int export(t_cmd *cmd, int fd, t_env *envar)
 			update_env(envar, cmd->args[i]);
 		i++;
 	}
-	env(fd, envar, 0);
 	return (1);
 }
 // Function to add a new environment variable to the list

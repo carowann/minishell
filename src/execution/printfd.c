@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   printfd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:43:56 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/20 13:59:24 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:23:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../../includes/minishell.h"
-#include "templib.h"
 
 int	check_param_fd(int fd, va_list arg, char c)
 {

@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:49:10 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:44:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../../includes/minishell.h"
-#include "templib.h"
-
 
 // Function to execute a command based on its type	
 int execute_cmd(t_cmd *cmd, t_env *envar)
@@ -21,8 +18,8 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	int fd;// File descriptor for input redirection
 
 	fd = 1;
-    if (!cmd || !cmd->args || !cmd->args[0])
-        return (-1);
+	if (!cmd || !cmd->args || !cmd->args[0])
+		return (-1);
 	if (cmd->input_file)
 	{
 		int fd = open(cmd->input_file, O_RDONLY);
@@ -32,8 +29,8 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 			return (-1);	
 		}
 	}
-    if (is_valid_cmd(cmd->args[0]))
-        command_select(cmd, fd, envar);
+	if (is_valid_cmd(cmd->args[0]))
+		command_select(cmd, fd, envar);
     else
     {
         ft_printfd(1, "minishell: %s: command not found\n", cmd->args[0]);

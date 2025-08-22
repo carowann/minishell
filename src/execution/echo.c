@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:55:40 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:22:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
+
 #include "../../includes/minishell.h"
-#include "templib.h"
+
 //	convert matrix to string, TODO move to another file for use in other function
 // char *conv_to_strn(char	**args)
 // {

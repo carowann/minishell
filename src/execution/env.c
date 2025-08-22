@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:49:25 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 17:04:18 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 18:22:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
+
 #include "../../includes/minishell.h"
-#include "templib.h"
 
 int env(int fd, t_env *env, int print_all)
 {

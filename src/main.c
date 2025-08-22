@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 18:13:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 18:37:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp)
 		ft_putstr_fd("Usage:	./minishell\n", 2);
 		return (1);
 	}
-	//creazione envp list
+	env = env_to_list(envp);
 	while (1)
 	{
 		input = readline(BOLD"minishell> "RESET);
@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		}
 		printf("Parsing successful!\n"); //debug
-		//execute_commands(commands, envp);
+		execute_cmd(commands->head, env);
 		//free env list
 		free_command_list(commands);
 		free(input);
