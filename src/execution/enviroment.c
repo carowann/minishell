@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/20 18:35:36 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/22 17:28:25 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_env(t_env *head)
 	while (current)
 	{
 		temp = current->next;
-		if(current->value != NULL)
+		if(current->value)
 			free (current->value);
 		free(current);
 		current = temp;

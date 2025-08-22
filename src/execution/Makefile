@@ -1,4 +1,4 @@
-FILES = echo.c printfd.c execution.c pwd.c env.c enviroment.c
+FILES = echo.c printfd.c execution.c pwd.c env.c enviroment.c export.c
 OBJ = $(FILES:.c=.o)
 NAME = test
 LIBFT_PATH = ../../libft/
