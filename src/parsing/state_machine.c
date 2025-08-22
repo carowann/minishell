@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/20 12:08:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:35:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,11 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
 	else if (c == '\'')
 		ctx->parser.state = IN_SINGLE_QUOTES;
 	else if (c == '$')
+	{
+		if (safe_create_and_add_token(ctx, WORD) == -1)
+			return (-1);
 		ctx->parser.state = IN_VARIABLE;
+	}
 	else if (ft_isspace(c))
 	{
 		if (safe_create_and_add_token(ctx, WORD) == -1)

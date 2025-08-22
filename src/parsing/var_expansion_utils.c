@@ -6,11 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 18:41:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:04:58 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*
  * Expands variable end returns value
