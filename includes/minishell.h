@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 19:00:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/23 12:53:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void		print_cmd_list(t_cmd_list *cmd_list);
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
 int	handle_redirect_token(t_tokenizer_ctx *ctx);
 
-//parse_commands.c
+//tokens_to_cmds.c
 int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands);
 int	add_arg_to_command(char *arg, t_cmd *cmd);
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
