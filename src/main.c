@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/23 11:42:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/23 19:01:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ int main(int argc, char **argv, char **envp)
 	t_cmd_list	*commands;
 	t_env		*env;
 	(void)argv;
-	(void)envp;
-	
+
 	if (argc != 1)
 	{
 		ft_putstr_fd("Usage:	./minishell\n", 2);
