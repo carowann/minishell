@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 18:44:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:52:46 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	int fd;// File descriptor for input redirection
 
 	fd = 1;
+	add_history(conv_to_strn(cmd->args)); // Add command to history
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if (cmd->input_file)
@@ -62,8 +63,6 @@ int	is_valid_cmd(char *cmd)
 	return (0);
 }
 // Function to select the command execution based on the command type
-// This function will call the appropriate execution function based on the command type
-// It returns 1 on success, -1 on failure
 int command_select(t_cmd *cmd, int fd, t_env *envar)
 {
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
@@ -74,8 +73,8 @@ int command_select(t_cmd *cmd, int fd, t_env *envar)
 		return (pwd(fd));
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		return (export(cmd, fd, envar));
-	// else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-	// 	return (unset_exec(cmd->args));
+	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
+		return (unset(cmd, envar));
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		return (env(fd, envar, 0));
 	// else    if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
@@ -86,3 +85,27 @@ int command_select(t_cmd *cmd, int fd, t_env *envar)
 		return (-1);
 	}
 }
+
+char *conv_to_strn(char	**args)
+{
+	char	*str; //return
+	int		i; //index
+
+	i = 0;
+	if (!args[i])
+		return (ft_strdup(""));
+	if(args[i])
+		str = ft_strndup(args[i], ft_strlen(args[i]));
+	i++;
+	if(args[i])
+		str = ft_strjoin(str, " ");	
+	while (args[i])
+	{
+		str = ft_strjoin(str, args[i]);
+		i++;
+		if(args[i])
+			str = ft_strjoin(str, " ");	
+	}
+	return(str);
+}
+

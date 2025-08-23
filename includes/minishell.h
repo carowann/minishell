@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 19:16:43 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/23 13:51:56 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,11 +178,14 @@ int			execute_cmd(t_cmd *cmd, t_env *envar);
 int			is_valid_cmd(char *cmd);
 int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
+char 		*conv_to_strn(char	**args);
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);
 void		free_env(t_env *head);
 int			echo(char	**args, int redirect_fd);
 int			export(t_cmd *cmd, int fd, t_env *envar);
+int			unset(t_cmd *cmd, t_env *env);
+int			delete_env(t_env *env, t_env *to_delete);
 
 #endif

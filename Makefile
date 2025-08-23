@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
+#    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/22 18:29:19 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/23 12:39:27 by lzorzit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,11 +38,12 @@ SRC =	src/main.c				\
 	src/parsing/var_expansion_utils.c	\
 	src/execution/echo.c			\
 	src/execution/env.c			\
-	src/execution/environment.c		\
+	src/env/enviroment.c		\
 	src/execution/export.c			\
 	src/execution/execution.c		\
 	src/execution/printfd.c			\
-	src/execution/pwd.c			
+	src/execution/pwd.c				\
+	src/execution/unset.c				\
 
 
 FLAGS = -g

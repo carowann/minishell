@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   enviroment.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/20 17:40:58 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/23 11:30:55 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
 #include "../../includes/minishell.h"
-#include "../execution/templib.h"
 
 // Function to convert the envp to a linked list
 t_env	*env_to_list(char **envp)
@@ -39,4 +37,24 @@ t_env	*env_to_list(char **envp)
 		i++;
 	}
 	return (head);
+}
+void	free_env(t_env *head)
+{
+	t_env	*current;
+	t_env	*temp;
+
+	
+	if (!head)
+		return ;
+	current = head;
+	while (current)
+	{
+		temp = current->next;
+		if(current->value)
+			free (current->value);
+		free(current);
+		current = temp;
+	}
+
+	return;
 }
