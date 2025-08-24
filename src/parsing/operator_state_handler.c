@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 15:34:55 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/24 19:05:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:52:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 	if (ctx->parser.buffer[0] == '<' && c == '<')
 	{
 		add_to_buffer(c, &ctx->parser);
+		ctx->parser.state = DEFAULT;
 		return (safe_create_and_add_token(ctx, HEREDOC));
 	}
 	if (ctx->parser.buffer[0] == '>' && c == '>')
 	{
 		add_to_buffer(c, &ctx->parser);
+		ctx->parser.state = DEFAULT;
 		return (safe_create_and_add_token(ctx, APPEND));
 	}
 	ctx->parser.state = DEFAULT;
