@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/23 20:24:39 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:11:37 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
 	if (!filename_token || filename_token->type == PIPE)
 		return (-1); //syntax error //TODO
 	if ((*curr_token)->type == REDIRECT_IN)
-		return (set_input_redirect()); //TODO
+		return (set_input_redirect(cmd, (*filename_token).content, curr_token));
 	else if ((*curr_token)->type == REDIRECT_OUT)
-		return (set_output_redirect()); //TODO
+		return (set_output_redirect(cmd, (*filename_token).content, 0, curr_token));
 	else if ((*curr_token)->type == APPEND)
-		return (set_output_redirect()); //TODO
+		return (set_output_redirect(cmd, (*filename_token).content, 1, curr_token));
 	else if ((*curr_token)->type == HEREDOC)
-		return (set_heredoc_redirect()); //TODO
+		return (set_heredoc_delimiter(cmd, (*filename_token).content, curr_token));
 	return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/23 19:32:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/24 19:26:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 		return (-1);
 	while (curr_token)
 	{
-		if (process_curr_token(cmd_list, &curr_token, &curr_cmd) == -1)
+		if (process_curr_token(&curr_token, &curr_cmd, cmd_list) == -1)
 			return (cleanup_and_return_error(curr_cmd));
 		curr_token = curr_token->next;
 	}
@@ -40,14 +40,14 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 	return (0);
 }
 
-int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_token_list	 *cmd_list)
+int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_list)
 {
-	if (is_argument_token(curr_token))
-		return (handle_argument_token(curr_token, curr_cmd));
+	if (is_argument_token(*curr_token))
+		return (handle_argument_token(*curr_token, *curr_cmd));
 	else if ((*curr_token)->type == PIPE)
-		return (handle_pipe_token(&curr_cmd, cmd_list));
-	// else if (is_redirect_token(*curr_token)) //TODO
-	// 	return (handle_redirect_token(curr_token, *curr_cmd));
+		return (handle_pipe_token(curr_cmd, cmd_list));
+	else if (is_redirect_token(*curr_token))
+		return (handle_redirect_token(curr_token, *curr_cmd));
 	return (0);
 }
 

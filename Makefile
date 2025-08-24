@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/23 12:53:55 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/24 19:04:32 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,9 @@ SRC =	src/main.c				\
 	src/parsing/cleanup.c			\
 	src/parsing/debug.c			\
 	src/parsing/operator_state_handler.c	\
+	src/parsing/tokens_to_cmds_handlers.c	\
+	src/parsing/tokens_to_cmds_operators.c	\
+	src/parsing/tokens_to_cmds_utils.c	\
 	src/parsing/tokens_to_cmds.c		\
 	src/parsing/parser.c			\
 	src/parsing/parsing_utils.c		\
