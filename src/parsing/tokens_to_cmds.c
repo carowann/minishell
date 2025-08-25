@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/24 19:26:18 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:00:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 	return (0);
 }
 
+/*
+ * Analyses current tokens's type, creates relative command and adds it to the list
+ * @param curr_token: token to analyze
+ * @param curr_cmd: command to populate w/ token info
+ * @param cmd_list: list of all commands
+ * @return: 0 success, -1 error
+ */
 int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_list)
 {
 	if (is_argument_token(*curr_token))

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 17:54:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:03:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ char	*append_char(char *old_str, char c)
 	return (new_str);
 }
 
+/*
+ * Extracts value of variable from env list
+ * @param env: env list to extract from
+ * @param var_name: target variable name
+ * @return: variable value
+ */
 char	*extract_value_from_env_list(t_env *env, char *var_name)
 {
 	t_env	*env_node;
@@ -87,6 +93,11 @@ char	*extract_value_from_env_list(t_env *env, char *var_name)
 	return (var_value);
 }
 
+/*
+ * Extracts value from string of env list w/ format var=vale
+ * @param env_str: string to analyse
+ * @return: variable value
+ */
 char	*get_value_from_env_str(char *env_str)
 {
 	char	*var_value;

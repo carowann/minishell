@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/24 19:11:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 15:12:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ int	handle_argument_token(t_token *token, t_cmd *cmd)
 	return (0);
 }
 
+/*
+ * Adds commands to command list and creates new command
+ * @param cmd: command to add
+ * @param cmd_list: list of commands
+ * @return: 0 success, -1 error
+ */
 int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 {
 	if (add_command_to_list(*cmd, cmd_list) == -1)
@@ -60,6 +66,12 @@ int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 	return (0);
 }
 
+/*
+ * Analyses type of redirection and handles relative token
+ * @param curr_token: token to analyse
+ * @param cmd: command result of conversion
+ * @return: 0 success, -1 error
+ */
 int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
 {
 	t_token	*filename_token;
