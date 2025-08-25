@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/24 19:20:53 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:25:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 # define BOLD	"\033[1m"
+# define BLUE	"\033[0;34m"
+# define RED	"\033[0;31m"
+# define GREEN	"\033[0;32m"
 # define RESET	"\033[0m"
 
 # include "../libft/libft.h"

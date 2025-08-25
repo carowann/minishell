@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:02:52 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/24 19:20:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:30:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void print_token_list(t_token_list *tokens)
 		printf("Token list is empty\n");
 		return ;
 	}
-	printf("=== TOKEN LIST (%d tokens) ===\n", tokens->count);
+	printf(BLUE"=== TOKEN LIST (%d tokens) ===\n"RESET, tokens->count);
 	current = tokens->head;
 	while (current)
 	{
@@ -72,7 +72,7 @@ void	print_cmd_list(t_cmd_list *cmd_list)
 		printf("Command list is empty\n");
 		return ;
 	}
-	printf("=== COMMAND LIST (%d commands) ===\n", cmd_list->count);
+	printf(BLUE"=== COMMAND LIST (%d commands) ===\n"RESET, cmd_list->count);
 	curr_cmd = cmd_list->head;
 	while (curr_cmd)
 	{
@@ -97,7 +97,7 @@ void print_cmd_details(t_cmd *cmd, int cmd_num)
 {
 	int i;
 
-	printf("=== COMMAND %d DETAILS ===\n", cmd_num);
+	printf(BOLD"=== COMMAND %d DETAILS ===\n"RESET, cmd_num);
 	printf("Arguments (%d): ", cmd->arg_count);
 	if (cmd->args)
 	{
@@ -148,7 +148,7 @@ void print_cmd_list_detailed(t_cmd_list *cmd_list)
 		printf("Command list is empty\n");
 		return;
 	}
-	printf("=== DETAILED COMMAND LIST (%d commands) ===\n", cmd_list->count);
+	printf(BLUE"=== DETAILED COMMAND LIST (%d commands) ===\n"RESET, cmd_list->count);
 	curr_cmd = cmd_list->head;
 	cmd_num = 0;
 	while (curr_cmd)

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/23 19:01:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:53:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc != 1)
 	{
-		ft_putstr_fd("Usage:	./minishell\n", 2);
+		ft_putstr_fd(RED"Usage:	./minishell\n"RESET, 2);
 		return (1);
 	}
 	env = env_to_list(envp);
@@ -32,15 +32,15 @@ int main(int argc, char **argv, char **envp)
 			break;
 		if (parse_input(input, &commands, &env) == -1)
 		{
-			ft_putstr_fd("Error while parsing\n", 2);
+			ft_putstr_fd(RED"Error while parsing\n"RESET, 2);
 			free (input);
 			continue;
 		}
-		printf("Parsing successful!\n"); //debug
+		printf(GREEN"Parsing successful!\n\n"RESET); //debug
 		execute_cmd(commands->head, env);
-		free_env(env);
 		free_command_list(commands);
 		free(input);
 	}
+	free_env(env);
 	return (0);
 }
