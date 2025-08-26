@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/26 14:28:23 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/26 14:50:06 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRC =	src/main.c				\
 	src/execution/printfd.c			\
 	src/execution/pwd.c				\
 	src/execution/unset.c				\
+	src/execution/pipesman.c	
 
 
 FLAGS = -g

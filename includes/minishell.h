@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 14:24:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:50:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,12 @@ typedef struct s_cmd_list
 	t_cmd	*head;
 	int		count;
 }	t_cmd_list;
+
+typedef struct s_grb_node
+{
+	void				*ptr;
+	struct s_grb_node	*next;
+}	t_grb_node;
 
 // typedef struct s_shell_state
 // {
@@ -202,6 +208,8 @@ int			is_valid_cmd(char *cmd);
 int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
+int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
+char 		*read_line(void);
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);
