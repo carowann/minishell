@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/26 12:47:17 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 14:29:27 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	int fd;// File descriptor for input redirection
 
 	fd = STDOUT_FILENO;
-	
-	add_history(conv_to_strn(cmd->args)); // Add command to history
 	if(cmd->next != NULL)
 	{
 		pipeman(cmd, cmd->next, envar);
