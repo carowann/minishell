@@ -3,10 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
+#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2025/08/26 11:21:35 by lzorzit          ###   ########.fr        #
+=======
+#    Updated: 2025/08/26 14:50:06 by cwannhed         ###   ########.fr        #
+>>>>>>> integration
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +32,10 @@ SRC =	src/main.c				\
 	src/parsing/cleanup.c			\
 	src/parsing/debug.c			\
 	src/parsing/operator_state_handler.c	\
-	src/parsing/parse_commands.c		\
+	src/parsing/tokens_to_cmds_handlers.c	\
+	src/parsing/tokens_to_cmds_operators.c	\
+	src/parsing/tokens_to_cmds_utils.c	\
+	src/parsing/tokens_to_cmds.c		\
 	src/parsing/parser.c			\
 	src/parsing/parsing_utils.c		\
 	src/parsing/state_machine.c		\

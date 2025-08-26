@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 15:00:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 15:06:46 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define MINISHELL_H
 
 # define BOLD	"\033[1m"
+# define BLUE	"\033[0;34m"
+# define RED	"\033[0;31m"
+# define GREEN	"\033[0;32m"
 # define RESET	"\033[0m"
 
 # include "../libft/libft.h"
@@ -39,6 +42,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*content;
+	int				prec_space;
 	struct s_token	*next;
 }	t_token;
 
@@ -59,9 +63,10 @@ typedef enum e_state
 
 typedef struct s_parser
 {
-	char			*buffer;
-	int				buffer_pos;
-	t_state			state;
+	char		*buffer;
+	int			buffer_pos;
+	// int			space_encountered;
+	t_state		state;
 }	t_parser;
 
 typedef struct s_tokenizer_ctx
@@ -104,7 +109,7 @@ typedef struct	s_env
 {
 	char			*value;
 	struct s_env	*next;
-}				t_env;
+}					t_env;
 
 
 /****************PARSING**************** */
@@ -119,18 +124,36 @@ void	free_cmd(t_cmd *cmd);
 void		print_token_list(t_token_list *tokens);
 const char *get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
+void print_cmd_list_detailed(t_cmd_list *cmd_list);
 
 //operator_state_handler.c
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
-int	handle_redirect_token(t_tokenizer_ctx *ctx);
+int	create_redirect_token(t_tokenizer_ctx *ctx);
 
-//parse_commands.c
+//tokens_to_cmds_handlers.c
+int	handle_argument_token(t_token *token, t_cmd *cmd);
+int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list);
+int	handle_redirect_token(t_token **curr_token, t_cmd *cmd);
+
+//tokens_to_cmds_operators.c
+int	set_input_redirect(t_cmd *cmd, char *filename, t_token **curr_token);
+int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **curr_token);
+int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token);
+
+//tokens_to_cmds_utils.c
+int	is_argument_token(t_token *token);
+int	is_redirect_token(t_token *token);
+int	cleanup_and_return_error(t_cmd *cmd);
+
+//tokens_to_cmds.c
 int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands);
-int	add_arg_to_command(char *arg, t_cmd *cmd);
+int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_list);
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 
 //parser.c
-int		parse_input(char *input, t_cmd_list	**commands, t_env **env);
+int	parse_input(char *input, t_cmd_list	**commands, t_env **env);
+int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx);
+int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx);
 
 //parsing_utils.c
 void	add_to_buffer(char c, t_parser *parser);
@@ -187,6 +210,7 @@ int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
 int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
 int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd);
+
 char 		*read_line(void);
 //inbuilt commands
 int			pwd(int fd);

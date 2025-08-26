@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 11:03:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:48:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,11 @@ void	free_cmd(t_cmd *cmd)
 		}
 		free(cmd->args);
 	}
+	if (cmd->input_file)
+		free(cmd->input_file);
+	if (cmd->heredoc_delimiter)
+		free(cmd->heredoc_delimiter);
+	if (cmd->output_file)
+		free(cmd->output_file);
 	free(cmd);
 }

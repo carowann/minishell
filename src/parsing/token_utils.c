@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/21 17:09:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:16:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,9 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 		return (-1);
 	if (ctx->parser.buffer_pos == 0)
 		return (0);
-
 	else if (ctx->parser.state == IN_VARIABLE)
 		return (safe_create_and_add_token(ctx, VARIABLE));
+	else if (ctx->parser.state == IN_OPERATOR)
+		return (create_redirect_token(ctx));
 	return (safe_create_and_add_token(ctx, WORD));
 }

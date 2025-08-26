@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/17 20:17:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:16:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input)
 		return (-1);
 	*ctx->tokens = (t_token_list){0};
 	ctx->parser = (t_parser){0};
+	// ctx->parser.space_encountered = 0;
 	ctx->parser.buffer = ft_calloc(1, ft_strlen(input) + 1);
 	if (!ctx->parser.buffer)
 	{
