@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 15:00:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:37:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
  */
 int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_list)
 {
-	if (is_argument_token(*curr_token))
+	if (is_argument_token(*curr_token) 
+		&& (*curr_token)->content
+		&& strlen((*curr_token)->content) > 0)
 		return (handle_argument_token(*curr_token, *curr_cmd));
 	else if ((*curr_token)->type == PIPE)
 		return (handle_pipe_token(curr_cmd, cmd_list));

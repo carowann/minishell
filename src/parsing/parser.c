@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 12:00:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:29:32 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,12 @@ int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
 	add_history(str_history);
 	if (init_and_tokenize(input, &ctx) == -1)
 		return (-1);
-	//TODO: merge tokens
 	if (expand_variables(*env, ctx.tokens) == -1)
+	{
+		cleanup_tokenizer_ctx(&ctx);
+		return (-1);
+	}
+	if (merge_adjacent_tokens(&ctx) == -1)
 	{
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);

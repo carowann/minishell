@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 16:28:40 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:27:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void	free_cmd(t_cmd *cmd);
 void		print_token_list(t_token_list *tokens);
 const char *get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
-void print_cmd_list_detailed(t_cmd_list *cmd_list);
+void		print_cmd_list_detailed(t_cmd_list *cmd_list);
 
 
 //tokens_to_cmds_handlers.c
@@ -174,7 +174,9 @@ int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
 
 //token_merger.c
-
+int	merge_adjacent_tokens(t_tokenizer_ctx *ctx);
+int	should_merge_tokens(t_token *curr, t_token *next);
+int	merge_tokens(t_token *curr, t_token *next);
 
 //token_utils.c
 int		tokenize(char *input, t_tokenizer_ctx *ctx);

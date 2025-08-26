@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/26 16:28:19 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/26 17:27:53 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,6 @@ SRC =	src/main.c				\
 	src/parsing/state_machine.c		\
 	src/parsing/token_merger.c		\
 	src/parsing/token_utils.c		\
-	src/parsing/var_state_handler.c 	\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
 	src/execution/echo.c			\
