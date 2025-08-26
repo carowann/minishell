@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 16:25:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 11:57:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,9 @@ int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_l
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 
 //parser.c
-int		parse_input(char *input, t_cmd_list	**commands, t_env **env);
+int	parse_input(char *input, t_cmd_list	**commands, t_env **env);
+int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx);
+int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx);
 
 //parsing_utils.c
 void	add_to_buffer(char c, t_parser *parser);

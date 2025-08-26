@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 18:23:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 12:00:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@
  */
 int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
 {
+	char	*str_history;
 	t_tokenizer_ctx	ctx;
 
+	str_history = ft_strdup(input);
+	if (!str_history)
+		return (-1);
+	add_history(str_history);
 	if (init_and_tokenize(input, &ctx) == -1)
 		return (-1);
 	//TODO: merge tokens
@@ -31,7 +36,7 @@ int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);
 	}
-	if (build_cmd_list(*cmd_list,&ctx) == -1)
+	if (build_cmd_list(cmd_list,&ctx) == -1)
 		return (-1);
 	printf("=== PARSING RESULT ===\n"); //debug
 	print_token_list(ctx.tokens); //debug
@@ -83,15 +88,15 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
  * @param ctx: tokenizer context
  * @return: 0 success, -1 error
  */
-int	build_cmd_list(t_cmd_list *cmd_list, t_tokenizer_ctx *ctx)
+int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx)
 {
-	cmd_list = ft_calloc(1, sizeof(t_cmd_list));
+	*cmd_list = ft_calloc(1, sizeof(t_cmd_list));
 	if (!cmd_list)
 	{
 		cleanup_tokenizer_ctx(ctx);
 		return (-1);
 	}
-	if (tokens_to_commands(ctx->tokens, cmd_list) == -1)
+	if (tokens_to_commands(ctx->tokens, *cmd_list) == -1)
 	{
 		free(cmd_list);
 		cmd_list = NULL;
