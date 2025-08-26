@@ -3,41 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 18:22:48 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/23 13:50:21 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
-
-//	convert matrix to string, TODO move to another file for use in other function
-// char *conv_to_strn(char	**args)
-// {
-// 	char	*str; //return
-// 	int		i; //index
-
-// 	i = 1;
-// 	if (ft_strncmp(args[1], "-n", 3) == 0)
-// 		i++;
-// 	if (!args[i])
-// 		return (ft_strdup(""));
-// 	if(args[i])
-// 		str = ft_strndup(args[i], ft_strlen(args[i]));
-// 	i++;
-// 	if(args[i])
-// 		str = ft_strjoin(str, " ");	
-// 	while (args[i])
-// 	{
-// 		str = ft_strjoin(str, args[i]);
-// 		i++;
-// 		if(args[i])
-// 			str = ft_strjoin(str, " ");	
-// 	}
-// 	return(str);
-// }
 
 //	execution of command after vars are passed by echo
 int	echo_exec(char **str, int n_var, int fd)
