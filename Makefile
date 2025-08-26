@@ -6,7 +6,7 @@
 #    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/23 12:39:27 by lzorzit          ###   ########.fr        #
+#    Updated: 2025/08/26 11:21:35 by lzorzit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC =	src/main.c				\
 	src/execution/printfd.c			\
 	src/execution/pwd.c				\
 	src/execution/unset.c				\
+	src/execution/pipesman.c	
 
 
 FLAGS = -g

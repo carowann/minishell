@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/23 13:51:56 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 11:20:21 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,12 @@ typedef struct s_cmd_list
 	t_cmd	*head;
 	int		count;
 }	t_cmd_list;
+
+typedef struct s_grb_node
+{
+	void				*ptr;
+	struct s_grb_node	*next;
+}	t_grb_node;
 
 // typedef struct s_shell_state
 // {
@@ -179,6 +185,8 @@ int			is_valid_cmd(char *cmd);
 int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
+int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
+char 		*read_line(void);
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);

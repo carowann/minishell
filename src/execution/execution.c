@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/23 13:52:46 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 12:47:17 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 {
 	int fd;// File descriptor for input redirection
 
-	fd = 1;
+	fd = STDOUT_FILENO;
+	
 	add_history(conv_to_strn(cmd->args)); // Add command to history
+	if(cmd->next != NULL)
+	{
+		pipeman(cmd, cmd->next, envar);
+		return (1);
+	}
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if (cmd->input_file)
@@ -42,6 +48,16 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	if (fd > 1)
 		close(fd);
 	return (1);
+}
+char *read_line(void)
+{
+    char buffer[1024];
+    if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+        return NULL;
+    size_t len = strlen(buffer);
+    if (len > 0 && buffer[len - 1] == '\n')
+        buffer[len - 1] = '\0'; // Remove newline
+    return strdup(buffer); // Allocate and return the string
 }
 // Check if the command is valid inbuilt command
 int	is_valid_cmd(char *cmd)
