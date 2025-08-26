@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/26 12:36:50 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 17:36:15 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	echo_exec(char **str, int n_var, int fd)
 int	echo(char	**args, int redirect_fd)
 {
 	int		n_var;
-
+	
 	if (!args[1])
 	{
 		ft_printfd(redirect_fd, "%s","\n");

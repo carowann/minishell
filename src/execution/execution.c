@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/26 14:29:27 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/26 18:42:55 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	}
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
-	if (cmd->input_file)
+	if (cmd->output_file)
 	{
-		int fd = open(cmd->input_file, O_RDONLY);
+		fd = open(cmd->output_file, O_WRONLY | O_CREAT);
 		if (fd < 0)
 		{
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
+			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
 	}
@@ -38,8 +38,8 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		command_select(cmd, fd, envar);
     else
     {
-        ft_printfd(1, "minishell: %s: command not found\n", cmd->args[0]);
-		if (fd > 0)
+		execve(cmd->args[0], cmd->args, env_to_matrx(envar));
+		if (fd > 1)
 			close(fd);
 		return (-1);
     }
@@ -121,5 +121,33 @@ char *conv_to_strn(char	**args)
 			str = ft_strjoin(str, " ");	
 	}
 	return(str);
+}
+
+char **env_to_matrx(t_env *env)
+{
+	char	**matrix;
+	t_env	*copy;
+	int		i;
+
+	i = 0;
+	copy = env;
+	while (copy)
+	{
+		i++;
+		copy = copy->next;
+	}
+	matrix = malloc(sizeof(char *) * (i + 1));
+	if (!matrix)
+		return (NULL);
+	matrix[i] = NULL;
+	copy = env;
+	i = 0;
+	while (copy)
+	{
+		matrix[i] = ft_strdup(copy->value);
+		i++;
+		copy = copy->next;
+	}
+	return (matrix);
 }
 

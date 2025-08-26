@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printfd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:43:56 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 18:23:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:45:24 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	check_param_fd(int fd, va_list arg, char c)
 	return (0);
 }
 
-int	ft_printfd(int fd, const char *format, ...)
+int	ft_printfd(const int fd, const char *format, ...)
 {
 	int		count;
 	size_t	i;
