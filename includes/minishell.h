@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 11:57:38 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:17:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*content;
+	int				prec_space;
 	struct s_token	*next;
 }	t_token;
 
@@ -62,9 +63,10 @@ typedef enum e_state
 
 typedef struct s_parser
 {
-	char			*buffer;
-	int				buffer_pos;
-	t_state			state;
+	char		*buffer;
+	int			buffer_pos;
+	// int			space_encountered;
+	t_state		state;
 }	t_parser;
 
 typedef struct s_tokenizer_ctx
@@ -101,7 +103,7 @@ typedef struct	s_env
 {
 	char			*value;
 	struct s_env	*next;
-}				t_env;
+}					t_env;
 
 
 /****************PARSING**************** */
