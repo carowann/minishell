@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 14:50:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:28:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_parser
 {
 	char		*buffer;
 	int			buffer_pos;
-	// int			space_encountered;
+	int			space_encountered;
 	t_state		state;
 }	t_parser;
 
@@ -126,9 +126,6 @@ const char *get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
 void print_cmd_list_detailed(t_cmd_list *cmd_list);
 
-//operator_state_handler.c
-int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
-int	create_redirect_token(t_tokenizer_ctx *ctx);
 
 //tokens_to_cmds_handlers.c
 int	handle_argument_token(t_token *token, t_cmd *cmd);
@@ -155,11 +152,20 @@ int	parse_input(char *input, t_cmd_list	**commands, t_env **env);
 int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx);
 int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx);
 
-//parsing_utils.c
+//parser_utils.c
 void	add_to_buffer(char c, t_parser *parser);
 int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
 void	reset_buffer(t_parser *parser);
 void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);
+
+//state_machine_operators.c
+int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
+int	create_redirect_token(t_tokenizer_ctx *ctx);
+
+//state_machine_variables.c
+int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
+int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
+int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //state_machine.c
 int handle_state_machine(char c, t_tokenizer_ctx *ctx);
@@ -167,17 +173,15 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx);
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
 
+//token_merger.c
+
+
 //token_utils.c
 int		tokenize(char *input, t_tokenizer_ctx *ctx);
 int 	safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 int		create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 void	add_token_list(t_token_list *token_list, t_token *token);
 int		finalize_pending_token(t_tokenizer_ctx *ctx);
-
-//var_state_handler.c
-int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
-int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
-int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //var_expansion.c
 int		expand_variables(t_env *env, t_token_list *token_list);
@@ -209,6 +213,7 @@ int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
 int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
+int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd);
 char 		*read_line(void);
 //inbuilt commands
 int			pwd(int fd);

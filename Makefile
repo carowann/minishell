@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/26 14:50:06 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/26 16:28:19 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,27 +27,29 @@ INCLUDES = -I./includes  -I./$(LIBFT_DIR)
 SRC =	src/main.c				\
 	src/parsing/cleanup.c			\
 	src/parsing/debug.c			\
-	src/parsing/operator_state_handler.c	\
 	src/parsing/tokens_to_cmds_handlers.c	\
 	src/parsing/tokens_to_cmds_operators.c	\
 	src/parsing/tokens_to_cmds_utils.c	\
 	src/parsing/tokens_to_cmds.c		\
 	src/parsing/parser.c			\
-	src/parsing/parsing_utils.c		\
+	src/parsing/parser_utils.c		\
+	src/parsing/state_machine_operators.c	\
+	src/parsing/state_machine_variables.c	\
 	src/parsing/state_machine.c		\
+	src/parsing/token_merger.c		\
 	src/parsing/token_utils.c		\
 	src/parsing/var_state_handler.c 	\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
 	src/execution/echo.c			\
 	src/execution/env.c			\
-	src/env/enviroment.c		\
+	src/env/enviroment.c			\
 	src/execution/export.c			\
 	src/execution/execution.c		\
 	src/execution/printfd.c			\
-	src/execution/pwd.c				\
-	src/execution/unset.c				\
-	src/execution/pipesman.c	
+	src/execution/pwd.c			\
+	src/execution/unset.c			\
+	src/execution/pipesman.c
 
 
 FLAGS = -g

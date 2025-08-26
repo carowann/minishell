@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 16:16:18 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:17:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type)
 		free(token);
 		return (-1);
 	}
+	token->prec_space = ctx->parser.space_encountered;
+	ctx->parser.space_encountered = 0;
 	add_token_list(ctx->tokens, token);
 	return (0);
 }

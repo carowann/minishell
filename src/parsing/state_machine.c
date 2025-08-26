@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/22 11:35:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:15:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	handle_default_state(char c, t_tokenizer_ctx *ctx)
 	{
 		if (safe_create_and_add_token(ctx, WORD) == -1)
 			return (-1);
+		ctx->parser.space_encountered = 1;
 	}
 	else if (c == '<' || c == '>')
 	{
