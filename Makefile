@@ -6,15 +6,19 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/26 17:27:53 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/27 15:20:00 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
+TEST_NAME = parser_tester
 
+# Colors
 GREEN = \033[0;32m
 BLUE = \033[0;34m
 RED = \033[0;31m
+YELLOW = \033[0;33m
+CYAN = \033[0;36m
 RESET = \033[0m
 
 SUPPRESSION_FILE = readline.supp
@@ -22,9 +26,10 @@ SUPPRESSION_FILE = readline.supp
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-INCLUDES = -I./includes  -I./$(LIBFT_DIR)
+INCLUDES = -I./includes -I./$(LIBFT_DIR)
 
-SRC =	src/main.c				\
+SRC =	src/main_utils.c				\
+	src/main.c				\
 	src/parsing/cleanup.c			\
 	src/parsing/debug.c			\
 	src/parsing/tokens_to_cmds_handlers.c	\
@@ -50,10 +55,13 @@ SRC =	src/main.c				\
 	src/execution/unset.c			\
 	src/execution/pipesman.c
 
-
-FLAGS = -g
-FLAGS += -Wall -Werror -Wextra
+# Flags
+CFLAGS = -g -Wall -Werror -Wextra
+CFLAGS_DEBUG = $(CFLAGS) -DDEBUG
 LIBS = -lreadline
+
+# Source files per test (escludi main.c)
+TEST_SRCS = $(filter-out src/main.c, $(SRC))
 
 all: $(NAME)
 
@@ -62,17 +70,36 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(SRC)
 	@echo "$(BLUE)Compiling $(NAME)...$(RESET)"
-	@cc $(SRC) $(INCLUDES) $(FLAGS) $(LIBFT) $(LIBS) -o $(NAME)
+	@cc $(SRC) $(INCLUDES) $(CFLAGS) $(LIBFT) $(LIBS) -o $(NAME)
 	@echo "$(GREEN)$(NAME) compiled successfully!$(RESET)"
 	@echo "$(CYAN)Run with: ./$(NAME)$(RESET)"
+
+debug: $(LIBFT) $(SRC)
+	@echo "$(BLUE)Compiling $(NAME) with DEBUG...$(RESET)"
+	@cc $(SRC) $(INCLUDES) $(CFLAGS_DEBUG) $(LIBFT) $(LIBS) -o $(NAME)
+	@echo "$(GREEN)$(NAME) compiled with debug mode!$(RESET)"
+
+$(TEST_NAME): $(LIBFT) $(TEST_SRCS) tests/$(TEST_NAME).c
+	@echo "$(BLUE)Compiling $(TEST_NAME)...$(RESET)"
+	@cc tests/$(TEST_NAME).c $(TEST_SRCS) $(INCLUDES) $(CFLAGS) $(LIBFT) $(LIBS) -o $(TEST_NAME)
+	@echo "$(GREEN)$(TEST_NAME) compiled successfully!$(RESET)"
+
+test: $(TEST_NAME)
+	@echo "$(CYAN)Running parser tests...$(RESET)"
+	@./$(TEST_NAME)
+
+test-verbose: $(TEST_NAME)
+	@echo "$(CYAN)Running parser tests (verbose)...$(RESET)"
+	@./$(TEST_NAME) -v
 
 clean:
 	@make --no-print-directory -C $(LIBFT_DIR) clean
 	@echo "$(YELLOW)Cleaning $(NAME)...$(RESET)"
+	@rm -f $(TEST_NAME)
 	@echo "$(RED)Clean completed!$(RESET)"
 
 fclean: clean clean_valgrind
-	@make  --no-print-directory -C $(LIBFT_DIR) fclean
+	@make --no-print-directory -C $(LIBFT_DIR) fclean
 	@echo "$(RED)Removing $(NAME)...$(RESET)"
 	@rm -f $(NAME)
 	@echo "$(RED)Full clean completed!$(RESET)"
@@ -101,4 +128,16 @@ clean_valgrind:
 	@rm -f $(SUPPRESSION_FILE)
 	@echo "$(RED)Valgrind files cleaned$(RESET)"
 
-.PHONY: all clean fclean re valgrind clean_valgrind
+# Targets di utilità
+help:
+	@echo "$(CYAN)Available targets:$(RESET)"
+	@echo "  $(GREEN)all$(RESET)          - Build minishell"
+	@echo "  $(GREEN)debug$(RESET)        - Build with debug symbols and DEBUG flag"
+	@echo "  $(GREEN)test$(RESET)         - Build and run parser tests"
+	@echo "  $(GREEN)test-verbose$(RESET) - Run tests with debug output visible"
+	@echo "  $(GREEN)valgrind$(RESET)     - Run with valgrind (leak check)"
+	@echo "  $(GREEN)clean$(RESET)        - Clean object files"
+	@echo "  $(GREEN)fclean$(RESET)       - Full clean (remove executables)"
+	@echo "  $(GREEN)re$(RESET)           - Rebuild everything"
+
+.PHONY: all debug test test-verbose old-test clean fclean re valgrind clean_valgrind help

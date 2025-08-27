@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 17:29:32 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:27:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,8 @@
  */
 int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
 {
-	char	*str_history;
 	t_tokenizer_ctx	ctx;
 
-	str_history = ft_strdup(input);
-	if (!str_history)
-		return (-1);
-	add_history(str_history);
 	if (init_and_tokenize(input, &ctx) == -1)
 		return (-1);
 	if (expand_variables(*env, ctx.tokens) == -1)

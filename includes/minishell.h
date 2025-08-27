@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 17:27:18 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:19:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,11 @@ typedef struct	s_env
 	struct s_env	*next;
 }					t_env;
 
+/****************MAIN UTILS******************/
 
-/****************PARSING**************** */
+char	*read_input_line(void);
+
+/****************PARSING******************/
 
 //cleanup.c
 void	free_token(t_token *token);

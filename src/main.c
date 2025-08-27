@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 17:59:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:04:26 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	env = env_to_list(envp);
+	if (!env)
+		return (1);
 	while (1)
 	{
-		input = readline(BOLD"minishell> "RESET);
-		if (!input) //Ctrl-C
+		input = read_input_line();
+		if (!input)
 			break;
 		if (parse_input(input, &commands, &env) == -1)
 		{
