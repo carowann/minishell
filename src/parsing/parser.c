@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 17:11:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:31:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,31 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
 		input++;
 	}
 	return (finalize_pending_token(ctx));
+}
+
+/*
+ * Processes any remaining content in buffer at end of tokenization
+ * Handles unclosed quotes as syntax errors, creates final tokens
+ * Called after all input characters have been processed
+ * @param ctx: tokenizer context with potential pending content
+ * @return: 0 on success, -1 on syntax error (unclosed quotes)
+ */
+int finalize_pending_token(t_tokenizer_ctx *ctx)
+{
+	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
+		return (-1); //TODO: syntax error, unclosed quotes
+	if (ctx->parser.buffer_pos > 0)
+	{
+		if (ctx->parser.state == IN_VARIABLE)
+			return (safe_create_and_add_token(ctx, VARIABLE));
+		else if (ctx->parser.state == IN_OPERATOR)
+			return (create_redirect_token(ctx));
+		else
+			return (safe_create_and_add_token(ctx, WORD));
+	}
+	if (last_token_is_pipe(ctx->tokens))
+		return (-1); //TODO:  syntax error: pipe at end
+	return (0);
 }
 
 /*

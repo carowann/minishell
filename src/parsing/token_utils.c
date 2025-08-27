@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 17:02:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 18:24:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,22 +103,16 @@ void add_token_list(t_token_list *token_list, t_token *token)
 	token_list->count++;
 }
 
-/*
- * Processes any remaining content in buffer at end of tokenization
- * Handles unclosed quotes as syntax errors, creates final tokens
- * Called after all input characters have been processed
- * @param ctx: tokenizer context with potential pending content
- * @return: 0 on success, -1 on syntax error (unclosed quotes)
- */
-int finalize_pending_token(t_tokenizer_ctx *ctx)
+int last_token_is_pipe(t_token_list *token_list)
 {
-	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
-		return (-1); //TODO: syntax error, unclosed quotes
-	if (ctx->parser.buffer_pos == 0)
+	t_token	*curr_token;
+	
+	if (!token_list || !token_list->head)
 		return (0);
-	else if (ctx->parser.state == IN_VARIABLE)
-		return (safe_create_and_add_token(ctx, VARIABLE));
-	else if (ctx->parser.state == IN_OPERATOR)
-		return (create_redirect_token(ctx));
-	return (safe_create_and_add_token(ctx, WORD));
+	curr_token = token_list->head;
+	while (curr_token->next)
+		curr_token = curr_token->next;
+	if (curr_token->type == PIPE)
+		return (1);
+	return (0);
 }

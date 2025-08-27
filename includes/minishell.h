@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 15:19:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:24:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 //parser.c
 int	parse_input(char *input, t_cmd_list	**commands, t_env **env);
 int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx);
+int	finalize_pending_token(t_tokenizer_ctx *ctx);
 int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx);
 
 //parser_utils.c
@@ -186,7 +187,7 @@ int		tokenize(char *input, t_tokenizer_ctx *ctx);
 int 	safe_create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 int		create_and_add_token(t_tokenizer_ctx *ctx, t_token_type type);
 void	add_token_list(t_token_list *token_list, t_token *token);
-int		finalize_pending_token(t_tokenizer_ctx *ctx);
+int 	last_token_is_pipe(t_token_list *token_list);
 
 //var_expansion.c
 int		expand_variables(t_env *env, t_token_list *token_list);
