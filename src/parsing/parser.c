@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 15:27:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:39:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx)
 	}
 	if (tokens_to_commands(ctx->tokens, *cmd_list) == -1)
 	{
-		free(cmd_list);
+		free_command_list(*cmd_list);
 		cmd_list = NULL;
 		cleanup_tokenizer_ctx(ctx);
 		return (-1);
