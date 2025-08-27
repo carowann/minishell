@@ -6,11 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:00:00 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 14:14:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:28:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../includes/minishell.h"
 #include <string.h>
 
 // Colori per output più leggibile
@@ -65,7 +65,7 @@ t_test_case quote_tests[] = {
 	{"Double quotes", "echo \"hello world\"", (char *[]){"echo", "hello world", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Mixed quotes", "echo 'hello' \"world\"", (char *[]){"echo", "hello", "world", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Quotes with spaces", "echo \"hello   world\"", (char *[]){"echo", "hello   world", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
-	{"Empty quotes", "echo \"\"", (char *[]){"echo", "", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
+	{"Empty quotes", "echo \"\"", (char *[]){"echo", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Backslash literal", "echo \"\\\"", (char *[]){"echo", "\\", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Unclosed double quote", "echo \"hello", NULL, NULL, NULL, NULL, 0, 0, 0, 1},
 	{"Unclosed single quote", "echo 'hello", NULL, NULL, NULL, NULL, 0, 0, 0, 1},
@@ -80,7 +80,7 @@ t_test_case variable_tests[] = {
 	{"Variable in quotes", "echo \"Hello $USER\"", (char *[]){"echo", "Hello testuser", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Variable in single quotes", "echo '$USER'", (char *[]){"echo", "$USER", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{"Exit status variable", "echo $?", (char *[]){"echo", "0", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
-	{"Undefined variable", "echo $UNDEFINED", (char *[]){"echo", "", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
+	{"Undefined variable", "echo $UNDEFINED", (char *[]){"echo", NULL}, NULL, NULL, NULL, 0, 0, 1, 0},
 	{NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, 0, 0}
 };
 
