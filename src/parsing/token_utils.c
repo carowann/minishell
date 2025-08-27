@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 16:17:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:02:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void add_token_list(t_token_list *token_list, t_token *token)
 int finalize_pending_token(t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
-		return (-1);
+		return (-1); //TODO: syntax error, unclosed quotes
 	if (ctx->parser.buffer_pos == 0)
 		return (0);
 	else if (ctx->parser.state == IN_VARIABLE)
