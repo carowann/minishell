@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/28 11:50:35 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/28 17:09:33 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 
 	fdout = STDOUT_FILENO;
 	if(cmd->next != NULL)
-	{
-		pipeman(cmd, cmd->next, envar);
-		return (1);
-	}
+		return (pipeman(cmd, cmd->next, envar));
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if (cmd->input_file)

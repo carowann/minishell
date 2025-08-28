@@ -23,7 +23,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
 	waitpid(right_pid, NULL, 0);
-	return (0);
+	return (1);
 }
 
 int		exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close)
