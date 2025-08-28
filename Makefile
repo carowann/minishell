@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/27 15:20:00 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/28 14:41:09 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,15 +107,13 @@ fclean: clean clean_valgrind
 re: fclean all
 
 $(SUPPRESSION_FILE):
-	@echo "$(BLUE)Creating readline suppression file...$(RESET)"
-	@echo "# Suppress only readline() leaks" > $(SUPPRESSION_FILE)
+	@echo "# Suppress all readline/history leaks" > $(SUPPRESSION_FILE)
 	@echo "{" >> $(SUPPRESSION_FILE)
-	@echo "   readline_leaks_only" >> $(SUPPRESSION_FILE)
+	@echo "   readline_library_leaks" >> $(SUPPRESSION_FILE)
 	@echo "   Memcheck:Leak" >> $(SUPPRESSION_FILE)
 	@echo "   ..." >> $(SUPPRESSION_FILE)
-	@echo "   fun:readline" >> $(SUPPRESSION_FILE)
+	@echo "   obj:*/libreadline.so*" >> $(SUPPRESSION_FILE)
 	@echo "}" >> $(SUPPRESSION_FILE)
-	@echo "$(GREEN)Suppression file created: $(SUPPRESSION_FILE)$(RESET)"
 
 valgrind: $(NAME) $(SUPPRESSION_FILE)
 	@echo "$(BLUE)Running valgrind with readline suppression...$(RESET)"

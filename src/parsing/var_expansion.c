@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 10:36:58 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:38:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int expand_single_var(t_env *env, t_token *token)
 	token->content = ft_strdup(var_value);
 	if (!token->content)
 		return (-1);
+	if (var_value && strlen(var_value) > 0)
+		free(var_value);
 	token->type = WORD;
 	return (0);
 }

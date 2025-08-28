@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 11:45:39 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:48:56 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,18 @@ char	*read_input_line(void)
 			input[len - 1] = '\0';
 	}
 	return (input);
+}
+
+int	is_all_spaces(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (!ft_isspace(input[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

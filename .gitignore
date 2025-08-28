@@ -58,3 +58,5 @@ dkms.conf
 
 minishell
 parser_tester
+readline.supp
+*.txt

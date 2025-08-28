@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 12:08:35 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:59:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
 	{
-		ft_putstr_fd("Syntax error: unclosed quotes\n", 2);
+		ft_putstr_fd("Syntax error: unclosed quotes\n", STDERR_FILENO);
 		return (-1); //TODO: syntax error, unclosed quotes
 	}
 	if (ctx->parser.buffer_pos > 0)
@@ -106,7 +106,7 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 	}
 	if (last_token_is_pipe(ctx->tokens))
 	{
-		ft_putstr_fd("Syntax error: bad pipe usage\n", 2);
+		ft_putstr_fd("Syntax error: bad pipe usage\n", STDERR_FILENO);
 		return (-1); //TODO:  syntax error: pipe at end
 	}
 	return (0);

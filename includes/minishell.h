@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 14:07:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 17:49:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct	s_env
 /****************MAIN UTILS******************/
 
 char	*read_input_line(void);
+int		is_all_spaces(char *input);
 
 /****************PARSING******************/
 
