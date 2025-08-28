@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:27:26 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 18:09:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 10:45:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	should_merge_tokens(t_token *curr, t_token *next)
 		|| curr->type == PIPE || next->type == PIPE
 		|| is_redirect_token(curr) || is_redirect_token(next))
 		return (0);
+	if (curr->type == VARIABLE || next->type == VARIABLE)
+		return (0);
 	return (is_argument_token(curr) && is_argument_token(next));
 }
 
@@ -54,8 +56,8 @@ int	merge_tokens(t_token *curr, t_token *next)
 		return (-1);
 	free(curr->content);
 	curr->content = merged_content;
-	temp = curr->next;
+	temp = next;
 	curr->next = next->next;
-	free(temp);
+	free_token(temp);
 	return (0);
 }
