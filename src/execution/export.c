@@ -20,7 +20,7 @@ int export(t_cmd *cmd, int fd, t_env *envar)
 		}// If the variable already exists, update its value, otherwise, add a new variable to the environment list
 		if (!find_env(envar, cmd->args[i]))
 			add_env(envar, cmd->args[i]);
-		else if (find_env(envar, cmd->args[i]))
+		else
 			update_env(envar, cmd->args[i]);
 		i++;
 	}
@@ -42,11 +42,6 @@ int add_env(t_env *envar, char *arg)
 		return (-1);
 	}
 	new->next = NULL;
-	if (!envar)
-	{
-		envar = new;
-		return (1);
-	}
 	temp = envar;
 	while (temp->next)
 		temp = temp->next;
@@ -56,27 +51,18 @@ int add_env(t_env *envar, char *arg)
 // Function to update the value of an existing environment variable
 int update_env(t_env *envar, char *arg)
 {
-	t_env	*temp;
-	char	*copy;
-	char	*new_value;
-	int		i;
+    t_env	*temp;
+    char	*new_value;
 
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		i++;
-	copy = ft_substr(arg, 0, i);
-	new_value = ft_strdup(arg);
-	if (!copy || !new_value)
-	{
-		free(copy);
-		free(new_value);
-		return (-1);
-	}
-	temp =find_env(envar, arg);
-	temp->value = new_value;
-	free(copy);
-	free(new_value);
-	return (1);
+    temp = find_env(envar, arg);
+    if (!temp)
+        return (-1);
+    new_value = ft_strdup(arg);
+    if (!new_value)
+        return (-1);
+    free(temp->value); 
+    temp->value = new_value;
+    return (1);
 }
 // Function to find an environment variable
 t_env *find_env(t_env *envar, char *arg)

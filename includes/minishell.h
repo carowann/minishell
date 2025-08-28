@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 17:24:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:07:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,11 @@ typedef struct s_grb_node
 	struct s_grb_node	*next;
 }	t_grb_node;
 
+typedef struct	s_macroenv
+{
+	struct s_env	*head;
+	char			**envp;
+}					t_macroenv;
 // typedef struct s_shell_state
 // {
 // 	//lista parsata di envp
@@ -219,7 +224,8 @@ int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
 int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
-int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd);
+char 		**env_to_matrx(t_env *env);
+int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close);
 char 		*read_line(void);
 //inbuilt commands
 int			pwd(int fd);

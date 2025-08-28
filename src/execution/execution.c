@@ -6,18 +6,24 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/26 14:29:27 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/28 11:50:35 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// Function to execute a command based on its type	
+int	inbuilt_e_others()
+{
+	return (1);
+}
+
+// Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_env *envar)
 {
-	int fd;// File descriptor for input redirection
+	int fdin;// File descriptor for input redirection
+	int fdout;// File descriptor for output redirection
 
-	fd = STDOUT_FILENO;
+	fdout = STDOUT_FILENO;
 	if(cmd->next != NULL)
 	{
 		pipeman(cmd, cmd->next, envar);
@@ -27,24 +33,33 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		return (-1);
 	if (cmd->input_file)
 	{
-		int fd = open(cmd->input_file, O_RDONLY);
-		if (fd < 0)
+		fdin = open(cmd->input_file, O_RDONLY);
+		if (fdin < 0)
 		{
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
 			return (-1);	
 		}
 	}
+	if (cmd->output_file)
+	{
+		fdout = open(cmd->output_file, O_WRONLY | O_CREAT);
+		if (fdout < 0)
+		{
+			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+			return (-1);	
+		}
+	}
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, fd, envar);
+		command_select(cmd, fdout, envar);
     else
     {
-        ft_printfd(1, "minishell: %s: command not found\n", cmd->args[0]);
-		if (fd > 0)
-			close(fd);
+		execve(cmd->args[0], cmd->args, env_to_matrx(envar));
+		if (fdout > 1)
+			close(fdout);
 		return (-1);
     }
-	if (fd > 1)
-		close(fd);
+	if (fdout > 1)
+		close(fdout);
 	return (1);
 }
 char *read_line(void)
@@ -121,5 +136,33 @@ char *conv_to_strn(char	**args)
 			str = ft_strjoin(str, " ");	
 	}
 	return(str);
+}
+
+char **env_to_matrx(t_env *env)
+{
+	char	**matrix;
+	t_env	*copy;
+	int		i;
+
+	i = 0;
+	copy = env;
+	while (copy)
+	{
+		i++;
+		copy = copy->next;
+	}
+	matrix = malloc(sizeof(char *) * (i + 1));
+	if (!matrix)
+		return (NULL);
+	matrix[i] = NULL;
+	copy = env;
+	i = 0;
+	while (copy)
+	{
+		matrix[i] = ft_strdup(copy->value);
+		i++;
+		copy = copy->next;
+	}
+	return (matrix);
 }
 
