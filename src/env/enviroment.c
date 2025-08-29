@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/23 11:30:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:58:12 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,31 @@ void	free_env(t_env *head)
 	}
 
 	return;
+}
+// Function to find an environment variable
+t_env *find_env(t_env *envar, char *arg)
+{
+	t_env	*temp;
+	char	*copy;
+	int		i;
+
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		i++;
+	copy = ft_substr(arg, 0, i);
+	if (!copy)
+		return (NULL);
+	temp = envar;
+	while (temp)
+	{
+		if (ft_strncmp(temp->value, copy, i) == 0 &&
+			(temp->value[i] == '=' || temp->value[i] == '\0'))
+		{
+			free(copy);
+			return (temp);
+		}
+		temp = temp->next;
+	}
+	free(copy);
+	return (NULL);
 }

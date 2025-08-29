@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 14:07:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/29 17:22:22 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define RED	"\033[0;31m"
 # define GREEN	"\033[0;32m"
 # define RESET	"\033[0m"
+# define OUTFILE_PERMS		0644
+# define SUCCESS			0
 
 # include "../libft/libft.h"
 # include <stdio.h>
@@ -227,6 +229,9 @@ int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
 char 		**env_to_matrx(t_env *env);
 int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close);
 char 		*read_line(void);
+int			fd_open(int *fd, t_cmd *cmd);
+char		*build_exe_path(t_env *envlist, t_cmd *cmd);
+char		*find_cmd_exe(char **paths, t_cmd *cmd);
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);

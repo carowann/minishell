@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/28 17:09:33 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/29 17:32:26 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,41 @@ int	inbuilt_e_others()
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_env *envar)
 {
-	int fdin;// File descriptor for input redirection
-	int fdout;// File descriptor for output redirection
+	int fd[2];
+	char *exe_path;
 
-	fdout = STDOUT_FILENO;
-	if(cmd->next != NULL)
-		return (pipeman(cmd, cmd->next, envar));
+	fd[1] = STDOUT_FILENO;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
+	if(cmd->next != NULL)
+		return (pipeman(cmd, cmd->next, envar));
+	if (fd_open(fd, cmd) < 0)
+		return (-1);
+	if (is_valid_cmd(cmd->args[0]))
+		command_select(cmd, fd[1], envar);
+    else
+	{
+		exe_path = build_exe_path(envar, cmd);
+		if (!exe_path)
+		{
+			//cleanup
+			return (-1);
+		}
+		execve(exe_path, cmd->args, env_to_matrx(envar));
+	}
+	if (fd[0] > 0)
+		close(fd[0]);
+	if (fd[1] > 1)
+		close(fd[1]);
+	return (1);
+}
+
+int	fd_open(int *fd, t_cmd *cmd)
+{
 	if (cmd->input_file)
 	{
-		fdin = open(cmd->input_file, O_RDONLY);
-		if (fdin < 0)
+		fd[0] = open(cmd->input_file, O_RDONLY);
+		if (fd[0]< 0)
 		{
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
 			return (-1);	
@@ -39,26 +62,19 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	}
 	if (cmd->output_file)
 	{
-		fdout = open(cmd->output_file, O_WRONLY | O_CREAT);
-		if (fdout < 0)
+		fd[1] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) 
+			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
+		if (fd[1] < 0)	
 		{
+			if(fd[0] > 0)
+				close(fd[0]);
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
 	}
-	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, fdout, envar);
-    else
-    {
-		execve(cmd->args[0], cmd->args, env_to_matrx(envar));
-		if (fdout > 1)
-			close(fdout);
-		return (-1);
-    }
-	if (fdout > 1)
-		close(fdout);
 	return (1);
 }
+// Function to read a line from standard input
 char *read_line(void)
 {
     char buffer[1024];
