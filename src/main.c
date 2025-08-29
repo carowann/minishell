@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 18:14:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/29 17:05:52 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv, char **envp)
 			free (input);
 			continue;
 		}
-		printf(GREEN"Parsing successful!\n\n"RESET); //debug
+		printf("Parsing successful!\n"); //debug
 		execute_cmd(commands->head, env);
 		free_command_list(commands);
 		free(input);

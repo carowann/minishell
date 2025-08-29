@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/28 11:50:35 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/29 17:14:37 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ int	inbuilt_e_others()
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_env *envar)
 {
-	int fdin;// File descriptor for input redirection
-	int fdout;// File descriptor for output redirection
+	int 	fdin;// File descriptor for input redirection
+	int 	fdout;// File descriptor for output redirection
+	char	*exe_path;			//cw
 
 	fdout = STDOUT_FILENO;
 	if(cmd->next != NULL)
@@ -45,6 +46,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		fdout = open(cmd->output_file, O_WRONLY | O_CREAT);
 		if (fdout < 0)
 		{
+			close(fdin);	//cw
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
@@ -53,7 +55,13 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		command_select(cmd, fdout, envar);
     else
     {
-		execve(cmd->args[0], cmd->args, env_to_matrx(envar));
+		exe_path = build_exe_path(envar, cmd);
+		if (!exe_path)
+		{
+			//cleanup
+			return (-1);
+		}
+		execve(exe_path, cmd->args, env_to_matrx(envar));
 		if (fdout > 1)
 			close(fdout);
 		return (-1);
@@ -62,6 +70,8 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		close(fdout);
 	return (1);
 }
+
+
 char *read_line(void)
 {
     char buffer[1024];

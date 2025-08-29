@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/28 14:41:09 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/08/29 17:08:14 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDES = -I./includes -I./$(LIBFT_DIR)
 
-SRC =	src/main_utils.c				\
+SRC =	src/main_utils.c			\
 	src/main.c				\
 	src/parsing/cleanup.c			\
 	src/parsing/debug.c			\
@@ -45,9 +45,10 @@ SRC =	src/main_utils.c				\
 	src/parsing/token_utils.c		\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
+	src/execution/build_exe_path.c		\
 	src/execution/echo.c			\
 	src/execution/env.c			\
-	src/env/enviroment.c			\
+	src/env/environment.c			\
 	src/execution/export.c			\
 	src/execution/execution.c		\
 	src/execution/printfd.c			\
