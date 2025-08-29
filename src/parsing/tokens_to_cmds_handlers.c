@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 15:12:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:10:52 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ int	handle_argument_token(t_token *token, t_cmd *cmd)
  */
 int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 {
+	if (!(*cmd)->arg_count)
+	{
+		ft_putstr_fd("Syntax error: bad pipe usage\n", 2);
+		return (-1); //TODO: syntax error
+	}
 	if (add_command_to_list(*cmd, cmd_list) == -1)
 	{
 		free_cmd(*cmd);
@@ -80,7 +85,10 @@ int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
 		return (-1);
 	filename_token = (*curr_token)->next;
 	if (!filename_token || filename_token->type == PIPE)
+	{
+		ft_putstr_fd("Syntax error\n", 2);
 		return (-1); //syntax error //TODO
+	}
 	if ((*curr_token)->type == REDIRECT_IN)
 		return (set_input_redirect(cmd, (*filename_token).content, curr_token));
 	else if ((*curr_token)->type == REDIRECT_OUT)

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 12:00:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/28 12:08:35 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@
  */
 int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
 {
-	char	*str_history;
 	t_tokenizer_ctx	ctx;
 
-	str_history = ft_strdup(input);
-	if (!str_history)
-		return (-1);
-	add_history(str_history);
 	if (init_and_tokenize(input, &ctx) == -1)
 		return (-1);
-	//TODO: merge tokens
 	if (expand_variables(*env, ctx.tokens) == -1)
+	{
+		cleanup_tokenizer_ctx(&ctx);
+		return (-1);
+	}
+	if (merge_adjacent_tokens(&ctx) == -1)
 	{
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);
@@ -83,6 +82,37 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
 }
 
 /*
+ * Processes any remaining content in buffer at end of tokenization
+ * Handles unclosed quotes as syntax errors, creates final tokens
+ * Called after all input characters have been processed
+ * @param ctx: tokenizer context with potential pending content
+ * @return: 0 on success, -1 on syntax error (unclosed quotes)
+ */
+int finalize_pending_token(t_tokenizer_ctx *ctx)
+{
+	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
+	{
+		ft_putstr_fd("Syntax error: unclosed quotes\n", 2);
+		return (-1); //TODO: syntax error, unclosed quotes
+	}
+	if (ctx->parser.buffer_pos > 0)
+	{
+		if (ctx->parser.state == IN_VARIABLE)
+			return (safe_create_and_add_token(ctx, VARIABLE));
+		else if (ctx->parser.state == IN_OPERATOR)
+			return (create_redirect_token(ctx));
+		else
+			return (safe_create_and_add_token(ctx, WORD));
+	}
+	if (last_token_is_pipe(ctx->tokens))
+	{
+		ft_putstr_fd("Syntax error: bad pipe usage\n", 2);
+		return (-1); //TODO:  syntax error: pipe at end
+	}
+	return (0);
+}
+
+/*
  * Allocates command list and builds single commands through tokens
  * @param cmd_list: command list to populate
  * @param ctx: tokenizer context
@@ -98,7 +128,7 @@ int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx)
 	}
 	if (tokens_to_commands(ctx->tokens, *cmd_list) == -1)
 	{
-		free(cmd_list);
+		free_command_list(*cmd_list);
 		cmd_list = NULL;
 		cleanup_tokenizer_ctx(ctx);
 		return (-1);

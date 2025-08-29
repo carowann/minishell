@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:57:50 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 15:20:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:36:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	is_argument_token(t_token *token)
 {
 	if ((token->type == WORD 
 		|| token->type == VARIABLE 
-		|| token->type == QUOTED_STRING)
-		&& (token->content && strlen(token->content) > 0))
+		|| token->type == QUOTED_STRING))
 		return (1);
 	return (0);
 }
