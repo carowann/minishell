@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/29 17:08:14 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/01 16:36:17 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,6 @@ SRC =	src/main_utils.c			\
 	src/execution/pwd.c			\
 	src/execution/unset.c			\
 	src/execution/pipesman.c		\
-	src/execution/build_exe_path.c	\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra

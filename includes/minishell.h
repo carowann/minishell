@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 15:58:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:14:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <sys/wait.h>
+# include <sys/wait.h>
 
 typedef enum e_token_type
 {
@@ -107,11 +107,6 @@ typedef struct	s_macroenv
 	struct s_env	*head;
 	char			**envp;
 }					t_macroenv;
-// typedef struct s_shell_state
-// {
-// 	//lista parsata di envp
-// 	//codice errore ultimo comando
-// }
 
 typedef struct	s_env
 {
@@ -119,10 +114,17 @@ typedef struct	s_env
 	struct s_env	*next;
 }					t_env;
 
+typedef struct s_shell_state
+{
+	t_env	*env_list;
+	int		last_exit_status;
+}			t_shell_state;
+
 /****************MAIN UTILS******************/
 
 char	*read_input_line(void);
 int		is_all_spaces(char *input);
+int		init_shell_state(t_shell_state *shell, char **envp);
 
 /****************PARSING******************/
 
@@ -160,7 +162,7 @@ int	process_curr_token(t_token **curr_token, t_cmd **curr_cmd, t_cmd_list *cmd_l
 int	add_command_to_list(t_cmd *new_cmd, t_cmd_list *cmd_list);
 
 //parser.c
-int	parse_input(char *input, t_cmd_list	**commands, t_env **env);
+int	parse_input(char *input, t_cmd_list	**cmd_list, t_shell_state **shell);
 int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx);
 int	finalize_pending_token(t_tokenizer_ctx *ctx);
 int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx);
@@ -199,14 +201,14 @@ void	add_token_list(t_token_list *token_list, t_token *token);
 int 	last_token_is_pipe(t_token_list *token_list);
 
 //var_expansion.c
-int		expand_variables(t_env *env, t_token_list *token_list);
-int 	expand_single_var(t_env *env, t_token *token);
-int 	handle_var_in_str(t_env *env, t_token *token);
-char 	*process_string_expansion(t_env *env, char *str);
-char	*expand_var_in_str(t_env *env, char *str, int *i, char *old_str);
+int		expand_variables(t_shell_state *shell, t_token_list *token_list);
+int		expand_single_var(t_shell_state *shell, t_token *token);
+int		handle_var_in_str(t_shell_state *shell, t_token *token);
+char	*process_string_expansion(t_shell_state *shell, char *str);
+char	*expand_var_in_str(t_shell_state *shell, char *str, int *i, char *old_str);
 
 //var_expansion_utils.c
-char 	*get_env_value(t_env *env, char *var_name);
+char	*get_env_value(t_shell_state *shell, char *var_name);
 char	*extract_var_name(char *str, int *dollar_pos, int *var_len);
 char	*append_char(char *old_str, char c);
 char	*extract_value_from_env_list(t_env *env, char *var_name);
@@ -215,7 +217,7 @@ char	*get_value_from_env_str(char *env_str);
 /****************EXECUTION**************** */
 
 //build_exe_path.c
-char	*build_exe_path(t_env *env, t_cmd *cmd);
+char	*build_exe_path(t_shell_state *shell, t_cmd *cmd);
 char	*find_cmd_exe(char **paths, t_cmd *cmd);
 
 //enviroment
@@ -226,19 +228,18 @@ int			env(int fd, t_env *env, int print_all);
 t_env		*env_to_list(char **envp);
 //execution
 int			check_param_fd(int fd, va_list arg, char c);
-int			execute_cmd(t_cmd *cmd, t_env *envar);
+int			execute_cmd(t_cmd *cmd, t_shell_state *shell);
 int			is_valid_cmd(char *cmd);
 int			 command_select(t_cmd *cmd, int fd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
-int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
+int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell);
 char 		**env_to_matrx(t_env *env);
-int		exec_pipeline(t_cmd *cmd, t_env *envar, int *fd, int flag);
+int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char 		*read_line(void);
 int			fd_open(int *fd, t_cmd *cmd);
 int	execve_temp(char *exe_path, char **args, char **env);
-char		*build_exe_path(t_env *envlist, t_cmd *cmd);
-char		*find_cmd_exe(char **paths, t_cmd *cmd);
+
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 15:57:40 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:14:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	inbuilt_e_others()
 }
 
 // Function to execute a command based on its type
-int execute_cmd(t_cmd *cmd, t_env *envar)
+int execute_cmd(t_cmd *cmd, t_shell_state *shell)
 {
 	int fd[2];
 	char *exe_path;
@@ -28,20 +28,20 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if(cmd->next != NULL)
-		return (pipeman(cmd, cmd->next, envar));
+		return (pipeman(cmd, cmd->next, shell));
 	if (fd_open(fd, cmd) < 0)
 		return (-1);
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, fd[1], envar);
+		command_select(cmd, fd[1], shell->env_list);
     else
 	{
-		exe_path = build_exe_path(envar, cmd);
+		exe_path = build_exe_path(shell, cmd);
 		if (!exe_path)
 		{
 			//cleanup
 			return (-1);
 		}
-		execve_temp(exe_path, cmd->args, env_to_matrx(envar));
+		execve_temp(exe_path, cmd->args, env_to_matrx(shell->env_list));
 	}
 	if (fd[0] > 0)
 		close(fd[0]);

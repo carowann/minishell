@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 15:03:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:02:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@
  * @param var_name: name of variable to expand
  * @return: value of expanded variable
  */
-char *get_env_value(t_env *env, char *var_name)
+char *get_env_value(t_shell_state *shell, char *var_name)
 {
 	char *value;
 
-	value = extract_value_from_env_list(env, var_name);
+	if (ft_strncmp(var_name, "?", 1) == SUCCESS)
+		value = ft_itoa(shell->last_exit_status);
+	else
+		value = extract_value_from_env_list(shell->env_list, var_name);
 	if (value)
 		return (value);
 	return ("");

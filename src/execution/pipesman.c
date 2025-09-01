@@ -3,7 +3,7 @@
 #include <sys/wait.h>
 
 // Manages the piping between two commands
-int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
+int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 {
 	pid_t	left_pid;
 	pid_t	right_pid;
@@ -15,11 +15,11 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
 	if (left_pid == 0)
 	{
 		cmd_left->next = NULL;
-		exit(exec_pipeline(cmd_left, envar, pipefd, 1));
+		exit(exec_pipeline(cmd_left, shell, pipefd, 1));
 	}
 	right_pid = fork();
 	if (right_pid == 0)
-		exit(exec_pipeline(cmd_right, envar, pipefd, 0));
+		exit(exec_pipeline(cmd_right, shell, pipefd, 0));
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
@@ -27,7 +27,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
 	return (1);
 }
 // Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
-int		exec_pipeline(t_cmd *cmd, t_env *envar, int *fd, int flag)
+int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 {
 	if(flag == 0)
 	{
@@ -41,6 +41,6 @@ int		exec_pipeline(t_cmd *cmd, t_env *envar, int *fd, int flag)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);	
 	}
-	execute_cmd(cmd, envar);
+	execute_cmd(cmd, shell);
 	return (0);
 }
