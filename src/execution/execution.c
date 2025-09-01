@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 18:14:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:24:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ int execute_cmd(t_cmd *cmd, t_shell_state *shell)
 		}
 		execve_temp(exe_path, cmd->args, env_to_matrx(shell->env_list));
 	}
-	if (fd[0] > 0)
-		close(fd[0]);
-	if (fd[1] > 1)
-		close(fd[1]);
 	return (1);
 }
 
@@ -79,6 +75,8 @@ int	fd_open(int *fd, t_cmd *cmd)
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
 			return (-1);	
 		}
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 	}
 	if (cmd->output_file)
 	{
@@ -91,6 +89,8 @@ int	fd_open(int *fd, t_cmd *cmd)
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
 	return (1);
 }
