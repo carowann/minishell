@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:14:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:34:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,28 +224,27 @@ char	*find_cmd_exe(char **paths, t_cmd *cmd);
 int			 update_env(t_env *envar, char *arg);
 int 		add_env(t_env *envar, char *arg);
 t_env 		*find_env(t_env *envar, char *arg);
-int			env(int fd, t_env *env, int print_all);
+int			env(t_env *env, int print_all);
 t_env		*env_to_list(char **envp);
 //execution
 int			check_param_fd(int fd, va_list arg, char c);
 int			execute_cmd(t_cmd *cmd, t_shell_state *shell);
 int			is_valid_cmd(char *cmd);
-int			 command_select(t_cmd *cmd, int fd, t_env *en);
+int			command_select(t_cmd *cmd, t_env *en);
 int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
 int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell);
 char 		**env_to_matrx(t_env *env);
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char 		*read_line(void);
-int			fd_open(int *fd, t_cmd *cmd);
-int	execve_temp(char *exe_path, char **args, char **env);
-
+int			fd_open (t_cmd *cmd);
+int			execve_temp(char *exe_path, t_cmd *cmd, char **env);
 //inbuilt commands
-int			pwd(int fd);
-int	        echo_exec(char **str, int n_var, int fd);
+int			pwd();
+int	        echo_exec(char **str, int n_var);
 void		free_env(t_env *head);
-int			echo(char	**args, int redirect_fd);
-int			export(t_cmd *cmd, int fd, t_env *envar);
+int			echo(char	**args);
+int			export(t_cmd *cmd, t_env *envar);
 int			unset(t_cmd *cmd, t_env *env);
 int			delete_env(t_env *env, t_env *to_delete);
 
