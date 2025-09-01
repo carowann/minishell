@@ -6,33 +6,24 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 16:52:16 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/01 17:54:59 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <sys/wait.h>
 
-int	inbuilt_e_others()
-{
-	return (1);
-}
-
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_env *envar)
 {
-	int fd[2];
 	char *exe_path;
 
-	fd[1] = STDOUT_FILENO;
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if(cmd->next != NULL)
 		return (pipeman(cmd, cmd->next, envar));
-	if (fd_open(fd, cmd) < 0)
-		return (-1);
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, fd[1], envar);
+		command_select(cmd, envar);
     else
 	{
 		exe_path = build_exe_path(envar, cmd);
@@ -41,12 +32,12 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 			//cleanup
 			return (-1);
 		}
-		execve_temp(exe_path, cmd->args, env_to_matrx(envar));
+		execve_temp(exe_path, cmd, env_to_matrx(envar));
 	}
 	return (1);
 }
 
-int	execve_temp(char *exe_path, char **args, char **env)
+int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
 {
 	pid_t	pid;
 	pid = fork();
@@ -57,7 +48,8 @@ int	execve_temp(char *exe_path, char **args, char **env)
 	}
 	if (pid == 0)
 	{
-		execve(exe_path, args, env);
+		fd_open(cmd);
+		execve(exe_path, cmd->args, env);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
@@ -65,8 +57,9 @@ int	execve_temp(char *exe_path, char **args, char **env)
 		waitpid(pid, NULL, 0);
 	return (0);
 }
-int	fd_open(int *fd, t_cmd *cmd)
+int	fd_open(t_cmd *cmd)
 {
+	int fd[2];
 	if (cmd->input_file)
 	{
 		fd[0] = open(cmd->input_file, O_RDONLY);
@@ -125,27 +118,34 @@ int	is_valid_cmd(char *cmd)
 	return (0);
 }
 // Function to select the command execution based on the command type
-int command_select(t_cmd *cmd, int fd, t_env *envar)
+int command_select(t_cmd *cmd, t_env *envar)
 {
+	pid_t	pid;
+
+	pid = fork();
+	if (pid > 0)
+	{
+		waitpid(pid, NULL, 0);
+		return (1);
+	}
+	fd_open(cmd);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
-		return (echo(cmd->args, fd));
+		echo(cmd->args);
 	// else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 	// 	return (cd_exec(cmd->args));
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
-		return (pwd(fd));
+		pwd();
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
-		return (export(cmd, fd, envar));
+		export(cmd, envar);
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-		return (unset(cmd, envar));
+		unset(cmd, envar);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
-		return (env(fd, envar, 0));
+		env(envar, 0);
 	// else    if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
 	// 	return (exit_exec(cmd->args));
 	else
-	{
-		ft_printfd(1, "minishell: %s: command not found\n", cmd->args[0]);
-		return (-1);
-	}
+		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
+	exit(0);
 }
 
 char *conv_to_strn(char	**args)

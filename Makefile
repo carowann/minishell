@@ -55,7 +55,6 @@ SRC =	src/main_utils.c			\
 	src/execution/pwd.c			\
 	src/execution/unset.c			\
 	src/execution/pipesman.c		\
-	src/execution/build_exe_path.c	\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra

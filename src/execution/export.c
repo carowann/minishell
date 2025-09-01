@@ -6,18 +6,18 @@
 //TODO: sort env in alphabetical order
 
 // Function to print the environment variables in sorted order
-int export(t_cmd *cmd, int fd, t_env *envar)
+int export(t_cmd *cmd, t_env *envar)
 {
 	int i;
 
 	i = 1;
 	if (!cmd->args[1])
-		return (env(fd, envar, 1)); //TODO: add declare -x
+		return (env(envar, 1)); //TODO: add declare -x
 	while (cmd->args[i])
 	{
 		if (ft_isalpha(cmd->args[i][0]) == 0 && cmd->args[i][0] != '_')
 		{
-			ft_printfd(fd, "minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
+			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
 			return (-1);
 		}// If the variable already exists, update its value, otherwise, add a new variable to the environment list
 		if (!find_env(envar, cmd->args[i]))
