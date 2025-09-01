@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 18:36:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:58:41 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 
 // Function to execute a command based on its type
-int execute_cmd(t_cmd *cmd, t_shell_state *shell)
+int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 {
 	char *exe_path;
 
@@ -23,7 +23,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state *shell)
 	if(cmd->next != NULL)
 		return (pipeman(cmd, cmd->next, shell));
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, shell->env_list);
+		command_select(cmd, (*shell)->env_list);
     else
 	{
 		exe_path = build_exe_path(shell, cmd);
@@ -32,7 +32,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state *shell)
 			//cleanup
 			return (-1);
 		}
-		execve_temp(exe_path, cmd, env_to_matrx(shell->env_list));
+		execve_temp(exe_path, cmd, env_to_matrx((*shell)->env_list));
 	}
 	return (1);
 }

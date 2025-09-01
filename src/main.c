@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:17:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:58:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		}
 		printf("Parsing successful!\n"); //debug
-		execute_cmd(commands->head, shell); //poi passer; shell state, cosi puo aggiornare exit status
+		execute_cmd(commands->head, &shell); //poi passer; shell state, cosi puo aggiornare exit status
 		free_command_list(commands);
 		free(input);
 	}
 	free_env(shell->env_list);
+	free(shell);
 	return (0);
 }
