@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/29 17:32:26 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/01 16:26:35 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,6 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 		}
 		execve_temp(exe_path, cmd->args, env_to_matrx(envar));
 	}
-	if (fd[0] > 0)
-		close(fd[0]);
-	if (fd[1] > 1)
-		close(fd[1]);
 	return (1);
 }
 
@@ -80,6 +76,7 @@ int	fd_open(int *fd, t_cmd *cmd)
 			return (-1);	
 		}
 		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 	}
 	if (cmd->output_file)
 	{
@@ -93,6 +90,7 @@ int	fd_open(int *fd, t_cmd *cmd)
 			return (-1);	
 		}
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
 	return (1);
 }
