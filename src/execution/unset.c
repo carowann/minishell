@@ -5,7 +5,6 @@
 int	unset(t_cmd *cmd, t_env *env)
 {
 	int		i;
-	t_env	*current;
 	t_env	*to_delete;
 
 	if (cmd->arg_count < 2)
@@ -16,7 +15,6 @@ int	unset(t_cmd *cmd, t_env *env)
 	i = 1; 
 	while(cmd->args[i])
 	{
-		current = env;
 		to_delete = find_env(env, cmd->args[i]);
 		if (to_delete)
 			delete_env(env, to_delete);

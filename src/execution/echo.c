@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/26 17:36:15 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/08/29 15:57:12 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int	echo(char	**args, int redirect_fd)
 	{
 		ft_printfd(redirect_fd, "%s","\n");
 		return(1);
-	}
-//	check for -n option, witch skips the terminating /n
+	}	//	check for -n option, witch skips the terminating /n
 	if (ft_strncmp(args[1], "-n", 3) == 0)
 		n_var = 1;
 	else 

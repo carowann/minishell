@@ -2,6 +2,7 @@
 #include "../../includes/minishell.h"
 #include <sys/wait.h>
 
+// Manages the piping between two commands
 int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
 {
 	pid_t	left_pid;
@@ -14,23 +15,32 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar)
 	if (left_pid == 0)
 	{
 		cmd_left->next = NULL;
-		exit(exec_pipeline(cmd_left, envar, pipefd[1], pipefd[0]));
+		exit(exec_pipeline(cmd_left, envar, pipefd, 1));
 	}
 	right_pid = fork();
 	if (right_pid == 0)
-		exit(exec_pipeline(cmd_right, envar, pipefd[0], pipefd[1]));
+		exit(exec_pipeline(cmd_right, envar, pipefd, 0));
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
 	waitpid(right_pid, NULL, 0);
-	return (0);
+	return (1);
 }
-
-int		exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close)
+// Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
+int		exec_pipeline(t_cmd *cmd, t_env *envar, int *fd, int flag)
 {
-	close(fd_close);
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
+	if(flag == 0)
+	{
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	else
+	{
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);	
+	}
 	execute_cmd(cmd, envar);
 	return (0);
 }
