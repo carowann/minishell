@@ -58,3 +58,4 @@ dkms.conf
 
 minishell
 parser_tester
+*.txt
