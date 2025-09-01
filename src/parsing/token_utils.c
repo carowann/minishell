@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 18:24:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:55:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ void add_token_list(t_token_list *token_list, t_token *token)
 	token_list->count++;
 }
 
+/*
+ * Checks if last token of token list is a pipe
+ * @param token_list: target list to append to
+ * @return: 0 no, 1 yes, last token is a pipe
+ */
 int last_token_is_pipe(t_token_list *token_list)
 {
 	t_token	*curr_token;

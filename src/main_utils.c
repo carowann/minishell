@@ -6,12 +6,16 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 17:48:56 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:58:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+ * Reads, returns line from terminal (interactive mode or not) and adds it to history
+ * @return: input line
+ */
 char	*read_input_line(void)
 {
 	char	*input;
@@ -35,6 +39,10 @@ char	*read_input_line(void)
 	return (input);
 }
 
+/*
+ * Checks if input is all spaces
+ * @return: 0 no, 1 yes, ut's all spaces
+ */
 int	is_all_spaces(char *input)
 {
 	int	i;
