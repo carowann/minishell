@@ -79,6 +79,7 @@ int	fd_open(int *fd, t_cmd *cmd)
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
 			return (-1);	
 		}
+		dup2(fd[0], STDIN_FILENO);
 	}
 	if (cmd->output_file)
 	{
@@ -91,6 +92,7 @@ int	fd_open(int *fd, t_cmd *cmd)
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
+		dup2(fd[1], STDOUT_FILENO);
 	}
 	return (1);
 }
