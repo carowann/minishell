@@ -6,18 +6,20 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 14:07:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/08/29 17:12:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	MINISHELL_H
 # define MINISHELL_H
 
-# define BOLD	"\033[1m"
-# define BLUE	"\033[0;34m"
-# define RED	"\033[0;31m"
-# define GREEN	"\033[0;32m"
-# define RESET	"\033[0m"
+# define BOLD		"\033[1m"
+# define BLUE		"\033[0;34m"
+# define RED		"\033[0;31m"
+# define GREEN		"\033[0;32m"
+# define RESET		"\033[0m"
+
+# define SUCCESS	0
 
 # include "../libft/libft.h"
 # include <stdio.h>
@@ -119,6 +121,7 @@ typedef struct	s_env
 /****************MAIN UTILS******************/
 
 char	*read_input_line(void);
+int		is_all_spaces(char *input);
 
 /****************PARSING******************/
 
@@ -210,6 +213,10 @@ char	*get_value_from_env_str(char *env_str);
 
 /****************EXECUTION**************** */
 
+//build_exe_path.c
+char	*build_exe_path(t_env *env, t_cmd *cmd);
+char	*find_cmd_exe(char **paths, t_cmd *cmd);
+
 //enviroment
 int			 update_env(t_env *envar, char *arg);
 int 		add_env(t_env *envar, char *arg);
@@ -227,6 +234,7 @@ int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
 char 		**env_to_matrx(t_env *env);
 int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close);
 char 		*read_line(void);
+
 //inbuilt commands
 int			pwd(int fd);
 int	        echo_exec(char **str, int n_var, int fd);
