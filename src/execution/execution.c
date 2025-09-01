@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <sys/wait.h>
 
 int	inbuilt_e_others()
 {
@@ -40,7 +41,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 			//cleanup
 			return (-1);
 		}
-		execve(exe_path, cmd->args, env_to_matrx(envar));
+		execve_temp(exe_path, cmd->args, env_to_matrx(envar));
 	}
 	if (fd[0] > 0)
 		close(fd[0]);
@@ -49,6 +50,25 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	return (1);
 }
 
+int	execve_temp(char *exe_path, char **args, char **env)
+{
+	pid_t	pid;
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("Fork failed");
+		return (-1);
+	}
+	if (pid == 0)
+	{
+		execve(exe_path, args, env);
+		perror("execve failed");
+		exit(EXIT_FAILURE);
+	}
+	else
+		waitpid(pid, NULL, 0);
+	return (0);
+}
 int	fd_open(int *fd, t_cmd *cmd)
 {
 	if (cmd->input_file)

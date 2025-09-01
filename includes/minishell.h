@@ -27,6 +27,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <sys/wait.h>
 
 typedef enum e_token_type
 {
@@ -227,9 +228,10 @@ int         ft_printfd(int fd, const char *format, ...);
 char 		*conv_to_strn(char	**args);
 int			pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_env *envar);
 char 		**env_to_matrx(t_env *env);
-int			exec_pipeline(t_cmd *cmd, t_env *envar, int fd, int fd_close);
+int		exec_pipeline(t_cmd *cmd, t_env *envar, int *fd, int flag);
 char 		*read_line(void);
 int			fd_open(int *fd, t_cmd *cmd);
+int	execve_temp(char *exe_path, char **args, char **env);
 char		*build_exe_path(t_env *envlist, t_cmd *cmd);
 char		*find_cmd_exe(char **paths, t_cmd *cmd);
 //inbuilt commands
