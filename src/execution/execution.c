@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 18:33:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 18:36:54 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state *shell)
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
 	if(cmd->next != NULL)
-		return (pipeman(cmd, cmd->next, shell->env_list));
+		return (pipeman(cmd, cmd->next, shell));
 	if (is_valid_cmd(cmd->args[0]))
 		command_select(cmd, shell->env_list);
     else
