@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/29 17:22:22 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/01 15:58:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	MINISHELL_H
 # define MINISHELL_H
 
-# define BOLD	"\033[1m"
-# define BLUE	"\033[0;34m"
-# define RED	"\033[0;31m"
-# define GREEN	"\033[0;32m"
-# define RESET	"\033[0m"
+# define BOLD		"\033[1m"
+# define BLUE		"\033[0;34m"
+# define RED		"\033[0;31m"
+# define GREEN		"\033[0;32m"
+# define RESET		"\033[0m"
 # define OUTFILE_PERMS		0644
 # define SUCCESS			0
 
@@ -122,6 +122,7 @@ typedef struct	s_env
 /****************MAIN UTILS******************/
 
 char	*read_input_line(void);
+int		is_all_spaces(char *input);
 
 /****************PARSING******************/
 
@@ -212,6 +213,10 @@ char	*extract_value_from_env_list(t_env *env, char *var_name);
 char	*get_value_from_env_str(char *env_str);
 
 /****************EXECUTION**************** */
+
+//build_exe_path.c
+char	*build_exe_path(t_env *env, t_cmd *cmd);
+char	*find_cmd_exe(char **paths, t_cmd *cmd);
 
 //enviroment
 int			 update_env(t_env *envar, char *arg);

@@ -6,12 +6,17 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:27:26 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 10:45:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:54:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/*
+ * If adjacent tokens should be merged, it merges them
+ * @param ctx: tokenizer context with token list
+ * @return: 0 success, -1 error
+ */
 int	merge_adjacent_tokens(t_tokenizer_ctx *ctx)
 {
 	t_token	*curr_token;
@@ -33,6 +38,12 @@ int	merge_adjacent_tokens(t_tokenizer_ctx *ctx)
 	return (0);
 }
 
+/*
+ * Checks is adjacent tokens should be merged
+ * @param curr: first token of pair of tokens
+ * @param next: second token of pair of tokens
+ * @return: 0 do not merge, 1 merge
+ */
 int	should_merge_tokens(t_token *curr, t_token *next)
 {
 	if (next->prec_space
@@ -44,6 +55,12 @@ int	should_merge_tokens(t_token *curr, t_token *next)
 	return (is_argument_token(curr) && is_argument_token(next));
 }
 
+/*
+ * Merges adjacent tokens
+ * @param curr: first token of pair to be merged
+ * @param next: second token of pair to be merged
+ * @return: 0 success, -1 error
+ */
 int	merge_tokens(t_token *curr, t_token *next)
 {
 	char	*merged_content;

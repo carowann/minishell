@@ -3,6 +3,8 @@
 
 #include "../../includes/minishell.h"
 
+//TODO: sort env in alphabetical order
+
 // Function to print the environment variables in sorted order
 int export(t_cmd *cmd, int fd, t_env *envar)
 {
@@ -10,7 +12,7 @@ int export(t_cmd *cmd, int fd, t_env *envar)
 
 	i = 1;
 	if (!cmd->args[1])
-		return (env(fd, envar, 1));
+		return (env(fd, envar, 1)); //TODO: add declare -x
 	while (cmd->args[i])
 	{
 		if (ft_isalpha(cmd->args[i][0]) == 0 && cmd->args[i][0] != '_')
