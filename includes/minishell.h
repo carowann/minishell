@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 11:37:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 16:46:12 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ char	*find_cmd_exe(char **paths, t_cmd *cmd);
 int		update_env(t_env *envar, char *arg);
 int		add_env(t_env **envar, char *arg);
 t_env	*find_env(t_env *envar, char *arg);
-int		env(t_env *env, int print_all);
+int		env(t_env *env, int fd, int print_all);
 t_env	*env_to_list(char **envp);
 
 // execution
@@ -238,15 +238,18 @@ int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
 char	**env_to_matrx(t_env *env);
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char	*read_line(void);
-int		fd_open(t_cmd *cmd);
-int		execve_temp(char *exe_path, t_cmd *cmd, char **env);
-
+int		open_ve(t_cmd *cmd);
+int		open_in(t_cmd *cmd, int *fd);
+int		execve_temp(char *exe_path, t_cmd *cmd, t_env *env);
+void	free_command_all(t_cmd *cmd);
+char 	**dup_matrix(char **matrix);
+int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
 // inbuilt commands
-int		pwd();
-int		echo_exec(char **str, int n_var);
+int		pwd(int fd);
+int		echo_exec(char **str, int n_var, int fd);
 void	free_env(t_env *head);
-int		echo(char **args);
-int		export(t_cmd *cmd, t_shell_state **shell);
+int		echo(char **args, int fd);
+int		export(t_cmd *cmd, t_shell_state **shell, int fd);
 int		unset(t_cmd *cmd, t_shell_state **shell);
 int		delete_env(t_env **env, t_env *to_delete);
 

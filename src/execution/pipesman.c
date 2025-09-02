@@ -15,11 +15,15 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	if (left_pid == 0)
 	{
 		cmd_left->next = NULL;
-		exit(exec_pipeline(cmd_left, shell, pipefd, 1));
+		exec_pipeline(cmd_left, shell, pipefd, 1);
+		exit(pipe_free_all(cmd_left, cmd_right, shell));
 	}
 	right_pid = fork();
 	if (right_pid == 0)
-		exit(exec_pipeline(cmd_right, shell, pipefd, 0));
+	{
+		exec_pipeline(cmd_right, shell, pipefd, 0);
+		exit(pipe_free_all(cmd_left, cmd_right, shell));
+	}
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
@@ -43,4 +47,32 @@ int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 	}
 	execute_cmd(cmd, &shell);
 	return (0);
+}
+
+int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
+{	
+	free_env(shell->env_list);
+	free(shell);
+	if(!cmd_left || !cmd_right)
+		return (-1);
+	if (cmd_left)
+		free_cmd(cmd_left);
+	if (cmd_right)
+		free_command_all(cmd_right);
+	return (0);
+}
+
+void	free_command_all(t_cmd *cmd)
+{
+	t_cmd	*temp_cmd;
+	if (!cmd)
+		return ;
+	while (cmd && cmd->next)
+	{	
+		temp_cmd = cmd->next;
+		free_cmd(cmd);
+		cmd = temp_cmd;
+	}
+	free_cmd(cmd);
+	return	;
 }

@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 12:06:13 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/02 15:55:33 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,17 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 		exe_path = build_exe_path(*shell, cmd);
 		if (!exe_path)
 			return (-1);
-		execve_temp(exe_path, cmd, env_to_matrx((*shell)->env_list));
+		execve_temp(exe_path, cmd, (*shell)->env_list);
 	}
 	return (1);
 }
 // Function to execute a command using execve in a child process
-int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
+int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 {
 	pid_t	pid;
+	char	**temp;
+	char	**envp;
+
 	pid = fork();
 	if (pid < 0)
 	{
@@ -47,8 +50,12 @@ int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
 	}
 	if (pid == 0)
 	{
-		fd_open(cmd);
-		execve(exe_path, cmd->args, env);
+		open_ve(cmd);
+		envp = env_to_matrx(env);
+		temp = dup_matrix(cmd->args);
+		free_command_all(cmd);
+		free_env(env);
+		execve(exe_path, temp, envp);
 		perror("execve failed");
 		exit(EXIT_FAILURE);
 	}
@@ -56,7 +63,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
 		waitpid(pid, NULL, 0);
 	return (0);
 }
-int	fd_open(t_cmd *cmd)
+int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
 	if (cmd->input_file)
@@ -84,19 +91,9 @@ int	fd_open(t_cmd *cmd)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	return (1);
+	return (-1);
 }
-// Function to read a line from standard input
-char *read_line(void)
-{
-    char buffer[1024];
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL)
-        return NULL;
-    size_t len = strlen(buffer);
-    if (len > 0 && buffer[len - 1] == '\n')
-        buffer[len - 1] = '\0'; // Remove newline
-    return strdup(buffer); // Allocate and return the string
-}
+
 // Check if the command is valid inbuilt command
 int	is_valid_cmd(char *cmd)
 {
@@ -119,80 +116,45 @@ int	is_valid_cmd(char *cmd)
 
 int command_select(t_cmd *cmd, t_shell_state **shell)
 {
-	pid_t pid;
-
-	pid = fork();
-	if (pid > 0)
-	{
-		waitpid(pid, NULL, 0);
-		return (1);
-	}
-
-	fd_open(cmd);
-
+	int fd[1];
+	open_in(cmd, fd);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
-		echo(cmd->args);
+		echo(cmd->args, fd[0]);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
-		pwd();
+		pwd(fd[0]);
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
-		export(cmd, shell); // Passa shell invece di env_list
+		export(cmd, shell, fd[0]); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 		unset(cmd, shell); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
-		env((*shell)->env_list, 0);
+		env((*shell)->env_list, fd[0], 0);
 	else
 		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
-	exit(0);
+	if (fd[0] != STDOUT_FILENO)
+		close(fd[0]);
+	return(1);
 }
 
-char *conv_to_strn(char	**args)
+int open_in(t_cmd *cmd,	 int *fd)
 {
-	char	*str; //return
-	int		i; //index
-
-	i = 0;
-	if (!args[i])
-		return (ft_strdup(""));
-	if(args[i])
-		str = ft_strndup(args[i], ft_strlen(args[i]));
-	i++;
-	if(args[i])
-		str = ft_strjoin(str, " ");	
-	while (args[i])
+	*fd = STDOUT_FILENO;
+	if (*fd < 0)
 	{
-		str = ft_strjoin(str, args[i]);
-		i++;
-		if(args[i])
-			str = ft_strjoin(str, " ");	
+		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+		return (-1);	
 	}
-	return(str);
+	if (cmd->output_file)
+	{
+
+		if (cmd->append_mode)
+			*fd = open(cmd->output_file, O_RDWR | O_CREAT | O_APPEND, OUTFILE_PERMS);
+		else
+			*fd = open(cmd->output_file, O_RDWR | O_CREAT | O_TRUNC, OUTFILE_PERMS);
+		if (*fd < 0)
+		{
+			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+			return (-1);	
+		}
+	}
+	return (1);
 }
-
-char **env_to_matrx(t_env *env)
-{
-	char	**matrix;
-	t_env	*copy;
-	int		i;
-
-	i = 0;
-	copy = env;
-	while (copy)
-	{
-		i++;
-		copy = copy->next;
-	}
-	matrix = malloc(sizeof(char *) * (i + 1));
-	if (!matrix)
-		return (NULL);
-	matrix[i] = NULL;
-	copy = env;
-	i = 0;
-	while (copy)
-	{
-		matrix[i] = ft_strdup(copy->value);
-		i++;
-		copy = copy->next;
-	}
-	return (matrix);
-}
-

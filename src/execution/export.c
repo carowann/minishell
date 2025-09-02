@@ -1,16 +1,25 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
+/*   Updated: 2025/09/02 13:49:47 by lzorzit          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 //TODO: sort env in alphabetical order
 
-int export(t_cmd *cmd, t_shell_state **shell)
+int export(t_cmd *cmd, t_shell_state **shell, int fd)
 {
 	int i = 1;
 
 	if (!cmd->args[1])
-		return (env((*shell)->env_list, 1));
+		return (env((*shell)->env_list, fd, 1));
 
 	while (cmd->args[i])
 	{
