@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:58:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:46:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,15 @@ int main(int argc, char **argv, char **envp)
 		if (!input)
 			break;
 		if (ft_strlen(input) == 0 || is_all_spaces(input))
+		{
+			free(input);
 			continue;
+		}
 		if (parse_input(input, &commands, &shell) == -1)
 		{
 			ft_putstr_fd(RED"Error while parsing\n"RESET, STDERR_FILENO);
+			if (commands)
+				free_command_list(commands);
 			free (input);
 			continue;
 		}

@@ -6,12 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 11:34:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:48:26 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <sys/wait.h>
 
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_shell_state **shell)
@@ -56,6 +55,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
 		waitpid(pid, NULL, 0);
 	return (0);
 }
+
 int	fd_open(t_cmd *cmd)
 {
 	int fd[2];
@@ -86,6 +86,7 @@ int	fd_open(t_cmd *cmd)
 	}
 	return (1);
 }
+
 // Function to read a line from standard input
 char *read_line(void)
 {
@@ -97,6 +98,7 @@ char *read_line(void)
         buffer[len - 1] = '\0'; // Remove newline
     return strdup(buffer); // Allocate and return the string
 }
+
 // Check if the command is valid inbuilt command
 int	is_valid_cmd(char *cmd)
 {
@@ -127,9 +129,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 		waitpid(pid, NULL, 0);
 		return (1);
 	}
-
 	fd_open(cmd);
-
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		echo(cmd->args);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
@@ -195,4 +195,3 @@ char **env_to_matrx(t_env *env)
 	}
 	return (matrix);
 }
-
