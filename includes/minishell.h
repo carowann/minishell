@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 11:37:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 17:45:43 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,5 +249,7 @@ int		echo(char **args);
 int		export(t_cmd *cmd, t_shell_state **shell);
 int		unset(t_cmd *cmd, t_shell_state **shell);
 int		delete_env(t_env **env, t_env *to_delete);
+int		builtin_exit(t_cmd *cmd, t_shell_state *shell);
+int		validate_exit_arg(char *arg);
 
 #endif

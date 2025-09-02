@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/01 16:36:17 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/02 17:43:25 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC =	src/main_utils.c			\
 	src/execution/echo.c			\
 	src/execution/env.c			\
 	src/env/environment.c			\
+	src/execution/exit.c			\
 	src/execution/export.c			\
 	src/execution/execution.c		\
 	src/execution/printfd.c			\
