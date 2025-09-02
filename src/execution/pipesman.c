@@ -41,6 +41,6 @@ int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);	
 	}
-	execute_cmd(cmd, shell);
+	execute_cmd(cmd, &shell);
 	return (0);
 }

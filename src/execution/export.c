@@ -5,34 +5,35 @@
 
 //TODO: sort env in alphabetical order
 
-// Function to print the environment variables in sorted order
-int export(t_cmd *cmd, t_env *envar)
+int export(t_cmd *cmd, t_shell_state **shell)
 {
-	int i;
+	int i = 1;
 
-	i = 1;
 	if (!cmd->args[1])
-		return (env(envar, 1)); //TODO: add declare -x
+		return (env((*shell)->env_list, 1));
+
 	while (cmd->args[i])
 	{
 		if (ft_isalpha(cmd->args[i][0]) == 0 && cmd->args[i][0] != '_')
 		{
 			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
 			return (-1);
-		}// If the variable already exists, update its value, otherwise, add a new variable to the environment list
-		if (!find_env(envar, cmd->args[i]))
-			add_env(envar, cmd->args[i]);
+		}
+
+		if (!find_env((*shell)->env_list, cmd->args[i]))
+			add_env(&((*shell)->env_list), cmd->args[i]);
 		else
-			update_env(envar, cmd->args[i]);
+			update_env((*shell)->env_list, cmd->args[i]);
 		i++;
 	}
 	return (1);
 }
+
 // Function to add a new environment variable to the list
-int add_env(t_env *envar, char *arg)
+int add_env(t_env **envar, char *arg)
 {
-	t_env	*new;
-	t_env	*temp;
+	t_env *new;
+	t_env *temp;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -44,12 +45,20 @@ int add_env(t_env *envar, char *arg)
 		return (-1);
 	}
 	new->next = NULL;
-	temp = envar;
+
+	if (!*envar)
+	{
+		*envar = new;
+		return (1);
+	}
+
+	temp = *envar;
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
 	return (1);
 }
+
 // Function to update the value of an existing environment variable
 int update_env(t_env *envar, char *arg)
 {
