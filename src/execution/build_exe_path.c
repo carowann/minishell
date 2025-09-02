@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:07:56 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:13:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 {
 	char	*exe_path;
-	char	**all_exe_paths;	//cw
-	char	*value_path_var;	//cw
+	char	**all_exe_paths;
+	char	*value_path_var;
 	
 	value_path_var = get_env_value(shell, "PATH");
 	if (!value_path_var)
@@ -30,7 +30,9 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 		free(value_path_var);
 		return (NULL);
 	}
+	free(value_path_var);
 	exe_path = find_cmd_exe(all_exe_paths, cmd);
+	// free_matrix(all_exe_paths); TODO
 	return(exe_path);
 }
 
