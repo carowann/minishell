@@ -8,6 +8,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	pid_t	left_pid;
 	pid_t	right_pid;
 	int		pipefd[2];
+	int		status;
 	
 	fflush(NULL);
 	pipe(pipefd);
@@ -27,9 +28,14 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
-	waitpid(right_pid, NULL, 0);
-	return (1);
+	waitpid(right_pid, &status, 0);
+	if (WIFEXITED(status))
+		shell->last_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->last_exit_status = 128 + WTERMSIG(status);
+	return (shell->last_exit_status);
 }
+
 // Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 {

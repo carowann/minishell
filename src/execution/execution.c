@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 19:04:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:32:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,50 @@
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 {
-	char *exe_path;
+	char	*exe_path;
+	int		result;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
-		return (-1);
-
+	{
+		(*shell)->last_exit_status = 1;
+		return (1);
+	}
 	if (cmd->next != NULL)
-		return (pipeman(cmd, cmd->next, *shell));
-
+	{
+		result = pipeman(cmd, cmd->next, *shell);
+		(*shell)->last_exit_status = result;
+		return (result);
+	}
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, shell);
+	{
+		result = command_select(cmd, shell);
+		if (ft_strncmp(cmd->args[0], "exit", 5) != 0)
+			(*shell)->last_exit_status = result;
+		return (result);
+	}
 	else
 	{
 		exe_path = build_exe_path(*shell, cmd);
 		if (!exe_path)
-			return (-1);
-		execve_temp(exe_path, cmd, (*shell)->env_list);
+		{
+			ft_printfd(STDERR_FILENO, "minishell: %s: command not found\n", cmd->args[0]);
+			(*shell)->last_exit_status = 127;
+			return (127);
+		}
+		result = execve_temp(exe_path, cmd, (*shell)->env_list);
+		free(exe_path);
+		(*shell)->last_exit_status = result;
+		return (result);
 	}
-	return (1);
 }
+
 // Function to execute a command using execve in a child process
 int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
-{
+{ 
 	pid_t	pid;
 	char	**temp;
 	char	**envp;
+	int		exit_status;
 
 	pid = fork();
 	if (pid < 0)
@@ -49,19 +68,44 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	if (pid == 0)
 	{
-		open_ve(cmd);
+		if (open_ve(cmd) == -1)
+		{
+			free_command_all(cmd);
+			free_env(env);
+			exit(EXIT_FAILURE);
+		}
 		envp = env_to_matrx(env);
 		temp = dup_matrix(cmd->args);
+		if (!envp || !temp)
+		{
+			if (envp)
+				free_matrix(envp);
+			if (temp)
+				free_matrix(temp);
+			free_command_all(cmd);
+			free_env(env);
+			exit(EXIT_FAILURE);
+		}
+		execve(exe_path, temp, envp);
+		free_matrix(envp);
+		free_matrix(temp);
 		free_command_all(cmd);
 		free_env(env);
-		execve(exe_path, temp, envp);
 		perror("execve failed");
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 	else
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &exit_status, 0);
+		if (WIFEXITED(exit_status)) //se termina normalmente
+			return (WEXITSTATUS(exit_status)); //estrae exit status
+		else if (WIFSIGNALED(exit_status)) //se proc uscito da signal
+			return (128 + WTERMSIG(exit_status)); // bash restituisce 128 + num segnale
+	}
 	return (0);
 }
+
+
 int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
@@ -90,7 +134,7 @@ int	open_ve(t_cmd *cmd)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	return (-1);
+	return (0);
 }
 
 // Check if the command is valid inbuilt command
@@ -115,25 +159,31 @@ int	is_valid_cmd(char *cmd)
 
 int command_select(t_cmd *cmd, t_shell_state **shell)
 {
-	int fd[1];
-	open_in(cmd, fd);
+	int	fd[1];
+	int	result;
+	
+	if (open_in(cmd, fd) == -1)
+		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
-		echo(cmd->args, fd[0]);
+		result = echo(cmd->args, fd[0]);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
-		pwd(fd[0]);
+		result = pwd(fd[0]);
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
-		export(cmd, shell, fd[0]); // Passa shell invece di env_list
+		result = export(cmd, shell, fd[0]); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-		unset(cmd, shell);
+		result = unset(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
-		env((*shell)->env_list, fd[0], 0);
+		result = env((*shell)->env_list, fd[0], 0);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == SUCCESS)
-		builtin_exit(cmd, *shell);
+		return (builtin_exit(cmd, *shell));
 	else
+	{
 		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
+		result = 127;
+	}
 	if (fd[0] != STDOUT_FILENO)
 		close(fd[0]);
-	return(1);
+	return (result);
 }
 
 int open_in(t_cmd *cmd,	 int *fd)

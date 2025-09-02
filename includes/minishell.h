@@ -6,18 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 18:30:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:43:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	MINISHELL_H
 # define MINISHELL_H
 
-# define BOLD		"\033[1m"
-# define BLUE		"\033[0;34m"
-# define RED		"\033[0;31m"
-# define GREEN		"\033[0;32m"
-# define RESET		"\033[0m"
+# define BOLD				"\033[1m"
+# define BLUE				"\033[0;34m"
+# define RED				"\033[0;31m"
+# define GREEN				"\033[0;32m"
+# define RESET				"\033[0m"
 # define OUTFILE_PERMS		0644
 # define SUCCESS			0
 

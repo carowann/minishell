@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:49:25 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 13:50:29 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/02 22:26:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
@@ -20,7 +19,6 @@ int env(t_env *env, int fd, int print_all)
 	copy = env;	
 	while (copy)
 	{
-
 		if (copy->value && print_all == 1)
 		{
 			ft_printfd(fd, "declare -x ");
@@ -33,5 +31,5 @@ int env(t_env *env, int fd, int print_all)
 		else
 			copy = copy->next;
 	}
-	return (1);
+	return (SUCCESS);
 }
