@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 15:55:33 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/02 17:52:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <sys/wait.h>
 
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_shell_state **shell)
@@ -125,9 +124,11 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
 		export(cmd, shell, fd[0]); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-		unset(cmd, shell); // Passa shell invece di env_list
+		unset(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		env((*shell)->env_list, fd[0], 0);
+	else if (ft_strncmp(cmd->args[0], "exit", 4) == SUCCESS)
+		builtin_exit(cmd, *shell);
 	else
 		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
 	if (fd[0] != STDOUT_FILENO)
