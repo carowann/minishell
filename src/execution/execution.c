@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 17:54:59 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/02 12:02:53 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int execute_cmd(t_cmd *cmd, t_env *envar)
 	}
 	return (1);
 }
-
+// Function to execute a command using execve in a child process
 int	execve_temp(char *exe_path, t_cmd *cmd, char **env)
 {
 	pid_t	pid;

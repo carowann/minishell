@@ -12,7 +12,7 @@ int export(t_cmd *cmd, t_env *envar)
 
 	i = 1;
 	if (!cmd->args[1])
-		return (env(envar, 1)); //TODO: add declare -x
+		return (env(envar, 1));
 	while (cmd->args[i])
 	{
 		if (ft_isalpha(cmd->args[i][0]) == 0 && cmd->args[i][0] != '_')
