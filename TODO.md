@@ -1,5 +1,5 @@
 // PARSING //
-[] ./minishell tnati spazi vuoti deve ritornare il prompt senza errore
+[x] ./minishell tnati spazi vuoti deve ritornare il prompt senza errore
 []gestione exit status per $?
 []gestione segnali
 []implementazione heredoc
