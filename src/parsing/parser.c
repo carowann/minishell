@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 14:59:38 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:38:41 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
  * @param cmd_list: output command list (TODO: implement)
  * @return: 0 success, -1 error
  */
-int	parse_input(char *input, t_cmd_list	**cmd_list, t_env **env)
+int	parse_input(char *input, t_cmd_list	**cmd_list, t_shell_state **shell)
 {
 	t_tokenizer_ctx	ctx;
 
 	if (init_and_tokenize(input, &ctx) == -1)
 		return (-1);
-	if (expand_variables(*env, ctx.tokens) == -1)
+	if (expand_variables(*shell, ctx.tokens) == -1)
 	{
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);

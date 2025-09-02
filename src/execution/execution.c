@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 12:02:53 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/02 12:06:13 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 #include <sys/wait.h>
 
 // Function to execute a command based on its type
-int execute_cmd(t_cmd *cmd, t_env *envar)
+int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 {
 	char *exe_path;
 
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (-1);
-	if(cmd->next != NULL)
-		return (pipeman(cmd, cmd->next, envar));
+
+	if (cmd->next != NULL)
+		return (pipeman(cmd, cmd->next, *shell));
+
 	if (is_valid_cmd(cmd->args[0]))
-		command_select(cmd, envar);
-    else
+		command_select(cmd, shell);
+	else
 	{
-		exe_path = build_exe_path(envar, cmd);
+		exe_path = build_exe_path(*shell, cmd);
 		if (!exe_path)
-		{
-			//cleanup
 			return (-1);
-		}
-		execve_temp(exe_path, cmd, env_to_matrx(envar));
+		execve_temp(exe_path, cmd, env_to_matrx((*shell)->env_list));
 	}
 	return (1);
 }
@@ -117,10 +116,10 @@ int	is_valid_cmd(char *cmd)
 		return (1);
 	return (0);
 }
-// Function to select the command execution based on the command type
-int command_select(t_cmd *cmd, t_env *envar)
+
+int command_select(t_cmd *cmd, t_shell_state **shell)
 {
-	pid_t	pid;
+	pid_t pid;
 
 	pid = fork();
 	if (pid > 0)
@@ -128,21 +127,19 @@ int command_select(t_cmd *cmd, t_env *envar)
 		waitpid(pid, NULL, 0);
 		return (1);
 	}
+
 	fd_open(cmd);
+
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		echo(cmd->args);
-	// else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
-	// 	return (cd_exec(cmd->args));
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		pwd();
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
-		export(cmd, envar);
+		export(cmd, shell); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
-		unset(cmd, envar);
+		unset(cmd, shell); // Passa shell invece di env_list
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
-		env(envar, 0);
-	// else    if (ft_strncmp(cmd->args[0], "exit", 5) == 0)
-	// 	return (exit_exec(cmd->args));
+		env((*shell)->env_list, 0);
 	else
 		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
 	exit(0);

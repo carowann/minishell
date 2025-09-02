@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 14:58:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/01 17:17:39 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ int	is_all_spaces(char *input)
 		i++;
 	}
 	return (1);
+}
+
+int	init_shell_state(t_shell_state *shell, char **envp)
+{
+	shell->env_list = env_to_list(envp);
+	if (!shell->env_list)
+		return (-1);
+	shell->last_exit_status = 0;
+	return (0);
 }
