@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 18:13:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:30:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	}
 	free(value_path_var);
 	exe_path = find_cmd_exe(all_exe_paths, cmd);
-	// free_matrix(all_exe_paths); TODO
+	free_matrix(all_exe_paths);
 	return(exe_path);
 }
 

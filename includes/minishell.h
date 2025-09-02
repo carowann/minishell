@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 17:53:42 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:30:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,9 @@ char	*get_value_from_env_str(char *env_str);
 char	*build_exe_path(t_shell_state *shell, t_cmd *cmd);
 char	*find_cmd_exe(char **paths, t_cmd *cmd);
 
+// cleanup.c
+void	free_matrix(char **matrix);
+
 // enviroment
 int		update_env(t_env *envar, char *arg);
 int		add_env(t_env **envar, char *arg);
@@ -244,6 +247,7 @@ int		execve_temp(char *exe_path, t_cmd *cmd, t_env *env);
 void	free_command_all(t_cmd *cmd);
 char 	**dup_matrix(char **matrix);
 int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
+
 // inbuilt commands
 int		pwd(int fd);
 int		echo_exec(char **str, int n_var, int fd);
