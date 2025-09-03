@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:02:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:10:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,15 @@ char *get_env_value(t_shell_state *shell, char *var_name)
 {
 	char *value;
 
-	if (ft_strncmp(var_name, "?", 1) == SUCCESS)
+	if (!var_name)
+		return (ft_strdup(""));
+	if (ft_strcmp(var_name, "?") == 0)
 		value = ft_itoa(shell->last_exit_status);
 	else
 		value = extract_value_from_env_list(shell->env_list, var_name);
 	if (value)
 		return (value);
-	return ("");
+	return (ft_strdup(""));
 }
 
 /*

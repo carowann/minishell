@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 18:01:14 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 14:12:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,13 @@ int expand_single_var(t_shell_state *shell, t_token *token)
 	char *var_value;
 
 	var_value = get_env_value(shell, token->content);
-	free(token->content);
-	token->content = ft_strdup(var_value);
-	if (!token->content)
+	if (!var_value)
 		return (-1);
-	if (var_value && strlen(var_value) > 0)
-		free(var_value);
+	free(token->content);
+	token->content = var_value;
 	token->type = WORD;
 	return (0);
 }
-
 /*
  * Expansion of variable in string of token of type quoted string
  * @param token: token with string with variable to expand

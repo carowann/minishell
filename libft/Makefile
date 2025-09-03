@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cwannhed <cwannhed@student.42firenze.it    +#+  +:+       +#+         #
+#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/15 15:51:55 by cwannhed          #+#    #+#              #
-#    Updated: 2025/08/11 13:08:16 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/03 14:08:36 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS = \
 		ft_memchr.c			\
 		ft_memcmp.c			\
 		ft_strchr.c			\
+		ft_strcmp.c			\
 		ft_strrchr.c			\
 		ft_strncmp.c			\
 		ft_strnstr.c			\
