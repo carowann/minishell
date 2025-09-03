@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 12:31:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:42:58 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,5 +260,7 @@ int		unset(t_cmd *cmd, t_shell_state **shell);
 int		delete_env(t_env **env, t_env *to_delete);
 int		builtin_exit(t_cmd *cmd, t_shell_state *shell);
 int		validate_exit_arg(char *arg);
-
+int 	change_dir(char *path, t_env *env);
+int		cd_builtin(t_cmd *cmd, t_shell_state **shell);
+char	*find_env_val(t_env *env,char *node);
 #endif

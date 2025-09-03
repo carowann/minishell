@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
+#    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/02 18:37:42 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/03 17:44:44 by lzorzit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,8 +46,8 @@ SRC =	src/main_utils.c			\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
 	src/execution/build_exe_path.c		\
-	src/execution/echo.c			\
-	src/execution/env.c			\
+	src/execution/echo_builtin.c			\
+	src/execution/env_builtin.c			\
 	src/env/environment.c			\
 	src/execution/cleanup.c			\
 	src/execution/exit.c			\
@@ -58,6 +58,7 @@ SRC =	src/main_utils.c			\
 	src/execution/unset.c			\
 	src/execution/pipesman.c		\
 	src/execution/exec_utils.c		\
+	src/execution/cd_builtin.c 		\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra

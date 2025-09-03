@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 14:10:09 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:27:28 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *get_env_value(t_shell_state *shell, char *var_name)
 
 	if (!var_name)
 		return (ft_strdup(""));
-	if (ft_strcmp(var_name, "?") == 0)
+	if (ft_strncmp(var_name, "?", 2) == 0)
 		value = ft_itoa(shell->last_exit_status);
 	else
 		value = extract_value_from_env_list(shell->env_list, var_name);

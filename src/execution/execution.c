@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 15:16:57 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:38:21 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,9 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	
 	if (open_in(cmd, fd) == -1)
 		return (1);
-	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
+	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+		result = cd_builtin(cmd, shell);
+	else if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		result = echo(cmd->args, fd[0]);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		result = pwd(fd[0]);
