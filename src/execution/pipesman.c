@@ -35,11 +35,12 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 128 + WTERMSIG(status);
 	else 
 		shell->last_exit_status = 1;
+	cmd_left->next = NULL;
 	return (shell->last_exit_status);
 }
 
 // Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
-int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
+int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 {
 	if(flag == 0)
 	{
@@ -57,7 +58,7 @@ int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 	return (0);
 }
 
-int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
+int	pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
 {	
 	free_env(shell->env_list);
 	free(shell);

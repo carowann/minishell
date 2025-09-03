@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/27 18:21:07 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:49:10 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,53 +30,6 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
 		return (handle_variable_state(c, ctx));
 	else if (ctx->parser.state == IN_OPERATOR)
 		return (handle_operator_state(c, ctx));
-	return (0);
-}
-
-/*
- * Handles character processing in DEFAULT state
- * Manages state transitions and token creation for quotes, operators, pipes
- * @param c: character to process
- * @param ctx: tokenizer context with parser state and token list
- * @return: 0 success, -1 error
- */
-int	handle_default_state(char c, t_tokenizer_ctx *ctx)
-{
-	if (c == '"')
-		ctx->parser.state = IN_DOUBLE_QUOTES;
-	else if (c == '\'')
-		ctx->parser.state = IN_SINGLE_QUOTES;
-	else if (c == '$')
-	{
-		if (safe_create_and_add_token(ctx, WORD) == -1)
-			return (-1);
-		ctx->parser.state = IN_VARIABLE;
-	}
-	else if (ft_isspace(c))
-	{
-		if (safe_create_and_add_token(ctx, WORD) == -1)
-			return (-1);
-		ctx->parser.space_encountered = 1;
-	}
-	else if (c == '<' || c == '>')
-	{
-		if (handle_operator_state(c, ctx) == -1)
-			return (-1);
-		ctx->parser.state = IN_OPERATOR;
-	}
-	else if (c == '|')
-	{
-		if (safe_create_and_add_token(ctx, WORD) == -1)
-			return (-1);
-		if (safe_create_and_add_token(ctx, PIPE) == -1)
-			return (-1);
-		
-	}
-	else
-	{
-		ctx->parser.buffer[ctx->parser.buffer_pos] = c;
-		ctx->parser.buffer_pos++;
-	}
 	return (0);
 }
 
@@ -121,4 +74,3 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 		add_to_buffer(c, &ctx->parser);
 	return (0);
 }
-

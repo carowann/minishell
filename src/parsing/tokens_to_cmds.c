@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 17:37:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:07:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 	while (curr_token)
 	{
 		if (process_curr_token(&curr_token, &curr_cmd, cmd_list) == -1)
-			return (cleanup_and_return_error(curr_cmd));
+			return (-1);
 		curr_token = curr_token->next;
 	}
 	if (add_command_to_list(curr_cmd, cmd_list) == -1)
-		cleanup_and_return_error(curr_cmd);
+		return (-1);
 	return (0);
 }
 

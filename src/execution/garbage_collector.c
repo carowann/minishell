@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 15:50:34 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/08/22 18:23:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:30:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ t_grb_node *init_grb_collector(void)
 // Register a pointer for garbage collection
 void *malloc_grb(size_t size, t_grb_node *head)
 {
-    void *mem;
-	t_grb_node *node;
+	void		*mem;
+	t_grb_node	*node;
 
 	mem = malloc(size);
-    if (!mem)
-        return (NULL);
-    node = malloc(sizeof(t_grb_node));
-    if (!node)
+	if (!mem)
+		return (NULL);
+	node = malloc(sizeof(t_grb_node));
+	if (!node)
 	{
-        free(mem);
-        return (NULL);
-    }
-   	node->ptr = mem;
-    node->next = head;
+		free(mem);
+		return (NULL);
+	}
+	node->ptr = mem;
+	node->next = head;
 	head = node;
-    return (mem);
+	return (mem);
 }
 
 // Free all registered pointers

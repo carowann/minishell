@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 12:31:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:51:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # define RESET				"\033[0m"
 # define OUTFILE_PERMS		0644
 # define SUCCESS			0
+# define FAILURE			1
 
 # include "../libft/libft.h"
 # include <stdio.h>
@@ -124,6 +125,7 @@ typedef struct s_shell_state
 
 /****************MAIN UTILS******************/
 
+void	shell_loop(t_shell_state **shell);
 char	*read_input_line(void);
 int		is_all_spaces(char *input);
 int		init_shell_state(t_shell_state *shell, char **envp);
@@ -156,7 +158,6 @@ int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token);
 //tokens_to_cmds_utils.c
 int	is_argument_token(t_token *token);
 int	is_redirect_token(t_token *token);
-int	cleanup_and_return_error(t_cmd *cmd);
 
 //tokens_to_cmds.c
 int	tokens_to_commands(t_token_list *tokens, t_cmd_list *commands);
@@ -175,6 +176,9 @@ int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
 void	reset_buffer(t_parser *parser);
 void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);
 
+//state_machine_default.c
+int	handle_default_state(char c, t_tokenizer_ctx *ctx);
+
 //state_machine_operators.c
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
 int	create_redirect_token(t_tokenizer_ctx *ctx);
@@ -186,7 +190,6 @@ int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
 
 //state_machine.c
 int handle_state_machine(char c, t_tokenizer_ctx *ctx);
-int	handle_default_state(char c, t_tokenizer_ctx *ctx);
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
 

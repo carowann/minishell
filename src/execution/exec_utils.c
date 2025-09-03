@@ -3,27 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:24:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/02 15:53:47 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/03 16:29:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"	
+#include "../../includes/minishell.h"
 
 // Function to read a line from standard input
 char *read_line(void)
 {
-    char buffer[1024];
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL)
-        return NULL;
-    size_t len = strlen(buffer);
-    if (len > 0 && buffer[len - 1] == '\n')
-        buffer[len - 1] = '\0'; // Remove newline
-    return strdup(buffer); // Allocate and return the string
+	char buffer[1024];
+	if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+		return NULL;
+	size_t len = strlen(buffer);
+	if (len > 0 && buffer[len - 1] == '\n')
+		buffer[len - 1] = '\0'; // Remove newline
+	return strdup(buffer);		// Allocate and return the string
 }
-
 
 char *conv_to_strn(char	**args)
 {

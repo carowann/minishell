@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/01 15:55:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:33:14 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_env	*env_to_list(char **envp)
 	}
 	return (head);
 }
+
 void	free_env(t_env *head)
 {
 	t_env	*current;
@@ -58,6 +59,7 @@ void	free_env(t_env *head)
 
 	return;
 }
+
 // Function to find an environment variable
 t_env *find_env(t_env *envar, char *arg)
 {

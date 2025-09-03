@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/28 14:59:59 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:33:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
 	if (!filename_token || filename_token->type == PIPE)
 	{
 		ft_putstr_fd("Syntax error\n", STDERR_FILENO);
-		return (-1); //syntax error //TODO
+		return (-1);
 	}
 	if ((*curr_token)->type == REDIRECT_IN)
 		return (set_input_redirect(cmd, (*filename_token).content, curr_token));

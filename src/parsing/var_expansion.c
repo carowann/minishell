@@ -6,13 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 14:12:45 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 18:51:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//TODO: gestire $?
 
 /*
  * Expands variables if token type is variable or quoted string

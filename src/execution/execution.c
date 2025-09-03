@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 15:16:57 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 16:29:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	return (0);
 }
 
-
 int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
@@ -189,7 +188,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		result = pwd(fd[0]);
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)
-		result = export(cmd, shell, fd[0]); // Passa shell invece di env_list
+		result = export(cmd, shell, fd[0]);
 	else if (ft_strncmp(cmd->args[0], "unset", 6) == 0)
 		result = unset(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)

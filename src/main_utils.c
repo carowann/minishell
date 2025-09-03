@@ -6,11 +6,45 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 12:31:59 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 17:43:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+ * Main shell loop that reads input, parses it, and executes commands
+ * Continues until should_exit flag in shell state is set
+ * @param shell: pointer to shell state struct
+ * @return: void
+ */
+void shell_loop(t_shell_state **shell)
+{
+	t_cmd_list	*commands;
+	char		*input;
+
+	while (!(*shell)->should_exit)
+	{
+		input = read_input_line();
+		if (!input)
+			break;
+		if (ft_strlen(input) == 0 || is_all_spaces(input))
+		{
+			free(input);
+			continue;
+		}
+		if (parse_input(input, &commands, shell) == -1)
+		{
+			ft_putstr_fd(RED"Error while parsing\n"RESET, STDERR_FILENO);
+			free (input);
+			continue;
+		}
+		free(input);
+		execute_cmd(commands->head, shell);
+		free_command_list(commands);
+	}
+	return ;
+}
 
 /*
  * Reads, returns line from terminal (interactive mode or not) and adds it to history
@@ -57,6 +91,12 @@ int	is_all_spaces(char *input)
 	return (1);
 }
 
+/*
+ * Initialises shell state struct 
+ * @param shell: struct to initialise
+ * @param envp
+ * @return: 0 no, 1 yes, ut's all spaces
+ */
 int	init_shell_state(t_shell_state *shell, char **envp)
 {
 	shell->env_list = env_to_list(envp);
