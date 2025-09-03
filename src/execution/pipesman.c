@@ -33,6 +33,8 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
 		shell->last_exit_status = 128 + WTERMSIG(status);
+	else 
+		shell->last_exit_status = 1;
 	return (shell->last_exit_status);
 }
 

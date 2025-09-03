@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 14:22:47 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 15:16:57 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 			return (WEXITSTATUS(exit_status)); //estrae exit status
 		else if (WIFSIGNALED(exit_status)) //se proc uscito da signal
 			return (128 + WTERMSIG(exit_status)); // bash restituisce 128 + num segnale
+		else
+			return (1);
 	}
 	return (0);
 }
