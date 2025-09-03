@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 17:00:52 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:36:11 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,35 @@ int main(int argc, char **argv, char **envp)
 	if (init_shell_state(shell, envp) == -1)
 		return (1);
 	while (1)
-	{
-		input = read_input_line();
-		if (!input)
-			break;
-		if (ft_strlen(input) == 0 || is_all_spaces(input))
 		{
+			input = read_input_line();
+			if (!input)
+				break;
+			if (ft_strlen(input) == 0 || is_all_spaces(input))
+			{
+				free(input);
+				continue;
+			}
+			if (parse_input(input, &commands, &shell) == -1)
+			{
+				ft_putstr_fd(RED"Error while parsing\n"RESET, STDERR_FILENO);
+				if (commands)
+					free_command_list(commands);
+				free (input);
+				continue;
+			}
+			printf("Parsing successful!\n"); //debug
 			free(input);
-			continue;
+			execute_cmd(commands->head, &shell);
+			free_command_list(commands);
+			if (shell->should_exit)
+			{
+				int exit_code = shell->exit_code;
+				free_env(shell->env_list);
+				free(shell);
+				exit(exit_code);
+			}
 		}
-		if (parse_input(input, &commands, &shell) == -1)
-		{
-			ft_putstr_fd(RED"Error while parsing\n"RESET, STDERR_FILENO);
-			if (commands)
-				free_command_list(commands);
-			free (input);
-			continue;
-		}
-		printf("Parsing successful!\n"); //debug
-		free(input);
-		execute_cmd(commands->head, &shell);
-		free_command_list(commands);
-	}
 	free_env(shell->env_list);
 	free(shell);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 16:51:16 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/03 12:31:59 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ int	init_shell_state(t_shell_state *shell, char **envp)
 	if (!shell->env_list)
 		return (-1);
 	shell->last_exit_status = 0;
+	shell->should_exit = 0;
+	shell->exit_code = 0;
 	return (0);
 }

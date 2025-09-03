@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 17:38:41 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:27:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 int	build_cmd_list(t_cmd_list **cmd_list, t_tokenizer_ctx *ctx)
 {
 	*cmd_list = ft_calloc(1, sizeof(t_cmd_list));
-	if (!cmd_list)
+	if (!*cmd_list)
 	{
 		cleanup_tokenizer_ctx(ctx);
 		return (-1);

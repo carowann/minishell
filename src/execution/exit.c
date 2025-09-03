@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 17:01:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:33:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	builtin_exit(t_cmd *cmd, t_shell_state *shell)
 	}
 	else
 		exit_code = validate_exit_arg(cmd->args[1]);
-	free_env(shell->env_list);
-	free(shell);
-	exit(exit_code);
+	shell->should_exit = 1;
+	shell->exit_code = exit_code;
+	return (exit_code);
 }
 
 int	is_valid_number(char *arg)

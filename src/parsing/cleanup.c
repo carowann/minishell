@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 16:01:23 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/03 12:26:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,20 @@ void	free_command_list(t_cmd_list *cmd_list)
 	t_cmd	*curr_cmd;
 	t_cmd	*temp_cmd;
 	
-	if (!cmd_list || !cmd_list->head)
+	if (!cmd_list)
 		return ;
-	curr_cmd = cmd_list->head;
-	while (curr_cmd)
+		
+	if (cmd_list->head)
 	{
-		temp_cmd = curr_cmd->next;
-		free_cmd(curr_cmd);
-		curr_cmd = temp_cmd;
+		curr_cmd = cmd_list->head;
+		while (curr_cmd)
+		{
+			temp_cmd = curr_cmd->next;
+			free_cmd(curr_cmd);
+			curr_cmd = temp_cmd;
+		}
 	}
+	
 	free(cmd_list);
 }
 

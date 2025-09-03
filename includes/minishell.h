@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/02 22:43:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 12:31:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ typedef struct s_shell_state
 {
 	t_env	*env_list;
 	int		last_exit_status;
+	int		should_exit;
+	int		exit_code;
 }			t_shell_state;
 
 /****************MAIN UTILS******************/
