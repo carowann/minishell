@@ -8,11 +8,7 @@ int unset(t_cmd *cmd, t_shell_state **shell)
 	t_env *to_delete;
 
 	if (cmd->arg_count < 2)
-	{
-		ft_putstr_fd("unset: not enough arguments\n", 2);
-		return (1);
-	}
-
+		return (SUCCESS);
 	i = 1;
 	while (cmd->args[i])
 	{
@@ -21,7 +17,7 @@ int unset(t_cmd *cmd, t_shell_state **shell)
 			delete_env(&((*shell)->env_list), to_delete);
 		i++;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 // Function to delete an environment variable from the list
