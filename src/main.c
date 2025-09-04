@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 19:56:04 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:58:44 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@ int main(int argc, char **argv, char **envp)
 		free(shell);
 		return (1);
 	}
+	printf("DEBUG3: Shell allocated at %p\n", shell);
 	shell_loop(&shell);
 	exit_code = shell->exit_code;
+	printf("DEBUG3: Before cleanup - shell=%p, env_list=%p\n", shell, shell->env_list);
 	free_env(shell->env_list);
+	printf("DEBUG3: After env cleanup\n");
 	free(shell);
-	rl_clear_history();
+	printf("DEBUG3: After shell cleanup\n");
 	return (exit_code);
 }

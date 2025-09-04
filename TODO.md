@@ -10,3 +10,7 @@
 [x]exit
 []gestione permessi file e gestione append mode
 [x]gestione redirection
+
+
+
+[]APRIRE IO PRIMA DEL FORK PER FAILITARE CLEANUP

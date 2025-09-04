@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 12:13:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:48:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	char	**envp;
 	int		exit_status;
 
+	printf("DEBUG: Before fork, exe_path=%p\n", exe_path);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -30,8 +31,10 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	if (pid == 0)
 	{
+		printf("DEBUG: Child process, about to call open_ve\n");
 		if (open_ve(cmd) == -1)
 		{
+			printf("DEBUG: open_ve failed, child exiting\n");
 			free_command_all(cmd);
 			free_env(env);
 			exit(EXIT_FAILURE);
@@ -58,7 +61,9 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	else
 	{
+		printf("DEBUG: Parent waiting for child\n");
 		waitpid(pid, &exit_status, 0);
+		printf("DEBUG: Child finished with status %d\n", exit_status);
 		if (WIFEXITED(exit_status)) //se termina normalmente
 			return (WEXITSTATUS(exit_status)); //estrae exit status
 		else if (WIFSIGNALED(exit_status)) //se proc uscito da signal
@@ -72,6 +77,9 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
+
+	fd[0] = -1;
+	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
 	if (cmd->input_file)
 	{
 		fd[0] = open(cmd->input_file, O_RDONLY);
@@ -89,7 +97,7 @@ int	open_ve(t_cmd *cmd)
 			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
 		if (fd[1] < 0)	
 		{
-			if(fd[0] > 0)
+			if(fd[0] >= 0) //cambiato perche anche =0 e' un fd valido da chiudere
 				close(fd[0]);
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
@@ -107,9 +115,10 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	char	*value_path_var;
 	
 	value_path_var = get_env_value(shell, "PATH");
-	if (!value_path_var)
+	if (!value_path_var || ft_strlen(value_path_var) == 0)
 	{
 		ft_putstr_fd("PATH environment variable not set\n", STDERR_FILENO);
+		free(value_path_var);
 		return (NULL);
 	}
 	all_exe_paths = ft_split(value_path_var, ':');
