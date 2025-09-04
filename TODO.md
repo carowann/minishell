@@ -3,7 +3,7 @@
 [x]gestione exit status per $?
 []gestione segnali
 []implementazione heredoc
-[]FIX SEG FAULT ECHO >
+[x]FIX SEG FAULT ECHO >
 
 //execution
 []cd
