@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 19:47:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:29:26 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ int tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 
 	if (!tokens || !cmd_list)
 		return (-1);
+	if (tokens->head && is_redirect_token(tokens->head))
+	{
+		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", 
+			tokens->head->content);
+		return (-1);
+	}
 	curr_token = tokens->head;
 	curr_cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!curr_cmd)

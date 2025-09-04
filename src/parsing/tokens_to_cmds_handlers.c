@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 18:33:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:32:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 {
 	if (!(*cmd)->arg_count)
 	{
-		ft_putstr_fd("Syntax error: bad pipe usage\n", STDERR_FILENO);
-		return (-1); //TODO: syntax error
+		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
+		return (-1);
 	}
 	if (add_command_to_list(*cmd, cmd_list) == -1)
 	{
@@ -86,7 +86,12 @@ int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
 	filename_token = (*curr_token)->next;
 	if (!filename_token || filename_token->type == PIPE)
 	{
-		ft_putstr_fd("Syntax error\n", STDERR_FILENO);
+		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	if (is_redirect_token(filename_token))
+	{
+		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", filename_token->content);
 		return (-1);
 	}
 	if ((*curr_token)->type == REDIRECT_IN)

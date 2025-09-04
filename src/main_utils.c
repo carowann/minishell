@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 09:55:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 12:27:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void shell_loop(t_shell_state **shell)
 		}
 		if (parse_input(input, &commands, shell) == -1)
 		{
+			(*shell)->last_exit_status = 258;
 			ft_putstr_fd(RED "Error while parsing\n" RESET, STDERR_FILENO);
 			if (commands)
 				free_command_list(commands);
