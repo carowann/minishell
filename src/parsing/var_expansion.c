@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 18:03:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:13:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ char	*expand_var_in_str(t_shell_state *shell, char *str, int *i, char *old_str)
 	var_value = get_env_value(shell, var_name);
 	free(var_name);
 	new_str = ft_strjoin(old_str, var_value);
+	free(var_value);
 	if (!new_str)
 	{
 		free(old_str);
@@ -133,4 +134,3 @@ char	*expand_var_in_str(t_shell_state *shell, char *str, int *i, char *old_str)
 	free(old_str);
 	return (new_str);
 }
-
