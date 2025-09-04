@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 09:48:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 14:24:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ const char *get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
 void		print_cmd_list_detailed(t_cmd_list *cmd_list);
 
-
 //tokens_to_cmds_handlers.c
 int	handle_argument_token(t_token *token, t_cmd *cmd);
 int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list);
@@ -177,22 +176,24 @@ int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
 void	reset_buffer(t_parser *parser);
 void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);
 
-//state_machine_default.c
-int	handle_default_state(char c, t_tokenizer_ctx *ctx);
-
-//state_machine_operators.c
+//state_machine_extra.c
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);
 int	create_redirect_token(t_tokenizer_ctx *ctx);
-
-//state_machine_variables.c
-int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
 int	handle_first_var_char(char c, t_tokenizer_ctx *ctx);
 int	handle_more_var_char(char c, t_tokenizer_ctx *ctx);
+
+//state_machine_handlers.c
+int	handle_dollar_char(t_tokenizer_ctx *ctx);
+int	handle_space_char(t_tokenizer_ctx *ctx);
+int	handle_redirect_start(char c, t_tokenizer_ctx *ctx);
+int	handle_pipe_char(t_tokenizer_ctx *ctx);
 
 //state_machine.c
 int handle_state_machine(char c, t_tokenizer_ctx *ctx);
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx);
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx);
+int	handle_default_state(char c, t_tokenizer_ctx *ctx);
+int	handle_variable_state(char c, t_tokenizer_ctx *ctx);
 
 //token_merger.c
 int	merge_adjacent_tokens(t_tokenizer_ctx *ctx);

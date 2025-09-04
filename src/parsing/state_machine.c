@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 18:49:10 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 14:17:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,45 @@ int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 	else
 		add_to_buffer(c, &ctx->parser);
 	return (0);
+}
+
+/*
+ * Handles character processing in DEFAULT state
+ * Manages state transitions and token creation for quotes, operators, pipes
+ * @param c: character to process
+ * @param ctx: tokenizer context with parser state and token list
+ * @return: 0 success, -1 error
+ */
+int	handle_default_state(char c, t_tokenizer_ctx *ctx)
+{
+	if (c == '"')
+		ctx->parser.state = IN_DOUBLE_QUOTES;
+	else if (c == '\'')
+		ctx->parser.state = IN_SINGLE_QUOTES;
+	else if (c == '$')
+		return (handle_dollar_char(ctx));
+	else if (ft_isspace(c))
+		return (handle_space_char(ctx));
+	else if (c == '<' || c == '>')
+		return (handle_redirect_start(c, ctx));
+	else if (c == '|')
+		return (handle_pipe_char(ctx));
+	else
+		add_to_buffer(c, &ctx->parser);
+	return (0);
+}
+
+/*
+ * Handles variable name parsing after $ character
+ * Manages $? and $VARNAME patterns
+ * @param c: character to process
+ * @param ctx: tokenizer context
+ * @return: 0 success, -1 error
+ */
+int	handle_variable_state(char c, t_tokenizer_ctx *ctx)
+{
+	if (ctx->parser.buffer_pos == 0)
+		return (handle_first_var_char(c, ctx));
+	else
+		return (handle_more_var_char(c, ctx));
 }
