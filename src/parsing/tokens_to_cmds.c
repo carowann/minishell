@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 16:07:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:47:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
  * @param commands: output command list
  * @return: 0 success, -1 error
  */
-int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
+int tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 {
-	t_token	*curr_token;
-	t_cmd	*curr_cmd;
+	t_token *curr_token;
+	t_cmd *curr_cmd;
 
 	if (!tokens || !cmd_list)
 		return (-1);
@@ -32,11 +32,22 @@ int	tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 	while (curr_token)
 	{
 		if (process_curr_token(&curr_token, &curr_cmd, cmd_list) == -1)
+		{
+			free_cmd(curr_cmd);
 			return (-1);
+		}
 		curr_token = curr_token->next;
 	}
-	if (add_command_to_list(curr_cmd, cmd_list) == -1)
-		return (-1);
+	if (curr_cmd->arg_count > 0)
+	{
+		if (add_command_to_list(curr_cmd, cmd_list) == -1)
+		{
+			free_cmd(curr_cmd);
+			return (-1);
+		}
+	}
+	else
+		free_cmd(curr_cmd);
 	return (0);
 }
 

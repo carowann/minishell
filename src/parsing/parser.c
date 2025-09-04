@@ -6,11 +6,28 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 19:39:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 10:09:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+//TODO: fix echo > > test should return error
+// === PARSING RESULT ===
+// === TOKEN LIST (4 tokens) ===
+// [0] Type: WORD, Content: "echo"
+// [1] Type: REDIRECT_OUT, Content: ">"
+// [2] Type: REDIRECT_OUT, Content: ">"
+// [3] Type: WORD, Content: "test"
+// === END TOKEN LIST ===
+
+// === DETAILED COMMAND LIST (1 commands) ===
+// === COMMAND 0 DETAILS ===
+// Arguments (2): "echo" "test" 
+// Input: STDIN
+// Output: FILE ">" (OVERWRITE)
+// === END COMMAND 0 ===
+
 
 /*
  * Parses input string into command list ready for execution

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 12:26:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 09:40:24 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	free_command_list(t_cmd_list *cmd_list)
 			curr_cmd = temp_cmd;
 		}
 	}
-	
 	free(cmd_list);
 }
 

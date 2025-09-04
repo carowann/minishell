@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 17:43:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 09:55:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void shell_loop(t_shell_state **shell)
 
 	while (!(*shell)->should_exit)
 	{
+		commands = NULL;
 		input = read_input_line();
 		if (!input)
 			break;
@@ -35,15 +36,19 @@ void shell_loop(t_shell_state **shell)
 		}
 		if (parse_input(input, &commands, shell) == -1)
 		{
-			ft_putstr_fd(RED"Error while parsing\n"RESET, STDERR_FILENO);
-			free (input);
+			ft_putstr_fd(RED "Error while parsing\n" RESET, STDERR_FILENO);
+			if (commands)
+				free_command_list(commands);
+			free(input);
 			continue;
 		}
 		free(input);
+		(*shell)->current_cmd_list = commands;
 		execute_cmd(commands->head, shell);
 		free_command_list(commands);
+		(*shell)->current_cmd_list = NULL;
 	}
-	return ;
+	return;
 }
 
 /*
@@ -97,7 +102,7 @@ int	is_all_spaces(char *input)
  * @param envp
  * @return: 0 no, 1 yes, ut's all spaces
  */
-int	init_shell_state(t_shell_state *shell, char **envp)
+int init_shell_state(t_shell_state *shell, char **envp)
 {
 	shell->env_list = env_to_list(envp);
 	if (!shell->env_list)
@@ -105,5 +110,6 @@ int	init_shell_state(t_shell_state *shell, char **envp)
 	shell->last_exit_status = 0;
 	shell->should_exit = 0;
 	shell->exit_code = 0;
+	shell->current_cmd_list = NULL;
 	return (0);
 }

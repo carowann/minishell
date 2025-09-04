@@ -1,6 +1,5 @@
 
 #include "../../includes/minishell.h"
-#include <sys/wait.h>
 
 // Manages the piping between two commands
 int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
@@ -35,7 +34,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 128 + WTERMSIG(status);
 	else 
 		shell->last_exit_status = 1;
-	cmd_left->next = NULL;
 	return (shell->last_exit_status);
 }
 
@@ -58,11 +56,16 @@ int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 	return (0);
 }
 
-int	pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
-{	
+int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
+{
+	if (shell->current_cmd_list)
+	{
+		free(shell->current_cmd_list);
+		shell->current_cmd_list = NULL;
+	}
 	free_env(shell->env_list);
 	free(shell);
-	if(!cmd_left || !cmd_right)
+	if (!cmd_left || !cmd_right)
 		return (-1);
 	if (cmd_left)
 		free_cmd(cmd_left);
@@ -74,6 +77,7 @@ int	pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
 void	free_command_all(t_cmd *cmd)
 {
 	t_cmd	*temp_cmd;
+
 	if (!cmd)
 		return ;
 	while (cmd && cmd->next)
@@ -83,5 +87,5 @@ void	free_command_all(t_cmd *cmd)
 		cmd = temp_cmd;
 	}
 	free_cmd(cmd);
-	return	;
+	return ;
 }
