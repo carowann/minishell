@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 10:01:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:03:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char *process_string_expansion(t_shell_state *shell, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_'))
+		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
 			result = expand_var_in_str(shell, str, &i, result);
 		else
 			result = append_char(result, str[i++]);

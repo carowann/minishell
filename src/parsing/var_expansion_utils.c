@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 14:10:09 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:08:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ char	*extract_var_name(char *str, int *dollar_pos, int *var_len)
 
 	start = *dollar_pos + 1;
 	end = start;
+	if (str[end] == '?')
+	{
+		*var_len = 1;
+		*dollar_pos = start + 1;
+		return (ft_substr(str, start, 1));
+	}
 	while (str[end] && (ft_isalnum(str[end]) || str[end] == '_'))
 		end++;
 	*var_len = end - start;
