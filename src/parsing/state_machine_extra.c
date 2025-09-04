@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:08:28 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 14:19:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/04 15:31:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_operator_state(char c, t_tokenizer_ctx *ctx)
 		if (create_redirect_token(ctx) == -1)
 			return (-1);
 	}
-	return (handle_state_machine(c, ctx));
+	return (0);
 }
 
 
