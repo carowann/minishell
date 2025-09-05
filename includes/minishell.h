@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 15:09:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:10:39 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,14 +250,14 @@ int		ft_printfd(int fd, const char *format, ...);
 char	*conv_to_strn(char **args);
 int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
 char	**env_to_matrx(t_env *env);
-void	exec_pipeline_and_exit(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
+int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char	*read_line(void);
 int		open_ve(t_cmd *cmd);
 int		open_in(t_cmd *cmd, int *fd);
 int		execve_temp(char *exe_path, t_cmd *cmd, t_env *env);
 void	free_command_all(t_cmd *cmd);
 char 	**dup_matrix(char **matrix);
-// int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
+int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
 
 // inbuilt commands
 int		pwd(int fd);

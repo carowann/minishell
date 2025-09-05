@@ -6,19 +6,20 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 15:09:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:10:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../includes/minishell.h"
 
 // Manages the piping between two commands
 int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 {
-	pid_t	left_pid, right_pid;
+	pid_t	left_pid;
+	pid_t	right_pid;
 	int		pipefd[2];
 	int		status;
+	int		cmd_result;
 	
 	fflush(NULL);
 	if (pipe(pipefd) == -1)
@@ -37,7 +38,9 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	if (left_pid == 0)
 	{
 		cmd_left->next = NULL;
-		exec_pipeline_and_exit(cmd_left, shell, pipefd, 1);
+		cmd_result = exec_pipeline(cmd_left, shell, pipefd, 1);
+		pipe_free_all(cmd_left, cmd_right, shell);
+		exit(cmd_result);
 	}
 	right_pid = fork();
 	if (right_pid == -1)
@@ -45,12 +48,15 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		perror("fork failed");
 		close(pipefd[0]);
 		close(pipefd[1]);
-		//kill(left_pid, SIGTERM);  // Termina il primo child
 		waitpid(left_pid, NULL, 0);
 		return (-1);
 	}
 	if (right_pid == 0)
-		exec_pipeline_and_exit(cmd_right, shell, pipefd, 0);
+	{
+		cmd_result = exec_pipeline(cmd_right, shell, pipefd, 0);
+		pipe_free_all(cmd_left, cmd_right, shell);
+		exit(cmd_result);
+	}
 	close(pipefd[1]);
 	close(pipefd[0]);
 	waitpid(left_pid, NULL, 0);
@@ -61,54 +67,45 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 128 + WTERMSIG(status);
 	else 
 		shell->last_exit_status = 1;
-		
 	return (shell->last_exit_status);
 }
 
-// Executes command in pipeline and exits child process
-void exec_pipeline_and_exit(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
+// Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
+int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 {
 	int result;
 	
-	if(flag == 0)  // Right command
+	if(flag == 0)
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	else  // Left command
+	else
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);	
 	}
-	
 	result = execute_cmd(cmd, &shell);
-	if (shell->current_cmd_list)
-		free_command_list(shell->current_cmd_list);
-	free_env(shell->env_list);
-	free(shell);
-	exit(result);
+	return (result);
 }
 
-
-// int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
-// {
-// 	if (shell->current_cmd_list)
-// 	{
-// 		free(shell->current_cmd_list);
-// 		shell->current_cmd_list = NULL;
-// 	}
-// 	free_env(shell->env_list);
-// 	free(shell);
-// 	if (!cmd_left || !cmd_right)
-// 		return (-1);
-// 	if (cmd_left)
-// 		free_cmd(cmd_left);
-// 	if (cmd_right)
-// 		free_command_all(cmd_right);
-// 	return (0);
-// }
+int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
+{
+	if (shell->current_cmd_list)
+	{
+		free(shell->current_cmd_list);
+		shell->current_cmd_list = NULL;
+	}
+	free_env(shell->env_list);
+	free(shell);
+	if (cmd_left)
+		free_cmd(cmd_left);
+	if (cmd_right)
+		free_command_all(cmd_right);
+	return (0);
+}
 
 void	free_command_all(t_cmd *cmd)
 {

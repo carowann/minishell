@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 12:49:48 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:46:12 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,3 +114,4 @@ int init_shell_state(t_shell_state *shell, char **envp)
 	shell->current_cmd_list = NULL;
 	return (0);
 }
+
