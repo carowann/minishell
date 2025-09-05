@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 18:48:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 12:47:44 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	char	**envp;
 	int		exit_status;
 
-	printf("DEBUG: Before fork, exe_path=%p\n", exe_path);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -31,10 +30,8 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	if (pid == 0)
 	{
-		printf("DEBUG: Child process, about to call open_ve\n");
 		if (open_ve(cmd) == -1)
 		{
-			printf("DEBUG: open_ve failed, child exiting\n");
 			free_command_all(cmd);
 			free_env(env);
 			exit(EXIT_FAILURE);
@@ -61,9 +58,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	else
 	{
-		printf("DEBUG: Parent waiting for child\n");
 		waitpid(pid, &exit_status, 0);
-		printf("DEBUG: Child finished with status %d\n", exit_status);
 		if (WIFEXITED(exit_status)) //se termina normalmente
 			return (WEXITSTATUS(exit_status)); //estrae exit status
 		else if (WIFSIGNALED(exit_status)) //se proc uscito da signal

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 18:57:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 12:49:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,15 @@ void shell_loop(t_shell_state **shell)
 			(*shell)->last_exit_status = 258;
 			if (commands)
 				free_command_list(commands);
-			printf("DEBUG2: After parse error cleanup - shell->current_cmd_list=%p\n", 
-				(*shell)->current_cmd_list);
 			free(input);
 			(*shell)->current_cmd_list = NULL;
 			continue;
 		}
 		free(input);
 		(*shell)->current_cmd_list = commands;
-		printf("DEBUG2: Before execute - shell->current_cmd_list=%p\n", 
-			(*shell)->current_cmd_list);
 		execute_cmd(commands->head, shell);
 		free_command_list(commands);
 		(*shell)->current_cmd_list = NULL;
-		printf("DEBUG2: After execute cleanup - shell->current_cmd_list=%p\n", 
-			(*shell)->current_cmd_list);
 	}
 	return;
 }

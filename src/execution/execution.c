@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/04 18:53:58 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 12:50:49 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,7 @@ static int handle_external_command(t_cmd *cmd, t_shell_state **shell)
 		ft_printfd(STDERR_FILENO, "minishell: %s: command not found\n", cmd->args[0]);
 		return (set_exit_status(shell, 127));
 	}
-	printf("DEBUG1: Before execve - exe_path=%p (%s), cmd->args[0]=%s\n", 
-		exe_path, exe_path, cmd->args[0]);
 	result = execve_temp(exe_path, cmd, (*shell)->env_list);
-	printf("DEBUG1: After execve - exe_path=%p (%s), cmd->args[0]=%s, result=%d\n", 
-		exe_path, exe_path, cmd->args[0], result);
 	free(exe_path);
-	printf("DEBUG1: After free - cmd->args[0]=%s\n", cmd->args[0]);
 	return (set_exit_status(shell, result));
 }
