@@ -6,55 +6,23 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:57:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 12:29:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 14:43:35 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+ #include "../../includes/minishell.h"
 
 /*
  * Parses token list into command list ready for execution
- * @param tokens: token list to convert in command list
- * @param commands: output command list
+ * @param tokens: token list to convert in command list  
+ * @param cmd_list: output command list
  * @return: 0 success, -1 error
  */
 int tokens_to_commands(t_token_list *tokens, t_cmd_list *cmd_list)
 {
-	t_token *curr_token;
-	t_cmd *curr_cmd;
-
-	if (!tokens || !cmd_list)
+	if (validate_tokens_for_parsing(tokens) == -1)
 		return (-1);
-	if (tokens->head && is_redirect_token(tokens->head))
-	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", 
-			tokens->head->content);
-		return (-1);
-	}
-	curr_token = tokens->head;
-	curr_cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!curr_cmd)
-		return (-1);
-	while (curr_token)
-	{
-		if (process_curr_token(&curr_token, &curr_cmd, cmd_list) == -1)
-		{
-			free_cmd(curr_cmd);
-			return (-1);
-		}
-		curr_token = curr_token->next;
-	}
-	if (curr_cmd->arg_count > 0)
-	{
-		if (add_command_to_list(curr_cmd, cmd_list) == -1)
-		{
-			free_cmd(curr_cmd);
-			return (-1);
-		}
-	}
-	else
-		free_cmd(curr_cmd);
-	return (0);
+	return (process_token_loop(tokens, cmd_list));
 }
 
 /*
