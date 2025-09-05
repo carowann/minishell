@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 17:06:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 17:55:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char	*read_line(void);
 int		open_ve(t_cmd *cmd);
 int		open_in(t_cmd *cmd, int *fd);
-int		execve_temp(char *exe_path, t_cmd *cmd, t_env *env);
+int		execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell);
 void	free_command_all(t_cmd *cmd);
 char 	**dup_matrix(char **matrix);
 int		pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);

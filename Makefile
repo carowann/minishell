@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/05 17:07:43 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/05 17:09:06 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,6 @@ SRC =	src/main_utils.c			\
 	src/parsing/token_utils.c		\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
-	src/execution/build_exe_path.c		\
 	src/execution/echo_builtin.c			\
 	src/execution/env_builtin.c			\
 	src/env/environment.c			\

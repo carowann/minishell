@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 16:10:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 17:49:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		return (-1);
 	}
 	left_pid = fork();
+	printf("Created left process with PID %d\n", left_pid); // Debug
 	if (left_pid == -1)
 	{
 		perror("fork failed");
@@ -37,12 +38,13 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	}
 	if (left_pid == 0)
 	{
-		cmd_left->next = NULL;
+		cmd_left->next = NULL;			
 		cmd_result = exec_pipeline(cmd_left, shell, pipefd, 1);
 		pipe_free_all(cmd_left, cmd_right, shell);
 		exit(cmd_result);
 	}
 	right_pid = fork();
+	printf("Created right process with PID %d\n", right_pid); // Debug
 	if (right_pid == -1)
 	{
 		perror("fork failed");
@@ -67,6 +69,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 128 + WTERMSIG(status);
 	else 
 		shell->last_exit_status = 1;
+	ft_printfd(STDERR_FILENO, "Left PID: %d, Right PID: %d, Exit Status: %d\n", left_pid, right_pid, shell->last_exit_status); // Debug
 	return (shell->last_exit_status);
 }
 
@@ -93,6 +96,8 @@ int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 
 int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
 {
+	ft_printfd(2, "Freeing all resources in pipe_free_all in process %d\n", getpid()); // Debug
+	ft_printfd(2, "Current command list in shell state: %s\n", shell->current_cmd_list ? "not NULL" : "NULL"); // Debug
 	if (shell->current_cmd_list)
 	{
 		free(shell->current_cmd_list);
@@ -111,7 +116,7 @@ void	free_command_all(t_cmd *cmd)
 {
 	t_cmd	*temp_cmd;
 
-	if (!cmd)
+	if (!cmd || (!cmd->next))
 		return ;
 	while (cmd && cmd->next)
 	{	

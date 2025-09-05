@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 12:47:44 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 18:06:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //TODO: REFACTORARE TUTTO QUESTO FILE
 
 // Function to execute a command using execve in a child process
-int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
+int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 { 
 	pid_t	pid;
 	char	**temp;
@@ -30,13 +30,14 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 	}
 	if (pid == 0)
 	{
+		printf("Executing command: %s\n in process %d\n", exe_path, getpid()); // Debug
 		if (open_ve(cmd) == -1)
 		{
 			free_command_all(cmd);
-			free_env(env);
+			free_env((*shell)->env_list);
 			exit(EXIT_FAILURE);
 		}
-		envp = env_to_matrx(env);
+		envp = env_to_matrx((*shell)->env_list);
 		temp = dup_matrix(cmd->args);
 		if (!envp || !temp)
 		{
@@ -45,14 +46,17 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_env *env)
 			if (temp)
 				free_matrix(temp);
 			free_command_all(cmd);
-			free_env(env);
+			free_env((*shell)->env_list);
 			exit(EXIT_FAILURE);
 		}
+		free_env((*shell)->env_list);
+		free_command_list((*shell)->current_cmd_list);
+		free((*shell));
 		execve(exe_path, temp, envp);
 		free_matrix(envp);
 		free_matrix(temp);
 		free_command_all(cmd);
-		free_env(env);
+		free_env((*shell)->env_list);
 		perror("execve failed");
 		exit(127);
 	}
