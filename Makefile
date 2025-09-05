@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/04 14:27:31 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/05 17:07:43 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,8 +45,9 @@ SRC =	src/main_utils.c			\
 	src/parsing/token_utils.c		\
 	src/parsing/var_expansion.c		\
 	src/parsing/var_expansion_utils.c	\
-	src/execution/echo.c			\
-	src/execution/env.c			\
+	src/execution/build_exe_path.c		\
+	src/execution/echo_builtin.c			\
+	src/execution/env_builtin.c			\
 	src/env/environment.c			\
 	src/execution/cleanup.c			\
 	src/execution/exit.c			\
@@ -59,6 +60,7 @@ SRC =	src/main_utils.c			\
 	src/execution/unset.c			\
 	src/execution/pipesman.c		\
 	src/execution/exec_utils.c		\
+	src/execution/cd_builtin.c 		\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra
