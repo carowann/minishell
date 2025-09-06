@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/06 18:23:15 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 20:23:46 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ static int handle_pipeline(t_cmd *cmd, t_shell_state **shell);
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 {
+	char **test;
+	test = heredoc_pipe(cmd);
+	printf("%s", test[0]);
+	if(test[1])
+		printf("%s", test[1]);
+	printf("%s", test[2]);
+	return (0);
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (set_exit_status(shell, 1));
 	if (cmd->next != NULL)

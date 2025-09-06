@@ -62,31 +62,35 @@ int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 	}
 }
 
-char **heredoc_pipe(t_cmd *cmd, t_shell_state **shell)
+char **heredoc_pipe(t_cmd *cmd)
 {
 	char **ret;
 	char *line;
 	t_cmd *heredoc_cmd;
 	int   i;
 
+	i = 0;
+	heredoc_cmd = cmd;
 	ret = malloc(sizeof(char *) * (cmd->arg_count + 1));
-	while (i <= cmd->arg_count)
+	while (heredoc_cmd != NULL)
 	{
-		if (!cmd->is_heredoc)
+		while(!heredoc_cmd->is_heredoc && heredoc_cmd != NULL)
 		{
-			
-			i++;
+			heredoc_cmd = heredoc_cmd->next;
 		}
-		i++;
-		while (1)
+		while (heredoc_cmd != NULL && heredoc_cmd->is_heredoc)
 		{
 			ft_printfd(1, "> ");
 			line = read_line();
-			if (!line || strcmp(line, delimiter) == 0)
+			if (!line || strcmp(line, heredoc_cmd->heredoc_delimiter) == 0)
 				break;
-			write(pipefd[1], line, strlen(line));
-			write(pipefd[1], "\n", 1);
+			line = ft_strjoin(line, "\n");
+			ret[i] = ft_strjoin(ret[i], line);
 			free(line);
 		}
+		if (heredoc_cmd)
+			heredoc_cmd = heredoc_cmd->next;
+		i++;
 	}
+	return (ret);
 }
