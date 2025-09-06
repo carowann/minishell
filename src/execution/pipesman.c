@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 19:05:30 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 19:33:29 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		return (-1);
 	}
 	left_pid = fork();
-	printf("Created left process with PID %d\n", left_pid); // Debug
 	if (left_pid == -1)
 	{
 		perror("fork failed");
@@ -43,7 +42,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		exit(cmd_result);
 	}
 	right_pid = fork();
-	printf("Created right process with PID %d\n", right_pid); // Debug
 	if (right_pid == -1)
 	{
 		perror("fork failed");
@@ -68,7 +66,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 128 + WTERMSIG(status);
 	else 
 		shell->last_exit_status = 1;
-	ft_printfd(STDERR_FILENO, "Left PID: %d, Right PID: %d, Exit Status: %d\n", left_pid, right_pid, shell->last_exit_status); // Debug
 	return (shell->last_exit_status);
 }
 
@@ -76,7 +73,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 {
 	int result;
-	
 	if(flag == 0)
 	{
 		close(fd[1]);
@@ -101,8 +97,6 @@ int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 
 int pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
 {
-	ft_printfd(2, "Freeing all resources in pipe_free_all in process %d\n", getpid()); // Debug
-	ft_printfd(2, "Current command list in shell state: %s\n", shell->current_cmd_list ? "not NULL" : "NULL"); // Debug
 	if (cmd_left)
 		free_command_all(shell->current_cmd_list->head);
 	if (shell->current_cmd_list)

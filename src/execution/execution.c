@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/05 18:52:57 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 18:23:15 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 		return (set_exit_status(shell, 1));
 	if (cmd->next != NULL)
 		return (handle_pipeline(cmd, shell));
+	if (cmd->is_heredoc)
+		return (handle_heredoc(cmd->heredoc_delimiter, cmd, shell));
 	if (is_valid_cmd(cmd->args[0]))
 		return (handle_builtin(cmd, shell));
 	return (handle_external_command(cmd, shell));

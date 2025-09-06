@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 18:58:17 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 18:23:45 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ char 	**dup_matrix(char **matrix);
 int		handle_builtin(t_cmd *cmd, t_shell_state **shell);
 int		handle_external_command(t_cmd *cmd, t_shell_state **shell);
 int		pipe_free_all(t_cmd *cmd_left, t_shell_state *shell);
+int		handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell);
 
 // inbuilt commands
 int		pwd(int fd);

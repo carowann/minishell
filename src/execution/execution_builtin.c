@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 19:33:32 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 17:33:47 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		result = echo(cmd->args, fd[0]);
-	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		result = cd_builtin(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		result = pwd(fd[0]);
@@ -56,7 +56,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 		return (builtin_exit(cmd, *shell));
 	else
 	{
-		ft_printf("minishell: %s: command not found\n", cmd->args[0]);
+		ft_printfd(2, "minishell: %s: command not found\n", cmd->args[0]);
 		result = 127;
 	}
 	if (fd[0] != STDOUT_FILENO)

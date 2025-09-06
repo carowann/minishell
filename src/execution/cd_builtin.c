@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/06 15:40:12 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:48:19 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int change_dir(char *path, t_env *env)
 	currentcwd= getcwd(cwd, PATH_MAX);
 	change_env_wd(currentcwd, oldwd, env);
 	free(oldwd);
-	free(currentcwd);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
+#    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/05 17:09:06 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/06 18:23:42 by lzorzit          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC =	src/main_utils.c			\
 	src/execution/pipesman.c		\
 	src/execution/exec_utils.c		\
 	src/execution/cd_builtin.c 		\
+	src/execution/heredoc.c			\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra
