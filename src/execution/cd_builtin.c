@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 18:34:16 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/06 15:40:12 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,13 @@ void	change_env_wd(char *newwd, char *oldwd, t_env *env)
 int change_dir(char *path, t_env *env)
 {
 	char	*oldwd;
+	char	*currentcwd;
 	char	cwd[PATH_MAX];
 
 	oldwd = NULL;
+	oldwd = getcwd(cwd, PATH_MAX);
 	if (chdir(path) != 0)
 		return (1);
-	oldwd = getcwd(cwd, PATH_MAX);
 	if (!oldwd)
 	{
 		ft_printfd(2, "cd: error retrieving current directory");
@@ -48,8 +49,10 @@ int change_dir(char *path, t_env *env)
 	}
 	else
 		oldwd = ft_strdup(cwd);
-	
-	change_env_wd(path, oldwd, env);
+	currentcwd= getcwd(cwd, PATH_MAX);
+	change_env_wd(currentcwd, oldwd, env);
+	free(oldwd);
+	free(currentcwd);
 	return (0);
 }
 
@@ -66,14 +69,17 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	}
 	if (cmd->arg_count == 1 || (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
 	{
-		if (!find_env_val((*shell)->env_list, "HOME"))
+		if (!find_env_val((*shell)->env_list, "HOME="))
+		{
 			return(1);
+		}
 		else
-			path = find_env_val((*shell)->env_list, "HOME");
+			path = find_env_val((*shell)->env_list, "HOME=");
+
 	}
 	else if (ft_strncmp(cmd->args[1], "-", 2) == 0)
 	{
-		if (!find_env_val((*shell)->env_list, "OLDPWD"))
+		if (!find_env_val((*shell)->env_list, "OLDPWD="))
 			return(1);
 		else
 			path = find_env_val((*shell)->env_list, "OLDPWD");
@@ -83,12 +89,18 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 char	*find_env_val(t_env *env,char *node)
 {
 	t_env *temp_env; 
+	char *ret;
+
 	temp_env = find_env(env, node);
 	if (temp_env && temp_env->value)
-		return(temp_env->value);
+	{
+		ret = ft_strrchr(temp_env->value, '=');
+		ret ++;
+		return(ret);
+	}
 	else
 	{
 		ft_printfd(2, "minishell: cd: %s not set\n", node);
 		return (NULL);
-	}	
+	}
 }

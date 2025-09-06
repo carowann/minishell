@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 17:49:45 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:05:30 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		return (-1);
 	}
 	if (left_pid == 0)
-	{
-		cmd_left->next = NULL;			
+	{			
 		cmd_result = exec_pipeline(cmd_left, shell, pipefd, 1);
-		pipe_free_all(cmd_left, cmd_right, shell);
+		pipe_free_all(cmd_left, shell);
 		exit(cmd_result);
 	}
 	right_pid = fork();
@@ -56,7 +55,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	if (right_pid == 0)
 	{
 		cmd_result = exec_pipeline(cmd_right, shell, pipefd, 0);
-		pipe_free_all(cmd_left, cmd_right, shell);
+		pipe_free_all(cmd_left, shell);
 		exit(cmd_result);
 	}
 	close(pipefd[1]);
@@ -90,14 +89,22 @@ int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);	
 	}
+	if (flag == 1)
+	{
+		if (is_valid_cmd(cmd->args[0]))
+			return (handle_builtin(cmd, &shell));
+		return (handle_external_command(cmd, &shell));	
+	}
 	result = execute_cmd(cmd, &shell);
 	return (result);
 }
 
-int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
+int pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
 {
 	ft_printfd(2, "Freeing all resources in pipe_free_all in process %d\n", getpid()); // Debug
 	ft_printfd(2, "Current command list in shell state: %s\n", shell->current_cmd_list ? "not NULL" : "NULL"); // Debug
+	if (cmd_left)
+		free_command_all(shell->current_cmd_list->head);
 	if (shell->current_cmd_list)
 	{
 		free(shell->current_cmd_list);
@@ -105,10 +112,6 @@ int pipe_free_all(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell)
 	}
 	free_env(shell->env_list);
 	free(shell);
-	if (cmd_left)
-		free_cmd(cmd_left);
-	if (cmd_right)
-		free_command_all(cmd_right);
 	return (0);
 }
 

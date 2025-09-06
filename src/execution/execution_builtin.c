@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 12:03:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 19:33:32 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
 		result = echo(cmd->args, fd[0]);
+	if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
+		result = cd_builtin(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
 		result = pwd(fd[0]);
 	else if (ft_strncmp(cmd->args[0], "export", 7) == 0)

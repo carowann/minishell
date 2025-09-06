@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/05 17:55:14 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/05 18:52:57 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 
 static int set_exit_status(t_shell_state **shell, int status);
 static int handle_pipeline(t_cmd *cmd, t_shell_state **shell);
-static int handle_builtin(t_cmd *cmd, t_shell_state **shell);
-static int handle_external_command(t_cmd *cmd, t_shell_state **shell);
 
 // Function to execute a command based on its type
 int execute_cmd(t_cmd *cmd, t_shell_state **shell)
@@ -47,7 +45,7 @@ static int handle_pipeline(t_cmd *cmd, t_shell_state **shell)
 	return (result);
 }
 
-static int handle_builtin(t_cmd *cmd, t_shell_state **shell)
+int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 {
 	int result;
 
@@ -57,7 +55,7 @@ static int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 	return (result);
 }
 
-static int handle_external_command(t_cmd *cmd, t_shell_state **shell)
+int handle_external_command(t_cmd *cmd, t_shell_state **shell)
 {
 	char *exe_path;
 	int result;
