@@ -36,11 +36,13 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		return (-1);
 	}
 	if (left_pid == 0)
-	{			
-		cmd_result = exec_pipeline(cmd_left, shell, pipefd, 1);
+	{	
+		ft_printfd(1, "Left PID: %d,%s\n", getpid(), fgets(NULL, 0, stdin));
+		cmd_result = exec_pipeline_left(cmd_left, shell, pipefd);
 		pipe_free_all(cmd_left, shell);
 		exit(cmd_result);
 	}
+	
 	right_pid = fork();
 	if (right_pid == -1)
 	{
@@ -52,7 +54,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	}
 	if (right_pid == 0)
 	{
-		cmd_result = exec_pipeline(cmd_right, shell, pipefd, 0);
+		cmd_result = exec_pipeline_right(cmd_right, shell, pipefd);
 		pipe_free_all(cmd_left, shell);
 		exit(cmd_result);
 	}
@@ -68,29 +70,55 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 1;
 	return (shell->last_exit_status);
 }
+int	pipe_heredoc_changes(t_cmd *cmd)
+{
+	int fd[2];
+	pid_t pid;
 
-// Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
-int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
+	if (pipe(fd) == -1)
+	{
+		perror("pipe in heredoc failed");
+		return (1);
+	}
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork in heredoc failed");
+		close(fd[0]);
+		close(fd[1]);
+		return (1);
+	}
+	if (pid == 0)
+	{
+		close(fd[0]);
+		heredoc_read(fd, cmd->heredoc_delimiter);
+		close(fd[1]);
+		exit(0);
+	}
+	waitpid(pid, NULL, 0);
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	return (0);
+}
+int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
+{
+	if(cmd->is_heredoc == 1)
+		pipe_heredoc_changes(cmd);
+	close(fd[0]);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
+	if (is_valid_cmd(cmd->args[0]))
+		return (handle_builtin(cmd, &shell));
+	return (handle_external_command(cmd, &shell));	
+}
+int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
-	if(flag == 0)
-	{
-		close(fd[1]);
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
-	else
-	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);	
-	}
-	if (flag == 1)
-	{
-		if (is_valid_cmd(cmd->args[0]))
-			return (handle_builtin(cmd, &shell));
-		return (handle_external_command(cmd, &shell));	
-	}
+
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
 	result = execute_cmd(cmd, &shell);
 	return (result);
 }
@@ -124,3 +152,31 @@ void	free_command_all(t_cmd *cmd)
 	free_cmd(cmd);
 	return ;
 }
+
+// Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
+// int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
+// {
+// 	int result;
+// 	if(flag == 0)
+// 	{
+// 		close(fd[1]);
+// 		if(cmd->is_heredoc == 1)
+// 			close(fd[0]);
+// 		dup2(fd[0], STDIN_FILENO);
+// 		close(fd[0]);
+// 	}
+// 	else
+// 	{
+// 		close(fd[0]);
+// 		dup2(fd[1], STDOUT_FILENO);
+// 		close(fd[1]);	
+// 	}
+// 	if (flag == 1)
+// 	{
+// 		if (is_valid_cmd(cmd->args[0]))
+// 			return (handle_builtin(cmd, &shell));
+// 		return (handle_external_command(cmd, &shell));	
+// 	}
+// 	result = execute_cmd(cmd, &shell);
+// 	return (result);
+// }

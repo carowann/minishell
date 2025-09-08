@@ -47,7 +47,7 @@ char *conv_to_strn(char	**args)
 	return(str);
 }
 
-char **env_to_matrx(t_env *env)
+char **env_to_matrix(t_env *env)
 {
 	char	**matrix;
 	t_env	*copy;

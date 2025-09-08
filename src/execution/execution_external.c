@@ -30,14 +30,13 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 	}
 	if (pid == 0)
 	{
-		printf("Executing command: %s\n in process %d\n", exe_path, getpid()); // Debug
 		if (open_ve(cmd) == -1)
 		{
 			free_command_all(cmd);
 			free_env((*shell)->env_list);
 			exit(EXIT_FAILURE);
 		}
-		envp = env_to_matrx((*shell)->env_list);
+		envp = env_to_matrix((*shell)->env_list);
 		temp = dup_matrix(cmd->args);
 		if (!envp || !temp)
 		{

@@ -2,7 +2,6 @@
 
 int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 {
-	char *line;
 	int   pipefd[2];
 	pid_t pid_write;
 	pid_t pid_read;
@@ -16,18 +15,7 @@ int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 	if (pid_read == 0)
 	{
 		close(pipefd[0]);
-		while (1)
-		{
-			ft_printfd(1, "> ");
-			line = read_line();
-			if (!line || strcmp(line, delimiter) == 0)
-				break;
-			write(pipefd[1], line, strlen(line));
-			write(pipefd[1], "\n", 1);
-			free(line);
-		}
-		free(line);
-		close(pipefd[1]);
+		heredoc_read(pipefd, delimiter);
 		free_command_all((*shell)->current_cmd_list->head);
 		free((*shell)->current_cmd_list);
 		free_env((*shell)->env_list);
@@ -62,35 +50,54 @@ int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 	}
 }
 
-char **heredoc_pipe(t_cmd *cmd)
+int heredoc_read(int *pipefd, const char *delimiter)
 {
-	char **ret;
 	char *line;
-	t_cmd *heredoc_cmd;
-	int   i;
 
-	i = 0;
-	heredoc_cmd = cmd;
-	ret = malloc(sizeof(char *) * (cmd->arg_count + 1));
-	while (heredoc_cmd != NULL)
+	while (1)
 	{
-		while(!heredoc_cmd->is_heredoc && heredoc_cmd != NULL)
-		{
-			heredoc_cmd = heredoc_cmd->next;
-		}
-		while (heredoc_cmd != NULL && heredoc_cmd->is_heredoc)
-		{
-			ft_printfd(1, "> ");
-			line = read_line();
-			if (!line || strcmp(line, heredoc_cmd->heredoc_delimiter) == 0)
-				break;
-			line = ft_strjoin(line, "\n");
-			ret[i] = ft_strjoin(ret[i], line);
-			free(line);
-		}
-		if (heredoc_cmd)
-			heredoc_cmd = heredoc_cmd->next;
-		i++;
+		ft_printfd(1, "> ");
+		line = read_line();
+		if (!line || strcmp(line, delimiter) == 0)
+			break;
+		write(pipefd[1], line, strlen(line));
+		write(pipefd[1], "\n", 1);
+		free(line);
 	}
-	return (ret);
+	free(line);
+	close(pipefd[1]);
+	return (0);
 }
+
+// char **heredoc_pipe(t_cmd *cmd)
+// {
+// 	char **ret;
+// 	char *line;
+// 	t_cmd *heredoc_cmd;
+// 	int   i;
+
+// 	i = 0;
+// 	heredoc_cmd = cmd;
+// 	ret = malloc(sizeof(char *) * (cmd->arg_count + 1));
+// 	while (heredoc_cmd != NULL)
+// 	{
+// 		while(!heredoc_cmd->is_heredoc && heredoc_cmd != NULL)
+// 		{
+// 			heredoc_cmd = heredoc_cmd->next;
+// 		}
+// 		while (heredoc_cmd != NULL && heredoc_cmd->is_heredoc)
+// 		{
+// 			ft_printfd(1, "> ");
+// 			line = read_line();
+// 			if (!line || strcmp(line, heredoc_cmd->heredoc_delimiter) == 0)
+// 				break;
+// 			line = ft_strjoin(line, "\n");
+// 			ret[i] = ft_strjoin(ret[i], line);
+// 			free(line);
+// 		}
+// 		if (heredoc_cmd)
+// 			heredoc_cmd = heredoc_cmd->next;
+// 		i++;
+// 	}
+// 	return (ret);
+// }

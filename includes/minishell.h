@@ -249,7 +249,9 @@ int		command_select(t_cmd *cmd, t_shell_state **shell);
 int		ft_printfd(int fd, const char *format, ...);
 char	*conv_to_strn(char **args);
 int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
-char	**env_to_matrx(t_env *env);
+char	**env_to_matrix(t_env *env);
+int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
+int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char	*read_line(void);
 int		open_ve(t_cmd *cmd);
@@ -261,6 +263,8 @@ int		handle_builtin(t_cmd *cmd, t_shell_state **shell);
 int		handle_external_command(t_cmd *cmd, t_shell_state **shell);
 int		pipe_free_all(t_cmd *cmd_left, t_shell_state *shell);
 int		handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell);
+int		pipe_heredoc_changes(t_cmd *cmd);
+int		heredoc_read(int *pipefd, const char *delimiter);
 char	 **heredoc_pipe(t_cmd *cmd);
 
 // inbuilt commands
