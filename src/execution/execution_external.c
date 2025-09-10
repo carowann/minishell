@@ -75,10 +75,11 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
+	int docfd[2];
 
 	fd[0] = -1;
 	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
-	if (cmd->input_file)
+	if (cmd->input_file && cmd->is_heredoc <= 1)
 	{
 		fd[0] = open(cmd->input_file, O_RDONLY);
 		if (fd[0]< 0)
@@ -88,6 +89,14 @@ int	open_ve(t_cmd *cmd)
 		}
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
+	}
+	else if (cmd->is_heredoc > 1)
+	{
+		pipe(docfd);
+		write(docfd[1], cmd->input_file, ft_strlen(cmd->input_file));
+		close(docfd[1]);
+		dup2(docfd[0], STDIN_FILENO);
+		close(docfd[0]);
 	}
 	if (cmd->output_file)
 	{

@@ -3,33 +3,47 @@
 int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 {
 	int   pipefd[2];
-	pid_t pid_write;
-	pid_t pid_read;
+	pid_t pid;
+	int   status;
 
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe");
 		return (1);
 	}
-	pid_read = fork();
-	if (pid_read == 0)
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		close(pipefd[0]);
+		close(pipefd[1]);
+		return (1);
+	}
+	if (pid == 0)
 	{
 		close(pipefd[0]);
 		heredoc_read(pipefd, delimiter);
+		close(pipefd[1]);
 		free_command_all((*shell)->current_cmd_list->head);
 		free((*shell)->current_cmd_list);
 		free_env((*shell)->env_list);
 		free(*shell);
 		exit(0);
 	}
-	else // Parent process
+	else
 	{
 		close(pipefd[1]);
-		waitpid(pid_read, NULL, 0);
-		pid_write = fork();
-		if (pid_write == 0)
+		waitpid(pid, &status, 0);
+		pid = fork();
+		if (pid == -1)
 		{
-			dup2(pipefd[0], STDIN_FILENO); // Redirect stdin to read
+			perror("fork");
+			close(pipefd[0]);
+			return (1);
+		}
+		if (pid == 0)
+		{
+			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
 			if (is_valid_cmd(cmd->args[0]))
 				handle_builtin(cmd, shell);
@@ -44,8 +58,12 @@ int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
 		else  // Parent process
 		{
 			close(pipefd[0]);
-			waitpid(pid_write, NULL, 0);
-			return (0);
+			waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				(*shell)->last_exit_status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				(*shell)->last_exit_status = 128 + WTERMSIG(status);
+			return ((*shell)->last_exit_status);
 		}
 	}
 }

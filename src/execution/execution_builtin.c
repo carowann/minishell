@@ -64,7 +64,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	return (result);
 }
 
-int open_in(t_cmd *cmd,	 int *fd)
+int open_in(t_cmd *cmd, int *fd)
 {
 	*fd = STDOUT_FILENO;
 	if (*fd < 0)

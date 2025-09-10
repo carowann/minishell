@@ -25,7 +25,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 		return (set_exit_status(shell, 1));
 	if (cmd->next != NULL)
 		return (handle_pipeline(cmd, shell));
-	if (cmd->is_heredoc == 1 && cmd->next == NULL)
+	if (cmd->is_heredoc == 1)
 		return (handle_heredoc(cmd->heredoc_delimiter, cmd, shell));
 	if (is_valid_cmd(cmd->args[0]))
 		return (handle_builtin(cmd, shell));

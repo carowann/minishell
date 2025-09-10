@@ -266,6 +266,8 @@ int		handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell);
 int		pipe_heredoc_changes(t_cmd *cmd);
 int		heredoc_read(int *pipefd, const char *delimiter);
 char	 **heredoc_pipe(t_cmd *cmd);
+int		set_up_heredoc(t_cmd *cmd);
+char 	*get_all_line(int fd);
 
 // inbuilt commands
 int		pwd(int fd);

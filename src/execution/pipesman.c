@@ -22,6 +22,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	int		cmd_result;
 	
 	fflush(NULL);
+	set_up_heredoc(shell->current_cmd_list->head);
 	if (pipe(pipefd) == -1)
 	{
 		perror("pipe failed");
@@ -42,7 +43,6 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		pipe_free_all(cmd_left, shell);
 		exit(cmd_result);
 	}
-	
 	right_pid = fork();
 	if (right_pid == -1)
 	{
@@ -70,41 +70,77 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		shell->last_exit_status = 1;
 	return (shell->last_exit_status);
 }
-int	pipe_heredoc_changes(t_cmd *cmd)
+
+int	set_up_heredoc(t_cmd *cmd)
 {
 	int fd[2];
-	pid_t pid;
+	char *line;
 
-	if (pipe(fd) == -1)
+	while (cmd)
 	{
-		perror("pipe in heredoc failed");
-		return (1);
+		if (cmd->is_heredoc == 1)
+		{
+			if (pipe(fd) == -1)
+			{
+				perror("pipe in heredoc failed");
+				return (1);
+			}
+			if (fork() == 0)
+			{
+				close(fd[0]);
+				heredoc_read(fd, cmd->heredoc_delimiter);
+				close(fd[1]);
+				free_command_all(cmd);
+				exit(0);
+			}
+			waitpid(-1, NULL, 0);
+			close(fd[1]);
+			line = get_all_line(fd[0]);
+			close(fd[0]);
+			cmd->input_file = ft_strdup(line);
+			cmd->is_heredoc = fd[0];
+			free(line);
+		}
+		cmd = cmd->next;
 	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork in heredoc failed");
-		close(fd[0]);
-		close(fd[1]);
-		return (1);
-	}
-	if (pid == 0)
-	{
-		close(fd[0]);
-		heredoc_read(fd, cmd->heredoc_delimiter);
-		close(fd[1]);
-		exit(0);
-	}
-	waitpid(pid, NULL, 0);
-	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
 	return (0);
 }
+
+// int	pipe_heredoc_changes(t_cmd *cmd)
+// {
+// 	int fd[2];
+// 	pid_t pid;
+
+// 	if (pipe(fd) == -1)
+// 	{
+// 		perror("pipe in heredoc failed");
+// 		return (1);
+// 	}
+// 	pid = fork();
+// 	if (pid == -1)
+// 	{
+// 		perror("fork in heredoc failed");
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 		return (1);
+// 	}
+// 	if (pid == 0)
+// 	{
+// 		close(fd[0]);
+// 		heredoc_read(fd, cmd->heredoc_delimiter);
+// 		close(fd[1]);
+// 		exit(0);
+// 	}
+// 	waitpid(pid, NULL, 0);
+// 	close(fd[1]);
+// 	dup2(fd[0], STDIN_FILENO);
+// 	close(fd[0]);
+// 	return (0);
+// }
 int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
-	if(cmd->is_heredoc == 1)
-		pipe_heredoc_changes(cmd);
+	// if(cmd->is_heredoc == 1)
+	// 	pipe_heredoc_changes(cmd);
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
@@ -115,7 +151,7 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
-
+	
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
@@ -153,30 +189,24 @@ void	free_command_all(t_cmd *cmd)
 	return ;
 }
 
-// Executes a command in a pipeline, flag indicates if it's left (1) or right (0)
-// int	exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag)
-// {
-// 	int result;
-// 	if(flag == 0)
-// 	{
-// 		close(fd[1]);
-// 		if(cmd->is_heredoc == 1)
-// 			close(fd[0]);
-// 		dup2(fd[0], STDIN_FILENO);
-// 		close(fd[0]);
-// 	}
-// 	else
-// 	{
-// 		close(fd[0]);
-// 		dup2(fd[1], STDOUT_FILENO);
-// 		close(fd[1]);	
-// 	}
-// 	if (flag == 1)
-// 	{
-// 		if (is_valid_cmd(cmd->args[0]))
-// 			return (handle_builtin(cmd, &shell));
-// 		return (handle_external_command(cmd, &shell));	
-// 	}
-// 	result = execute_cmd(cmd, &shell);
-// 	return (result);
-// }
+char *get_all_line(int fd)
+{
+	char *str;
+	char *line;
+
+	str = ft_strdup("");
+	line = get_next_line(fd);
+	if (!line)
+	{
+		free(str);
+		return (NULL);
+	}
+	str = ft_strjoin(str, line);
+	free(line);
+	while ((line = get_next_line(fd)))
+	{
+		str = ft_strjoin(str, line);
+		free(line);
+	}
+	return (str);
+}
