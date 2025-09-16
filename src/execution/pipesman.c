@@ -80,17 +80,11 @@ int	set_up_heredoc(t_cmd *cmd)
 	{
 		if (cmd->is_heredoc == 1)
 		{
-			if (pipe(fd) == -1)
-			{
-				perror("pipe in heredoc failed");
+			if (pipe_error(fd) == 1)
 				return (1);
-			}
 			if (fork() == 0)
 			{
-				close(fd[0]);
-				heredoc_read(fd, cmd->heredoc_delimiter);
-				close(fd[1]);
-				free_command_all(cmd);
+				heredoc_sub(cmd, fd);
 				exit(0);
 			}
 			waitpid(-1, NULL, 0);
@@ -106,37 +100,6 @@ int	set_up_heredoc(t_cmd *cmd)
 	return (0);
 }
 
-// int	pipe_heredoc_changes(t_cmd *cmd)
-// {
-// 	int fd[2];
-// 	pid_t pid;
-
-// 	if (pipe(fd) == -1)
-// 	{
-// 		perror("pipe in heredoc failed");
-// 		return (1);
-// 	}
-// 	pid = fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork in heredoc failed");
-// 		close(fd[0]);
-// 		close(fd[1]);
-// 		return (1);
-// 	}
-// 	if (pid == 0)
-// 	{
-// 		close(fd[0]);
-// 		heredoc_read(fd, cmd->heredoc_delimiter);
-// 		close(fd[1]);
-// 		exit(0);
-// 	}
-// 	waitpid(pid, NULL, 0);
-// 	close(fd[1]);
-// 	dup2(fd[0], STDIN_FILENO);
-// 	close(fd[0]);
-// 	return (0);
-// }
 int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	// if(cmd->is_heredoc == 1)
@@ -171,42 +134,4 @@ int pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
 	free_env(shell->env_list);
 	free(shell);
 	return (0);
-}
-
-void	free_command_all(t_cmd *cmd)
-{
-	t_cmd	*temp_cmd;
-
-	if (!cmd || (!cmd->next))
-		return ;
-	while (cmd && cmd->next)
-	{	
-		temp_cmd = cmd->next;
-		free_cmd(cmd);
-		cmd = temp_cmd;
-	}
-	free_cmd(cmd);
-	return ;
-}
-
-char *get_all_line(int fd)
-{
-	char *str;
-	char *line;
-
-	str = ft_strdup("");
-	line = get_next_line(fd);
-	if (!line)
-	{
-		free(str);
-		return (NULL);
-	}
-	str = ft_strjoin(str, line);
-	free(line);
-	while ((line = get_next_line(fd)))
-	{
-		str = ft_strjoin(str, line);
-		free(line);
-	}
-	return (str);
 }

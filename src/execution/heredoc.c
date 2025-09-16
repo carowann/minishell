@@ -87,35 +87,11 @@ int heredoc_read(int *pipefd, const char *delimiter)
 	return (0);
 }
 
-// char **heredoc_pipe(t_cmd *cmd)
-// {
-// 	char **ret;
-// 	char *line;
-// 	t_cmd *heredoc_cmd;
-// 	int   i;
-
-// 	i = 0;
-// 	heredoc_cmd = cmd;
-// 	ret = malloc(sizeof(char *) * (cmd->arg_count + 1));
-// 	while (heredoc_cmd != NULL)
-// 	{
-// 		while(!heredoc_cmd->is_heredoc && heredoc_cmd != NULL)
-// 		{
-// 			heredoc_cmd = heredoc_cmd->next;
-// 		}
-// 		while (heredoc_cmd != NULL && heredoc_cmd->is_heredoc)
-// 		{
-// 			ft_printfd(1, "> ");
-// 			line = read_line();
-// 			if (!line || strcmp(line, heredoc_cmd->heredoc_delimiter) == 0)
-// 				break;
-// 			line = ft_strjoin(line, "\n");
-// 			ret[i] = ft_strjoin(ret[i], line);
-// 			free(line);
-// 		}
-// 		if (heredoc_cmd)
-// 			heredoc_cmd = heredoc_cmd->next;
-// 		i++;
-// 	}
-// 	return (ret);
-// }
+void heredoc_sub(t_cmd *cmd, int *fd)
+{
+	close(fd[0]);
+	heredoc_read(fd, cmd->heredoc_delimiter);
+	close(fd[1]);
+	free_command_all(cmd);
+	return 0;
+}
