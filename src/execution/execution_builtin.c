@@ -54,11 +54,8 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 		result = env((*shell)->env_list, fd[0], 0);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == SUCCESS)
 		return (builtin_exit(cmd, *shell));
-	else
-	{
-		ft_printfd(2, "minishell: %s: command not found\n", cmd->args[0]);
+	else if (ft_printfd(2, "minishell: %s: command not found\n", cmd->args[0]))
 		result = 127;
-	}
 	if (fd[0] != STDOUT_FILENO)
 		close(fd[0]);
 	return (result);

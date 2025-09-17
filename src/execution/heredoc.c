@@ -93,5 +93,5 @@ void heredoc_sub(t_cmd *cmd, int *fd)
 	heredoc_read(fd, cmd->heredoc_delimiter);
 	close(fd[1]);
 	free_command_all(cmd);
-	return 0;
+	return ;
 }

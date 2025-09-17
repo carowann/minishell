@@ -268,6 +268,11 @@ int		heredoc_read(int *pipefd, const char *delimiter);
 char	 **heredoc_pipe(t_cmd *cmd);
 int		set_up_heredoc(t_cmd *cmd);
 char 	*get_all_line(int fd);
+int 	pipe_error(int *fd);
+int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
+void 	heredoc_sub(t_cmd *cmd, int *fd);
+int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
+void	set_last_exit_status(t_shell_state *shell, int status);
 
 // inbuilt commands
 int		pwd(int fd);

@@ -37,7 +37,7 @@ void	free_command_all(t_cmd *cmd)
 	return ;
 }
 
-pipe_error(int *fd)
+int pipe_error(int *fd)
 {
     if (pipe(fd) == -1)
 	{
@@ -45,4 +45,21 @@ pipe_error(int *fd)
 		return (1);
 	}
     return (0);
+}
+
+int	fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status)
+{
+	close(fd[0]);
+	close(fd[1]);
+	if (whait1)
+		waitpid(*whait1, NULL, 0);
+	if (whait2)
+		waitpid(*whait2, status, 0);
+	return (-1);
+}
+int fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status)
+{
+	perror("fork failed");
+	fork_close(fd, whait1, whait2, status);
+	return (-1);
 }

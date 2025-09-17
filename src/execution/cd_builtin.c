@@ -69,9 +69,7 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	if (cmd->arg_count == 1 || (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
 	{
 		if (!find_env_val((*shell)->env_list, "HOME="))
-		{
 			return(1);
-		}
 		else
 			path = find_env_val((*shell)->env_list, "HOME=");
 
@@ -85,6 +83,7 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	}
 	return (change_dir(path, (*shell)->env_list));
 }
+
 char	*find_env_val(t_env *env,char *node)
 {
 	t_env *temp_env; 

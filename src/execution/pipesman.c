@@ -19,55 +19,23 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	pid_t	right_pid;
 	int		pipefd[2];
 	int		status;
-	int		cmd_result;
 	
 	fflush(NULL);
 	set_up_heredoc(shell->current_cmd_list->head);
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipe failed");
+	if (pipe_error(pipefd) == 1)
 		return (-1);
-	}
 	left_pid = fork();
 	if (left_pid == -1)
-	{
-		perror("fork failed");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		return (-1);
-	}
+		return (fork_error(pipefd, NULL, NULL, 0));
 	if (left_pid == 0)
-	{	
-		ft_printfd(1, "Left PID: %d,%s\n", getpid(), fgets(NULL, 0, stdin));
-		cmd_result = exec_pipeline_left(cmd_left, shell, pipefd);
-		pipe_free_all(cmd_left, shell);
-		exit(cmd_result);
-	}
+		exit(exec_pipeline_left(cmd_left, shell, pipefd));
 	right_pid = fork();
 	if (right_pid == -1)
-	{
-		perror("fork failed");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		waitpid(left_pid, NULL, 0);
-		return (-1);
-	}
+		return (fork_error(pipefd, &left_pid, NULL, 0));
 	if (right_pid == 0)
-	{
-		cmd_result = exec_pipeline_right(cmd_right, shell, pipefd);
-		pipe_free_all(cmd_left, shell);
-		exit(cmd_result);
-	}
-	close(pipefd[1]);
-	close(pipefd[0]);
-	waitpid(left_pid, NULL, 0);
-	waitpid(right_pid, &status, 0);
-	if (WIFEXITED(status))
-		shell->last_exit_status = WEXITSTATUS(status);
-	else if (WIFSIGNALED(status))
-		shell->last_exit_status = 128 + WTERMSIG(status);
-	else 
-		shell->last_exit_status = 1;
+		exit( exec_pipeline_right(cmd_right, shell, pipefd));
+	fork_close(pipefd, &left_pid, &right_pid, &status);
+	set_last_exit_status(shell, status);
 	return (shell->last_exit_status);
 }
 
@@ -102,14 +70,16 @@ int	set_up_heredoc(t_cmd *cmd)
 
 int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
-	// if(cmd->is_heredoc == 1)
-	// 	pipe_heredoc_changes(cmd);
+	int result;
+
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	if (is_valid_cmd(cmd->args[0]))
-		return (handle_builtin(cmd, &shell));
-	return (handle_external_command(cmd, &shell));	
+		result = handle_builtin(cmd, &shell);
+	result = handle_external_command(cmd, &shell);
+	pipe_free_all(cmd, shell);
+	return (result);
 }
 int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
@@ -119,12 +89,13 @@ int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	result = execute_cmd(cmd, &shell);
+	pipe_free_all(shell->current_cmd_list->head, shell);
 	return (result);
 }
 
 int pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
 {
-	if (cmd_left)
+	if (shell->current_cmd_list->head && cmd_left)
 		free_command_all(shell->current_cmd_list->head);
 	if (shell->current_cmd_list)
 	{
