@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void set_last_exit_status(t_shell_state *shell, int status)
+int set_last_exit_status(t_shell_state *shell, int status)
 {
     if (WIFEXITED(status))
         shell->last_exit_status = WEXITSTATUS(status);
@@ -8,5 +8,5 @@ void set_last_exit_status(t_shell_state *shell, int status)
         shell->last_exit_status = 128 + WTERMSIG(status);
     else
         shell->last_exit_status = 1;
-    return;
+    return (shell->last_exit_status);
 }

@@ -1,70 +1,30 @@
 #include "../../includes/minishell.h"
 
-int handle_heredoc(const char *delimiter, t_cmd *cmd, t_shell_state **shell)
+int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
 {
 	int   pipefd[2];
 	pid_t pid;
 	int   status;
 
-	if (pipe(pipefd) == -1)
-	{
-		perror("pipe");
+	if (pipe_error(pipefd) == 1)
 		return (1);
-	}
 	pid = fork();
 	if (pid == -1)
-	{
-		perror("fork");
-		close(pipefd[0]);
-		close(pipefd[1]);
-		return (1);
-	}
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		heredoc_read(pipefd, delimiter);
-		close(pipefd[1]);
-		free_command_all((*shell)->current_cmd_list->head);
-		free((*shell)->current_cmd_list);
-		free_env((*shell)->env_list);
-		free(*shell);
-		exit(0);
-	}
+		return (fork_error(pipefd, NULL, NULL, NULL));
+	if (pid == 0) //child uno, legge da stdin e scrive su pipefd[1]
+		exit(doc_child_write(cmd, pipefd, shell));
 	else
 	{
 		close(pipefd[1]);
 		waitpid(pid, &status, 0);
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("fork");
-			close(pipefd[0]);
-			return (1);
-		}
-		if (pid == 0)
-		{
-			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
-			if (is_valid_cmd(cmd->args[0]))
-				handle_builtin(cmd, shell);
-			else 
-				handle_external_command(cmd, shell);
-			free_command_all((*shell)->current_cmd_list->head);
-			free((*shell)->current_cmd_list);
-			free_env((*shell)->env_list);
-			free(*shell);
-			exit((*shell)->last_exit_status);
-		}
-		else  // Parent process
-		{
-			close(pipefd[0]);
-			waitpid(pid, &status, 0);
-			if (WIFEXITED(status))
-				(*shell)->last_exit_status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				(*shell)->last_exit_status = 128 + WTERMSIG(status);
-			return ((*shell)->last_exit_status);
-		}
+			return (fork_error(pipefd, NULL, NULL, NULL));
+		if (pid == 0) //child due, legge da pipefd[0] e duplica su stdin
+			exit(doc_child_read(cmd, pipefd, shell));
+		close(pipefd[0]);
+		waitpid(pid, &status, 0);
+		return set_last_exit_status(*shell, status);
 	}
 }
 
@@ -94,4 +54,28 @@ void heredoc_sub(t_cmd *cmd, int *fd)
 	close(fd[1]);
 	free_command_all(cmd);
 	return ;
+}
+
+int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
+{
+	close(fd[0]);
+	heredoc_read(fd, cmd->heredoc_delimiter);
+	close(fd[1]);
+	free_command_all((*shell)->current_cmd_list->head);
+	free((*shell)->current_cmd_list);
+	free_env((*shell)->env_list);
+	free(*shell);
+	return(0);
+}
+
+int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
+{
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	if (is_valid_cmd(cmd->args[0]))
+		handle_builtin(cmd, shell);
+	else 
+		handle_external_command(cmd, shell);
+	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+	return((*shell)->last_exit_status);
 }

@@ -34,7 +34,7 @@ int	echo_exec(char **str, int n_var, int fd)
 }
 
 //	command called when the Echo keyword is read
-int echo(char **args, int fd)
+int echo_builtin(char **args, int fd)
 {
 	int n_var;
 

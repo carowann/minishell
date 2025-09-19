@@ -24,52 +24,23 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 
 	pid = fork();
 	if (pid < 0)
-	{
 		perror("Fork failed");
+	if (pid < 0)
 		return (-1);
-	}
 	if (pid == 0)
 	{
 		if (open_ve(cmd) == -1)
-		{
-			free_command_all(cmd);
-			free_env((*shell)->env_list);
-			exit(EXIT_FAILURE);
-		}
+			exit(open_ve_error(cmd, shell));
 		envp = env_to_matrix((*shell)->env_list);
 		temp = dup_matrix(cmd->args);
 		if (!envp || !temp)
-		{
-			if (envp)
-				free_matrix(envp);
-			if (temp)
-				free_matrix(temp);
-			free_command_all(cmd);
-			free_env((*shell)->env_list);
-			exit(EXIT_FAILURE);
-		}
-		free_env((*shell)->env_list);
-		free_command_list((*shell)->current_cmd_list);
-		free((*shell));
+			exit(execve_matr_fail(envp, temp, cmd, shell));
+		pipe_free_all(cmd, *shell);
 		execve(exe_path, temp, envp);
-		free_matrix(envp);
-		free_matrix(temp);
-		free_command_all(cmd);
-		free_env((*shell)->env_list);
-		perror("execve failed");
-		exit(127);
+		exit(execve_error(envp, temp, exe_path));
 	}
-	else
-	{
-		waitpid(pid, &exit_status, 0);
-		if (WIFEXITED(exit_status)) //se termina normalmente
-			return (WEXITSTATUS(exit_status)); //estrae exit status
-		else if (WIFSIGNALED(exit_status)) //se proc uscito da signal
-			return (128 + WTERMSIG(exit_status)); // bash restituisce 128 + num segnale
-		else
-			return (1);
-	}
-	return (0);
+	waitpid(pid, &exit_status, 0);
+	return (set_last_exit_status(*shell, exit_status));
 }
 
 int	open_ve(t_cmd *cmd)
@@ -79,25 +50,10 @@ int	open_ve(t_cmd *cmd)
 
 	fd[0] = -1;
 	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
-	if (cmd->input_file && cmd->is_heredoc <= 1)
-	{
-		fd[0] = open(cmd->input_file, O_RDONLY);
-		if (fd[0]< 0)
-		{
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
-			return (-1);	
-		}
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-	}
+	if (cmd->input_file && cmd->is_heredoc < 1)
+		open_ve_doc(fd, cmd);
 	else if (cmd->is_heredoc > 1)
-	{
-		pipe(docfd);
-		write(docfd[1], cmd->input_file, ft_strlen(cmd->input_file));
-		close(docfd[1]);
-		dup2(docfd[0], STDIN_FILENO);
-		close(docfd[0]);
-	}
+		open_ve_doc(docfd, cmd);
 	if (cmd->output_file)
 	{
 		fd[1] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) 
@@ -140,25 +96,3 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	return(exe_path);
 }
 
-char	*find_cmd_exe(char **paths, t_cmd *cmd)
-{
-	size_t	i;
-	char	*exe_path;
-
-	i = 0;
-	if (!cmd || !cmd->args[0] || !cmd->args[0][0])
-		return (NULL);
-	if (ft_strchr(cmd->args[0], '/') && access(cmd->args[0], X_OK) == SUCCESS)
-		return (ft_strdup(cmd->args[0]));
-	while (paths[i])
-	{
-		exe_path = ft_strjoin3(paths[i], "/", cmd->args[0]);
-		if (!exe_path)
-			return (NULL);
-		if (access(exe_path, X_OK) == SUCCESS)
-			return (exe_path);
-		free(exe_path);
-		i++;
-	}
-	return (NULL);
-}

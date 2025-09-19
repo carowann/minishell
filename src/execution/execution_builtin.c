@@ -41,7 +41,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	if (open_in(cmd, fd) == -1)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
-		result = echo(cmd->args, fd[0]);
+		result = echo_builtin(cmd->args, fd[0]);
 	else if (ft_strncmp(cmd->args[0], "cd", 3) == 0)
 		result = cd_builtin(cmd, shell);
 	else if (ft_strncmp(cmd->args[0], "pwd", 4) == 0)
