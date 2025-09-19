@@ -21,7 +21,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	int		status;
 	
 	fflush(NULL);
-	set_up_heredoc(shell->current_cmd_list->head);
+	set_up_heredoc(shell->current_cmd_list->head, shell);
 	if (pipe_error(pipefd) == 1)
 		return (-1);
 	left_pid = fork();
@@ -39,10 +39,11 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	return (shell->last_exit_status);
 }
 
-int	set_up_heredoc(t_cmd *cmd)
+int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 {
 	int fd[2];
 	char *line;
+	pid_t pid;
 
 	while (cmd)
 	{
@@ -50,9 +51,10 @@ int	set_up_heredoc(t_cmd *cmd)
 		{
 			if (pipe_error(fd) == 1)
 				return (1);
-			if (fork() == 0)
+			pid = fork(); //creo un processo figlio che scrive nel pipe
+			if (pid == 0)
 			{
-				heredoc_sub(cmd, fd);
+				heredoc_sub(cmd, fd, shell);
 				exit(0);
 			}
 			waitpid(-1, NULL, 0);
@@ -60,7 +62,7 @@ int	set_up_heredoc(t_cmd *cmd)
 			line = get_all_line(fd[0]);
 			close(fd[0]);
 			cmd->input_file = ft_strdup(line);
-			cmd->is_heredoc = fd[0];
+			cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
 			free(line);
 		}
 		cmd = cmd->next;
@@ -77,7 +79,8 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 	close(fd[1]);
 	if (is_valid_cmd(cmd->args[0]))
 		result = handle_builtin(cmd, &shell);
-	result = handle_external_command(cmd, &shell);
+	else
+		result = handle_external_command(cmd, &shell);
 	pipe_free_all(cmd, shell);
 	return (result);
 }

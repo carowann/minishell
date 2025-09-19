@@ -47,12 +47,12 @@ int heredoc_read(int *pipefd, const char *delimiter)
 	return (0);
 }
 
-void heredoc_sub(t_cmd *cmd, int *fd)
+void heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	close(fd[0]);
 	heredoc_read(fd, cmd->heredoc_delimiter);
 	close(fd[1]);
-	free_command_all(cmd);
+	pipe_free_all(cmd, shell);
 	return ;
 }
 

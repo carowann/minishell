@@ -266,11 +266,11 @@ int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
 int		pipe_heredoc_changes(t_cmd *cmd);
 int		heredoc_read(int *pipefd, const char *delimiter);
 char	 **heredoc_pipe(t_cmd *cmd);
-int		set_up_heredoc(t_cmd *cmd);
+int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
 int 	pipe_error(int *fd);
 int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
-void 	heredoc_sub(t_cmd *cmd, int *fd);
+void 	heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
 int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		set_last_exit_status(t_shell_state *shell, int status);
 int 	execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell);
@@ -279,6 +279,7 @@ int		open_ve_doc(int *docfd, t_cmd *cmd);
 int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		open_ve_error(t_cmd *cmd, t_shell_state **shell);
+int		heredoc_execve(t_cmd *cmd);
 
 
 

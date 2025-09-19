@@ -4,19 +4,24 @@ char *get_all_line(int fd)
 {
 	char *str;
 	char *line;
+	char *temp;
 
-	str = ft_strdup("");
+	str = NULL;
 	line = get_next_line(fd);
 	if (!line)
 	{
 		free(str);
 		return (NULL);
 	}
+	temp = str;
 	str = ft_strjoin(str, line);
+	free(temp);
 	free(line);
 	while ((line = get_next_line(fd)))
 	{
+		temp = str;
 		str = ft_strjoin(str, line);
+		free(temp);
 		free(line);
 	}
 	return (str);
@@ -37,29 +42,18 @@ void	free_command_all(t_cmd *cmd)
 	return ;
 }
 
-int pipe_error(int *fd)
+int heredoc_execve(t_cmd *cmd)
 {
-    if (pipe(fd) == -1)
+	int fd[2];
+	pipe(fd);
+	if (fd[0] < 0 || fd[1] < 0)
 	{
 		perror("pipe in heredoc failed");
-		return (1);
+		return (-1);
 	}
-    return (0);
-}
-
-int	fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status)
-{
-	close(fd[0]);
+	write(fd[1], cmd->input_file, ft_strlen(cmd->input_file));
 	close(fd[1]);
-	if (whait1)
-		waitpid(*whait1, NULL, 0);
-	if (whait2)
-		waitpid(*whait2, status, 0);
-	return (-1);
-}
-int fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status)
-{
-	perror("fork failed");
-	fork_close(fd, whait1, whait2, status);
-	return (-1);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	return (0);
 }

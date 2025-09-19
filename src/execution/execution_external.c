@@ -46,14 +46,13 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 int	open_ve(t_cmd *cmd)
 {
 	int fd[2];
-	int docfd[2];
-
+	
 	fd[0] = -1;
 	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
 	if (cmd->input_file && cmd->is_heredoc < 1)
 		open_ve_doc(fd, cmd);
 	else if (cmd->is_heredoc > 1)
-		open_ve_doc(docfd, cmd);
+		heredoc_execve(cmd);
 	if (cmd->output_file)
 	{
 		fd[1] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) 
