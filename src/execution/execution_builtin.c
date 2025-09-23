@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execution_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 17:33:47 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 11:29:56 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+//TODO: minishell> cat < nonexistent
+// non chiude dopo messaaggio errore
 
 // Check if the command is valid inbuilt command
 int	is_valid_cmd(char *cmd)
@@ -38,6 +40,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	int	fd[1];
 	int	result;
 	
+	result = 0;
 	if (open_in(cmd, fd) == -1)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)
@@ -64,10 +67,10 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 int open_in(t_cmd *cmd, int *fd)
 {
 	*fd = STDOUT_FILENO;
-	if (*fd < 0)
+	if (*fd < 0) //non succede mai
 	{
-		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
-		return (-1);	
+		ft_printfd(2, "minishell: %s: No such file or directory\n", cmd->output_file);
+		return (-1);
 	}
 	if (cmd->output_file)
 	{
@@ -78,7 +81,7 @@ int open_in(t_cmd *cmd, int *fd)
 			*fd = open(cmd->output_file, O_RDWR | O_CREAT | O_TRUNC, OUTFILE_PERMS);
 		if (*fd < 0)
 		{
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+			ft_printfd(2, "minishell: %s: No such file or directory\n", cmd->output_file);
 			return (-1);	
 		}
 	}

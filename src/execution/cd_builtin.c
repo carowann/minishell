@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/06 15:48:19 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 11:15:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <linux/limits.h>
+
+//TODO cwannhed@c1r6p8:~$ cd hdsaldjsl
+//bash: cd: hdsaldjsl: No such file or directory
 
 void	change_env_wd(char *newwd, char *oldwd, t_env *env)
 {
