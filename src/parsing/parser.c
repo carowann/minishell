@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 12:23:52 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 12:40:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ int	parse_input(char *input, t_cmd_list	**cmd_list, t_shell_state **shell)
 	}
 	if (build_cmd_list(cmd_list,&ctx) == -1)
 		return (-1);
-	printf("=== PARSING RESULT ===\n"); //debug
-	print_token_list(ctx.tokens); //debug
-	print_cmd_list_detailed(*cmd_list);  //debug
+	// printf("=== PARSING RESULT ===\n"); //debug
+	// print_token_list(ctx.tokens); //debug
+	// print_cmd_list_detailed(*cmd_list);  //debug
 	cleanup_tokenizer_ctx(&ctx);
 	return (0);
 }
