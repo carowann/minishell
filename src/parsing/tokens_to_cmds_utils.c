@@ -6,11 +6,9 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:57:50 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 12:37:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:57:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/minishell.h"
 
 #include "../../includes/minishell.h"
 
@@ -78,7 +76,9 @@ int	process_token_loop(t_token_list *tokens, t_cmd_list *cmd_list)
  */
 int	finalize_last_command(t_cmd *curr_cmd, t_cmd_list *cmd_list)
 {
-	if (curr_cmd->arg_count > 0)
+	if (curr_cmd->arg_count > 0
+		|| curr_cmd->input_file
+		|| curr_cmd->output_file)
 	{
 		if (add_command_to_list(curr_cmd, cmd_list) == -1)
 		{

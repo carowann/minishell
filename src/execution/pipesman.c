@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 19:33:29 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 12:57:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 	pipe_free_all(cmd, shell);
 	return (result);
 }
+
 int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;

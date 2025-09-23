@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 14:55:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:57:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,11 @@ int last_token_is_pipe(t_token_list *token_list)
 	curr_token = token_list->head;
 	while (curr_token->next)
 		curr_token = curr_token->next;
+	printf("DEBUG: last_token_is_pipe - last token type: %d\n", curr_token->type);
 	if (curr_token->type == PIPE)
+	{
+		printf("DEBUG: ERROR - last token is pipe!\n");
 		return (1);
+	}
 	return (0);
 }

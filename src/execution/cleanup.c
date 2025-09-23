@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:11:35 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 18:55:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 12:55:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_matrix(char **matrix)
 	}
 	free(matrix);
 }
+
 // Free the shell state and all its components, used in child processes
 void  free_shell(t_shell_state *shell)
 {

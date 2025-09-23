@@ -6,13 +6,12 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 18:06:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:37:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//TODO: REFACTORARE TUTTO QUESTO FILE
 
 // Function to execute a command using execve in a child process
 int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
