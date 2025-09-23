@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 15:40:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:35:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 	{
 		ft_printfd(STDERR_FILENO, "minishell: syntax error: unterminated quoted string\n");
 		return (-1);
+	}
+	if (ctx->parser.state == IN_VARIABLE && ctx->parser.buffer_pos == 0)
+	{
+		add_to_buffer('$', &ctx->parser);
+		return (safe_create_and_add_token(ctx, WORD));
 	}
 	if (ctx->parser.buffer_pos > 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/06 20:23:46 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 16:08:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 	int result;
 
 	result = command_select(cmd, shell);
-	if (ft_strncmp(cmd->args[0], "exit", 5) != 0)
+	if (ft_strncmp(cmd->args[0], "exit", 5) != 0 || !(*shell)->should_exit)
 		(*shell)->last_exit_status = result;
 	return (result);
 }

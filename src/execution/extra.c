@@ -26,6 +26,7 @@ char *get_all_line(int fd)
 	}
 	return (str);
 }
+
 void	free_command_all(t_cmd *cmd)
 {
 	t_cmd	*temp_cmd;

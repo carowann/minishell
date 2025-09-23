@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 12:32:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:53:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	handle_argument_token(t_token *token, t_cmd *cmd)
  */
 int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 {
-	if (!(*cmd)->arg_count)
+	if (!(*cmd)->arg_count && !(*cmd)->input_file)
 	{
 		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
 		return (-1);

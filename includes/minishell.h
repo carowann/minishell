@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 16:31:03 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 16:35:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token);
 int	is_argument_token(t_token *token);
 int	is_redirect_token(t_token *token);
 int	finalize_last_command(t_cmd *curr_cmd, t_cmd_list *cmd_list);
-int	validate_tokens_for_parsing(t_token_list *tokens);
 int	process_token_loop(t_token_list *tokens, t_cmd_list *cmd_list);
 
 //tokens_to_cmds.c

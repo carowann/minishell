@@ -6,11 +6,9 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:57:50 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 14:44:07 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 14:57:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/minishell.h"
 
 #include "../../includes/minishell.h"
 
@@ -41,25 +39,6 @@ int	is_redirect_token(t_token *token)
 		|| token->type == REDIRECT_OUT
 		|| token->type == APPEND
 		|| token->type == HEREDOC);
-}
-
-/*
- * Validates basic syntax before parsing
- * @param tokens: token list to validate
- * @return: 0 success, -1 error  
- */
-int	validate_tokens_for_parsing(t_token_list *tokens)
-{
-	if (!tokens || !tokens->head)
-		return (-1);
-	if (is_redirect_token(tokens->head))
-	{
-		ft_printfd(STDERR_FILENO, 
-			"minishell: syntax error near unexpected token `%s'\n", 
-			tokens->head->content);
-		return (-1);
-	}
-	return (0);
 }
 
 /*
@@ -97,7 +76,9 @@ int	process_token_loop(t_token_list *tokens, t_cmd_list *cmd_list)
  */
 int	finalize_last_command(t_cmd *curr_cmd, t_cmd_list *cmd_list)
 {
-	if (curr_cmd->arg_count > 0)
+	if (curr_cmd->arg_count > 0
+		|| curr_cmd->input_file
+		|| curr_cmd->output_file)
 	{
 		if (add_command_to_list(curr_cmd, cmd_list) == -1)
 		{

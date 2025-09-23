@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/23 16:34:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:35:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int change_dir(char *path, t_env *env)
 	free(oldwd);
 	return (0);
 }
-
 
 int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 {

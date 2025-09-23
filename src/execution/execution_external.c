@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   execution_external.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 15:24:40 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 16:36:11 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//TODO: REFACTORARE TUTTO QUESTO FILE
 
 // Function to execute a command using execve in a child process
 int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
