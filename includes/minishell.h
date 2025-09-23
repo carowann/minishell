@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 20:12:30 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 16:31:03 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
 int 	pipe_error(int *fd);
 int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
-void 	heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
+int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
 int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		set_last_exit_status(t_shell_state *shell, int status);
 int 	execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell);
@@ -280,7 +280,7 @@ int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		open_ve_error(t_cmd *cmd, t_shell_state **shell);
 int		heredoc_execve(t_cmd *cmd);
-
+int is_valid_cd_path(const char *path);
 
 
 // inbuilt commands

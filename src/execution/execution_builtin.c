@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 17:33:47 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 14:29:35 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	int	fd[1];
 	int	result;
 	
+	result = 0;
 	if (open_in(cmd, fd) == -1)
 		return (1);
 	if (ft_strncmp(cmd->args[0], "echo", 5) == 0)

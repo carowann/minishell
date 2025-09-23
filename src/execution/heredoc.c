@@ -42,18 +42,19 @@ int heredoc_read(int *pipefd, const char *delimiter)
 		write(pipefd[1], "\n", 1);
 		free(line);
 	}
-	free(line);
+	if (line)
+		free(line);
 	close(pipefd[1]);
 	return (0);
 }
 
-void heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
+int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	close(fd[0]);
 	heredoc_read(fd, cmd->heredoc_delimiter);
 	close(fd[1]);
 	pipe_free_all(cmd, shell);
-	return ;
+	return (0);
 }
 
 int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
@@ -61,10 +62,7 @@ int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
 	close(fd[0]);
 	heredoc_read(fd, cmd->heredoc_delimiter);
 	close(fd[1]);
-	free_command_all((*shell)->current_cmd_list->head);
-	free((*shell)->current_cmd_list);
-	free_env((*shell)->env_list);
-	free(*shell);
+	pipe_free_all((*shell)->current_cmd_list->head, *shell);
 	return(0);
 }
 
@@ -76,6 +74,7 @@ int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
 		handle_builtin(cmd, shell);
 	else 
 		handle_external_command(cmd, shell);
-	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+	pipe_free_all(cmd, *shell);
 	return((*shell)->last_exit_status);
 }
+	
