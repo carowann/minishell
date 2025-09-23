@@ -53,7 +53,19 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 	close(fd[0]);
 	heredoc_read(fd, cmd->heredoc_delimiter);
 	close(fd[1]);
-	pipe_free_all(cmd, shell);
+	if(!cmd->next)
+	{
+		pipe_free_all(cmd, shell);
+		if (cmd->heredoc_delimiter)
+			free(cmd->heredoc_delimiter);
+		if (cmd->input_file)
+			free(cmd->input_file);
+		cmd->heredoc_delimiter = NULL;
+		cmd->input_file = NULL;
+		free_cmd(cmd);
+	}
+	else
+		pipe_free_all(cmd, shell);
 	return (0);
 }
 

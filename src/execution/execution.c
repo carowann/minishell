@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/23 16:08:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:43:54 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 	if (cmd->next != NULL)
 		return (handle_pipeline(cmd, shell));
 	if (cmd->is_heredoc == 1)
-		return (handle_heredoc(cmd, shell));
+		return (set_up_heredoc(cmd, *shell));
 	if (is_valid_cmd(cmd->args[0]))
 		return (handle_builtin(cmd, shell));
 	return (handle_external_command(cmd, shell));
