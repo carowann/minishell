@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 15:24:39 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:08:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	add_to_buffer(char c, t_parser *parser)
  * Clears parser buffer and resets position to start
  * @param parser: parser with buffer to reset
  */
-void reset_buffer(t_parser *parser)
+void	reset_buffer(t_parser *parser)
 {
 	ft_bzero(parser->buffer, ft_strlen(parser->buffer));
 	parser->buffer_pos = 0;
@@ -66,7 +66,7 @@ int	init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input)
  * Frees token list, buffer, and zeros context
  * @param ctx: context to cleanup (can be NULL)
  */
-void cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
+void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
 {
 	if (ctx->tokens)
 		free_token_list(ctx->tokens);

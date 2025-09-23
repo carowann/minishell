@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 16:27:26 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/01 14:54:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:15:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	merge_tokens(t_token *curr, t_token *next)
 {
 	char	*merged_content;
 	t_token	*temp;
-	
+
 	if (!curr || !next)
 		return (-1);
 	merged_content = ft_strjoin(curr->content, next->content);

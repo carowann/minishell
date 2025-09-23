@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 17:29:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:30:02 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ int		expand_variables(t_shell_state *shell, t_token_list *token_list);
 int		expand_single_var(t_shell_state *shell, t_token *token);
 int		handle_var_in_str(t_shell_state *shell, t_token *token);
 char	*process_string_expansion(t_shell_state *shell, char *str);
-char	*expand_var_in_str(t_shell_state *shell, char *str, int *i, char *old_str);
+char	*expand_var_str(t_shell_state *shell, char *str, int *i, char *old_str);
 
 //var_expansion_utils.c
 char	*get_env_value(t_shell_state *shell, char *var_name);

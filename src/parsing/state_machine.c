@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 14:17:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:15:20 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param ctx: tokenizer context with parser state and token list
  * @return: 0 success, -1 error from state handlers
  */
-int handle_state_machine(char c, t_tokenizer_ctx *ctx)
+int	handle_state_machine(char c, t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.state == DEFAULT)
 		return (handle_default_state(c, ctx));
@@ -42,7 +42,6 @@ int handle_state_machine(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 {
-	
 	if (c == '"')
 	{
 		if (safe_create_and_add_token(ctx, QUOTED_STRING) == -1)
