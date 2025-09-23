@@ -1,4 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
+/*   Updated: 2025/09/23 17:32:42 by cwannhed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+char *expand_in_heredoc(char *line, t_shell_state *shell);
 
 int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
 {
@@ -24,11 +38,11 @@ int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
 			exit(doc_child_read(cmd, pipefd, shell));
 		close(pipefd[0]);
 		waitpid(pid, &status, 0);
-		return set_last_exit_status(*shell, status);
+		return (set_last_exit_status(*shell, status));
 	}
 }
 
-int heredoc_read(int *pipefd, const char *delimiter)
+int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 {
 	char *line;
 
@@ -38,6 +52,8 @@ int heredoc_read(int *pipefd, const char *delimiter)
 		line = read_line();
 		if (!line || strcmp(line, delimiter) == 0)
 			break;
+		if (ft_strchr(line, '$')) //TODO: gestire espansione variabili
+			line = expand_in_heredoc(line, shell);
 		write(pipefd[1], line, strlen(line));
 		write(pipefd[1], "\n", 1);
 		free(line);
@@ -48,10 +64,19 @@ int heredoc_read(int *pipefd, const char *delimiter)
 	return (0);
 }
 
+char *expand_in_heredoc(char *line, t_shell_state *shell)
+{
+	char *expanded_line;
+
+	expanded_line = process_string_expansion(shell, line);
+	free(line);
+	return (expanded_line);
+}
+
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	close(fd[0]);
-	heredoc_read(fd, cmd->heredoc_delimiter);
+	heredoc_read(fd, cmd->heredoc_delimiter, shell);
 	close(fd[1]);
 	pipe_free_all(cmd, shell);
 	return (0);
@@ -60,7 +85,7 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
 {
 	close(fd[0]);
-	heredoc_read(fd, cmd->heredoc_delimiter);
+	heredoc_read(fd, cmd->heredoc_delimiter, *shell);
 	close(fd[1]);
 	pipe_free_all((*shell)->current_cmd_list->head, *shell);
 	return(0);
@@ -77,4 +102,3 @@ int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
 	pipe_free_all(cmd, *shell);
 	return((*shell)->last_exit_status);
 }
-	
