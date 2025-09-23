@@ -6,15 +6,36 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/23 11:15:45 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:34:20 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include <linux/limits.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
-//TODO cwannhed@c1r6p8:~$ cd hdsaldjsl
-//bash: cd: hdsaldjsl: No such file or directory
+// Checks if path is a valid directory for cd (exists, is dir, executable)
+int is_valid_cd_path(const char *path)
+{
+	struct stat statbuf;
+	if (stat(path, &statbuf) != 0)
+	{
+		ft_printfd(2, "minishell: cd: %s: No such file or directory\n", path);
+		return (0);
+	}
+	if (access(path, X_OK) != 0)
+	{
+		ft_printfd(2, "minishell: cd: %s: Permission denied\n", path);
+		return (0);
+	}
+	if (!S_ISDIR(statbuf.st_mode))
+	{
+		ft_printfd(2, "minishell: cd: %s: Not a directory\n", path);
+		return (0);
+	}
+	return (1);
+}
 
 void	change_env_wd(char *newwd, char *oldwd, t_env *env)
 {
@@ -65,10 +86,11 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	
 	path = cmd->args[1];
 	if (cmd->arg_count > 2 )
-	{
 		ft_printfd(2, "minishell: cd: too many arguments\n");
+	if (cmd->arg_count > 2)
 		return (1);
-	}
+	if (is_valid_cd_path(path) == 0)
+		return (1);
 	if (cmd->arg_count == 1 || (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
 	{
 		if (!find_env_val((*shell)->env_list, "HOME="))
@@ -105,3 +127,4 @@ char	*find_env_val(t_env *env,char *node)
 		return (NULL);
 	}
 }
+

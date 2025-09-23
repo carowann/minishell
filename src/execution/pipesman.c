@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/06 19:33:29 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/23 16:32:08 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 				return (1);
 			pid = fork(); //creo un processo figlio che scrive nel pipe
 			if (pid == 0)
-			{
-				heredoc_sub(cmd, fd, shell);
-				exit(0);
-			}
+				exit (heredoc_sub(cmd, fd, shell));
 			waitpid(-1, NULL, 0);
 			close(fd[1]);
 			line = get_all_line(fd[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_external.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 18:06:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:24:40 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	open_ve(t_cmd *cmd)
 	
 	fd[0] = -1;
 	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
-	if (cmd->input_file && cmd->is_heredoc < 1)
-		open_ve_doc(fd, cmd);
+	if (open_ve_doc(fd, cmd) == -1)
+		return (-1);
 	else if (cmd->is_heredoc > 1)
 		heredoc_execve(cmd);
 	if (cmd->output_file)

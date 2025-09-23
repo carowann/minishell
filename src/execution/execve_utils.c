@@ -57,6 +57,8 @@ int open_ve_error(t_cmd *cmd, t_shell_state **shell)
 
 int open_ve_doc(int *docfd, t_cmd *cmd)
 {
+	if (!cmd->input_file || cmd->is_heredoc > 0)
+		return (0);
     docfd[0] = open(cmd->input_file, O_RDONLY);
     if (docfd[0]< 0)
     {
