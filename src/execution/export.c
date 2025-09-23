@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 14:56:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:20:49 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // TODO: sort env in alphabetical order
-static int is_valid_identifier(char *str);
+static int	is_valid_identifier(char *str);
 
-int export(t_cmd *cmd, t_shell_state **shell, int fd)
+int	export(t_cmd *cmd, t_shell_state **shell, int fd)
 {
-	int i;
-	int has_error = 0;
+	int	i;
+	int	has_error;
 
+	has_error = 0;
 	i = 1;
 	if (!cmd->args[1])
 		return (env((*shell)->env_list, fd, 1));
@@ -27,7 +28,7 @@ int export(t_cmd *cmd, t_shell_state **shell, int fd)
 	{
 		if (!is_valid_identifier(cmd->args[i]))
 		{
-			ft_printf("minishell: export: `%s': not a valid identifier\n", cmd->args[i]);
+			ft_printf("minishell: export: `%s': invalid id\n", cmd->args[i]);
 			has_error = 1;
 		}
 		else
@@ -42,9 +43,9 @@ int export(t_cmd *cmd, t_shell_state **shell, int fd)
 	return (has_error);
 }
 
-static int is_valid_identifier(char *str)
+static int	is_valid_identifier(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || !str[0])
 		return (0);
@@ -61,10 +62,10 @@ static int is_valid_identifier(char *str)
 }
 
 // Function to add a new environment variable to the list
-int add_env(t_env **envar, char *arg)
+int	add_env(t_env **envar, char *arg)
 {
-	t_env *new;
-	t_env *temp;
+	t_env	*new;
+	t_env	*temp;
 
 	new = malloc(sizeof(t_env));
 	if (!new)
@@ -89,10 +90,10 @@ int add_env(t_env **envar, char *arg)
 }
 
 // Function to update the value of an existing environment variable
-int update_env(t_env *envar, char *arg)
+int	update_env(t_env *envar, char *arg)
 {
-	t_env *temp;
-	char *new_value;
+	t_env	*temp;
+	char	*new_value;
 
 	temp = find_env(envar, arg);
 	if (!temp)

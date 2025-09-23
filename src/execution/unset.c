@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 18:21:43 by lzorzit           #+#    #+#             */
+/*   Updated: 2025/09/23 18:24:10 by lzorzit          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Function to unset (remove) environment variables
-int unset(t_cmd *cmd, t_shell_state **shell)
+int	unset(t_cmd *cmd, t_shell_state **shell)
 {
-	int i;
-	t_env *to_delete;
+	int		i;
+	t_env	*to_delete;
 
 	if (cmd->arg_count < 2)
 		return (SUCCESS);
@@ -21,17 +32,15 @@ int unset(t_cmd *cmd, t_shell_state **shell)
 }
 
 // Function to delete an environment variable from the list
-int delete_env(t_env **env, t_env *to_delete)
+int	delete_env(t_env **env, t_env *to_delete)
 {
-	t_env *current;
-	t_env *prev;
+	t_env	*current;
+	t_env	*prev;
 
 	if (!env || !*env || !to_delete)
 		return (-1);
-
 	current = *env;
 	prev = NULL;
-
 	while (current)
 	{
 		if (current == to_delete)

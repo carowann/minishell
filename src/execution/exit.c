@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/03 12:33:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:16:26 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	builtin_exit(t_cmd *cmd, t_shell_state *shell)
 {
 	int	exit_code;
-	
+
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
 		exit_code = shell->last_exit_status;
@@ -50,7 +50,7 @@ int	validate_exit_arg(char *arg)
 
 	if (!is_valid_number(arg))
 	{
-		ft_printfd(STDERR_FILENO, "minishell: exit: %s: numeric argument required\n", arg);
+		ft_printfd(STDERR_FILENO, "minishell: exit: %s: invalid arg\n", arg);
 		exit_code = 2;
 	}
 	else
