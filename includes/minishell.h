@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 16:35:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 17:29:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,7 +263,7 @@ int		handle_external_command(t_cmd *cmd, t_shell_state **shell);
 int		pipe_free_all(t_cmd *cmd_left, t_shell_state *shell);
 int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
 int		pipe_heredoc_changes(t_cmd *cmd);
-int		heredoc_read(int *pipefd, const char *delimiter);
+int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell);
 char	 **heredoc_pipe(t_cmd *cmd);
 int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/04 18:13:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:47:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int expand_single_var(t_shell_state *shell, t_token *token)
 	token->type = WORD;
 	return (0);
 }
+
 /*
  * Expansion of variable in string of token of type quoted string
  * @param token: token with string with variable to expand
