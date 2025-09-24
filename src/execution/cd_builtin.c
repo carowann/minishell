@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/24 10:49:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:37:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 // Checks if path is a valid directory for cd (exists, is dir, executable)
 int is_valid_cd_path(const char *path)
 {
-	struct stat statbuf;
+	struct stat	statbuf;
+
 	if (stat(path, &statbuf) != 0)
 	{
 		ft_printfd(2, "minishell: cd: %s: No such file or directory\n", path);
@@ -40,7 +41,7 @@ int is_valid_cd_path(const char *path)
 void	change_env_wd(char *newwd, char *oldwd, t_env *env)
 {
 	char	*temp;
-	
+
 	temp = ft_strjoin("OLDPWD=", oldwd);
 	if (!find_env(env, "OLDPWD="))
 		add_env(&env, temp);
@@ -82,7 +83,7 @@ int change_dir(char *path, t_env *env)
 int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 {
 	char	*path;
-	
+
 	path = cmd->args[1];
 	if (cmd->arg_count > 2 )
 		ft_printfd(2, "minishell: cd: too many arguments\n");
@@ -110,7 +111,7 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 
 char	*find_env_val(t_env *env,char *node)
 {
-	t_env *temp_env; 
+	t_env *temp_env;
 	char *ret;
 
 	temp_env = find_env(env, node);
