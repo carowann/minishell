@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 18:43:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/25 15:17:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:30:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	set_input_redirect(t_cmd *cmd, char *filename, t_token **curr_token)
  * @param curr_token: token to skip
  * @return: 0 success, -1 error
  */
-int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **curr_token)
+int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
 {
 	if (cmd->output_file)
 		free(cmd->output_file);
@@ -46,7 +46,7 @@ int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **curr_t
 	cmd->output_file = ft_strdup(filename);
 	if (!cmd->output_file)
 		return (-1);
-	*curr_token = (*curr_token)->next;
+	*token = (*token)->next;
 	return (0);
 }
 

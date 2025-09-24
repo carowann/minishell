@@ -6,18 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 12:47:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:43:41 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell_state *shell;
-	int exit_code;
-	(void)argv;
+	t_shell_state	*shell;
+	int				exit_code;
 
+	(void)argv;
 	if (argc != 1)
 	{
 		ft_putstr_fd(RED "Usage: ./minishell\n" RESET, STDERR_FILENO);

@@ -6,14 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 16:35:13 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:18:49 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//TODO: minishell> cat < nonexistent
-// non chiude dopo messaaggio errore
 
 // Check if the command is valid inbuilt command
 int	is_valid_cmd(char *cmd)
@@ -39,7 +36,7 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 {
 	int	fd[1];
 	int	result;
-	
+
 	result = 0;
 	if (open_in(cmd, fd) == -1)
 		return (1);
@@ -82,7 +79,7 @@ int open_in(t_cmd *cmd, int *fd)
 		if (*fd < 0)
 		{
 			ft_printfd(2, "minishell: %s: No such file or directory\n", cmd->output_file);
-			return (-1);	
+			return (-1);
 		}
 	}
 	return (1);

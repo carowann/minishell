@@ -6,20 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 16:47:53 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:18:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//TODO: minishell> echo "exit status:$?" + leaks
 
 /*
  * Expands variables if token type is variable or quoted string
  * @param token_list: list of tokens to possibly expand
  * @return: 0 success, -1 error
  */
-int	expand_variables(t_shell_state *shell, t_token_list *token_list) 
+int	expand_variables(t_shell_state *shell, t_token_list *token_list)
 {
 	t_token	*curr_token;
 
@@ -48,9 +46,9 @@ int	expand_variables(t_shell_state *shell, t_token_list *token_list)
  * @param token: token to expand
  * @return: 0 success, -1 error
  */
-int expand_single_var(t_shell_state *shell, t_token *token)
+int	expand_single_var(t_shell_state *shell, t_token *token)
 {
-	char *var_value;
+	char	*var_value;
 
 	var_value = get_env_value(shell, token->content);
 	if (!var_value)
@@ -66,9 +64,9 @@ int expand_single_var(t_shell_state *shell, t_token *token)
  * @param token: token with string with variable to expand
  * @return: 0 success, -1 error
  */
-int handle_var_in_str(t_shell_state *shell, t_token *token)
+int	handle_var_in_str(t_shell_state *shell, t_token *token)
 {
-	char *expanded_content;
+	char	*expanded_content;
 
 	expanded_content = process_string_expansion(shell, token->content);
 	if (!expanded_content)
@@ -84,7 +82,7 @@ int handle_var_in_str(t_shell_state *shell, t_token *token)
  * @param str: string with variable to expand
  * @return: finalized string with expansion
  */
-char *process_string_expansion(t_shell_state *shell, char *str)
+char	*process_string_expansion(t_shell_state *shell, char *str)
 {
 	char	*result;
 	int		i;
@@ -95,8 +93,11 @@ char *process_string_expansion(t_shell_state *shell, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && (ft_isalpha(str[i + 1]) || str[i + 1] == '_' || str[i + 1] == '?'))
-			result = expand_var_in_str(shell, str, &i, result);
+		if (str[i] == '$'
+			&& (ft_isalpha(str[i + 1])
+				|| str[i + 1] == '_'
+				|| str[i + 1] == '?'))
+			result = expand_var_str(shell, str, &i, result);
 		else
 			result = append_char(result, str[i++]);
 		if (!result)
@@ -112,7 +113,7 @@ char *process_string_expansion(t_shell_state *shell, char *str)
  * @param old_str: old string to update w/ expansion of variable
  * @return: finalized string with expansion
  */
-char	*expand_var_in_str(t_shell_state *shell, char *str, int *i, char *old_str)
+char	*expand_var_str(t_shell_state *shell, char *str, int *i, char *old_str)
 {
 	int		var_len;
 	char	*var_name;

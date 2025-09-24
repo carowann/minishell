@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 17:45:47 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:53:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	free_token_list(t_token_list *token_list)
 {
 	t_token	*curr_token;
 	t_token	*temp_token;
-	
+
 	if (!token_list)
 		return ;
 	curr_token = token_list->head;
@@ -55,10 +55,9 @@ void	free_command_list(t_cmd_list *cmd_list)
 {
 	t_cmd	*curr_cmd;
 	t_cmd	*temp_cmd;
-	
+
 	if (!cmd_list)
 		return ;
-		
 	if (cmd_list->head)
 	{
 		curr_cmd = cmd_list->head;
@@ -97,8 +96,26 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->input_file);
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
+	if (cmd->heredoc_delimiters)
+		free_heredoc_delimiters(cmd->heredoc_delimiters, cmd->heredoc_count);
 	if (cmd->output_file)
 		free(cmd->output_file);
 	free(cmd);
 	cmd = NULL;
+}
+
+void	free_heredoc_delimiters(char **delimiters, int count)
+{
+	int	i;
+
+	if (!delimiters)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		if (delimiters[i])
+			free(delimiters[i]);
+		i++;
+	}
+	free(delimiters);
 }

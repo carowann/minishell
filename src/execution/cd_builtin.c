@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/23 16:35:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:49:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 		ft_printfd(2, "minishell: cd: too many arguments\n");
 	if (cmd->arg_count > 2)
 		return (1);
-	if (is_valid_cd_path(path) == 0)
-		return (1);
 	if (cmd->arg_count == 1 || (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
 	{
 		if (!find_env_val((*shell)->env_list, "HOME="))
@@ -103,8 +101,10 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 		if (!find_env_val((*shell)->env_list, "OLDPWD="))
 			return(1);
 		else
-			path = find_env_val((*shell)->env_list, "OLDPWD");
+			path = find_env_val((*shell)->env_list, "OLDPWD=");
 	}
+	if (is_valid_cd_path(path) == 0)
+		return (1);
 	return (change_dir(path, (*shell)->env_list));
 }
 

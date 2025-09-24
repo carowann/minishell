@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 16:46:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:09:10 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * @param shell: pointer to shell state struct
  * @return: void
  */
-void shell_loop(t_shell_state **shell)
+void	shell_loop(t_shell_state **shell)
 {
 	t_cmd_list	*commands;
 	char		*input;
@@ -26,13 +26,20 @@ void shell_loop(t_shell_state **shell)
 	while (!(*shell)->should_exit)
 	{
 		commands = NULL;
+		// signal(SIGINT, handle_signal);
+		// signal(SIGINT, SIG_DFL);
 		input = read_input_line();
+		//  handle_signal():
+		// rl_on_new_line();
+		// rl_redisplay();
+
+		// update status_code
 		if (!input)
-			break;
+			break ;
 		if (ft_strlen(input) == 0 || is_all_spaces(input))
 		{
 			free(input);
-			continue;
+			continue ;
 		}
 		if (parse_input(input, &commands, shell) == -1)
 		{
@@ -41,7 +48,7 @@ void shell_loop(t_shell_state **shell)
 				free_command_list(commands);
 			free(input);
 			(*shell)->current_cmd_list = NULL;
-			continue;
+			continue ;
 		}
 		free(input);
 		(*shell)->current_cmd_list = commands;
@@ -49,11 +56,12 @@ void shell_loop(t_shell_state **shell)
 		free_command_list(commands);
 		(*shell)->current_cmd_list = NULL;
 	}
-	return;
+	return ;
 }
 
 /*
- * Reads, returns line from terminal (interactive mode or not) and adds it to history
+ * Reads, returns line from terminal (interactive mode or not) 
+ * and adds it to history
  * @return: input line
  */
 char	*read_input_line(void)
@@ -103,7 +111,7 @@ int	is_all_spaces(char *input)
  * @param envp
  * @return: 0 no, 1 yes, ut's all spaces
  */
-int init_shell_state(t_shell_state *shell, char **envp)
+int	init_shell_state(t_shell_state *shell, char **envp)
 {
 	shell->env_list = env_to_list(envp);
 	if (!shell->env_list)
@@ -114,4 +122,3 @@ int init_shell_state(t_shell_state *shell, char **envp)
 	shell->current_cmd_list = NULL;
 	return (0);
 }
-

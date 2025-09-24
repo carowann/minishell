@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+         #
+#    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/06 18:23:42 by lzorzit          ###   ########.fr        #
+#    Updated: 2025/09/24 10:39:36 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,6 +130,7 @@ valgrind: $(NAME) $(SUPPRESSION_FILE)
 	valgrind --leak-check=full --show-leak-kinds=all \
 		--suppressions=$(SUPPRESSION_FILE) \
 		--track-origins=yes \
+		--quiet \
 		./$(NAME)
 
 clean_valgrind:

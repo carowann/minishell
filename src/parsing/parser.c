@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 14:35:15 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:03:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int	parse_input(char *input, t_cmd_list	**cmd_list, t_shell_state **shell)
 		cleanup_tokenizer_ctx(&ctx);
 		return (-1);
 	}
-	if (build_cmd_list(cmd_list,&ctx) == -1)
+	if (build_cmd_list(cmd_list, &ctx) == -1)
 		return (-1);
 	printf("=== PARSING RESULT ===\n"); //debug
 	print_token_list(ctx.tokens); //debug
-	print_cmd_list_detailed(*cmd_list);  //debug
+	print_cmd_list_detailed(*cmd_list); //debug
 	cleanup_tokenizer_ctx(&ctx);
 	return (0);
 }
@@ -69,7 +69,7 @@ int	init_and_tokenize(char *input, t_tokenizer_ctx *ctx)
  * @return: 0 success, -1 error
  */
 int	tokenize(char *input, t_tokenizer_ctx *ctx)
-{	
+{
 	if (!input || !ctx)
 		return (-1);
 	while (*input)
@@ -88,11 +88,11 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
  * @param ctx: tokenizer context with potential pending content
  * @return: 0 on success, -1 on syntax error (unclosed quotes)
  */
-int finalize_pending_token(t_tokenizer_ctx *ctx)
+int	finalize_pending_token(t_tokenizer_ctx *ctx)
 {
 	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
 	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error: unterminated quoted string\n");
+		ft_printfd(2, "minishell: syntax error: unterminated quoted string\n");
 		return (-1);
 	}
 	if (ctx->parser.state == IN_VARIABLE && ctx->parser.buffer_pos == 0)
@@ -111,7 +111,7 @@ int finalize_pending_token(t_tokenizer_ctx *ctx)
 	}
 	if (last_token_is_pipe(ctx->tokens))
 	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
+		ft_printfd(2, "minishell: syntax error near unexpected token `|'\n");
 		return (-1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 16:57:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/05 17:06:16 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/23 18:23:35 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
  * @param var_name: name of variable to expand
  * @return: value of expanded variable
  */
-char *get_env_value(t_shell_state *shell, char *var_name)
+char	*get_env_value(t_shell_state *shell, char *var_name)
 {
-	char *value;
+	char	*value;
 
 	if (!var_name)
 		return (ft_strdup(""));

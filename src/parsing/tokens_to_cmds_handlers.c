@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_cmds_handlers.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 16:47:55 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/24 17:37:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	handle_argument_token(t_token *token, t_cmd *cmd)
 {
 	char	**new_args;
 	int		i;
-	
+
 	if (!token->content || !cmd)
 		return (-1);
 	new_args = ft_calloc(cmd->arg_count + 2, sizeof(char *));
@@ -57,7 +57,7 @@ int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 {
 	if (!(*cmd)->arg_count && !(*cmd)->input_file)
 	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `|'\n");
+		ft_printfd(2, "minishell: syntax error near unexpected token `|'\n");
 		return (-1);
 	}
 	if (add_command_to_list(*cmd, cmd_list) == -1)
@@ -77,30 +77,30 @@ int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
  * @param cmd: command result of conversion
  * @return: 0 success, -1 error
  */
-int	handle_redirect_token(t_token **curr_token, t_cmd *cmd)
+int	handle_redirect_token(t_token **token, t_cmd *cmd)
 {
 	t_token	*filename_token;
-	
-	if (!curr_token || !*curr_token || !cmd)
+
+	if (!token || !*token || !cmd)
 		return (-1);
-	filename_token = (*curr_token)->next;
+	filename_token = (*token)->next;
 	if (!filename_token || filename_token->type == PIPE)
 	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `newline'\n");
+		ft_printfd(2, "minishell: syntax error\n");
 		return (-1);
 	}
 	if (is_redirect_token(filename_token))
 	{
-		ft_printfd(STDERR_FILENO, "minishell: syntax error near unexpected token `%s'\n", filename_token->content);
+		ft_printfd(2, "minishell: syntax error\n");
 		return (-1);
 	}
-	if ((*curr_token)->type == REDIRECT_IN)
-		return (set_input_redirect(cmd, (*filename_token).content, curr_token));
-	else if ((*curr_token)->type == REDIRECT_OUT)
-		return (set_output_redirect(cmd, (*filename_token).content, 0, curr_token));
-	else if ((*curr_token)->type == APPEND)
-		return (set_output_redirect(cmd, (*filename_token).content, 1, curr_token));
-	else if ((*curr_token)->type == HEREDOC)
-		return (set_heredoc_delimiter(cmd, (*filename_token).content, curr_token));
+	if ((*token)->type == REDIRECT_IN)
+		return (set_input_redirect(cmd, (*filename_token).content, token));
+	else if ((*token)->type == REDIRECT_OUT)
+		return (set_output_redirect(cmd, (*filename_token).content, 0, token));
+	else if ((*token)->type == APPEND)
+		return (set_output_redirect(cmd, (*filename_token).content, 1, token));
+	else if ((*token)->type == HEREDOC)
+		return (set_heredoc_delimiter(cmd, (*filename_token).content, token));
 	return (-1);
 }
