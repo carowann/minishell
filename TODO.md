@@ -19,3 +19,5 @@
 cat < in > out > canttouchthis  > out2 in questo momento crea l'ultimo file anche se canttouchthis non ha permessi
 
 - [ ] fix echo -nnnnnnnnnnnnnnnnnnn
+
+- [ ] minishell> cat < nonex | ls  non si vede il messaggio di errore di cat che fallisce :
