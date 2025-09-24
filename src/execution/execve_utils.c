@@ -14,7 +14,7 @@ int execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell
 	free_env((*shell)->env_list);
     return (EXIT_FAILURE);
 }
-//TODO: check if the "FILE" exists and it's not a directory
+//TODO: check if the "FILE" exists and it's not a directory; potresti segnalare dove va controllato, ci metto poco a correggerlo ma non capisco bene dove fare il check
 char	*find_cmd_exe(char **paths, t_cmd *cmd)
 {
 	size_t	i;
