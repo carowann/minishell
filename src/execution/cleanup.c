@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:11:35 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 12:55:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:06:50 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	free_matrix(char **matrix)
 {
 	int	i;
-	
+
 	if (!matrix)
 		return ;
 	i = 0;

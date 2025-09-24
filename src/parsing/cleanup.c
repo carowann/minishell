@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:07:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:53:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,26 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->input_file);
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
+	if (cmd->heredoc_delimiters)
+		free_heredoc_delimiters(cmd->heredoc_delimiters, cmd->heredoc_count);
 	if (cmd->output_file)
 		free(cmd->output_file);
 	free(cmd);
 	cmd = NULL;
+}
+
+void	free_heredoc_delimiters(char **delimiters, int count)
+{
+	int	i;
+
+	if (!delimiters)
+		return ;
+	i = 0;
+	while (i < count)
+	{
+		if (delimiters[i])
+			free(delimiters[i]);
+		i++;
+	}
+	free(delimiters);
 }

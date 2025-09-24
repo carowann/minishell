@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 14:32:56 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:05:41 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_cmd
 	char			*input_file; //per input redirect <, if null usa stdin normale
 	int				is_heredoc; //1 se usa <<, 0 altri menti. if 1 ignora input file e usa heredoc_delimiter
 	char			*heredoc_delimiter;
+	char			**heredoc_delimiters; //array di delimitatori per heredoc multipli
+	int				heredoc_count; //numero di heredoc
 	char			*output_file; // per out redirect > o >>, if null stdout normale
 	int				append_mode; //0 sovrascrivi, 1 append
 	struct s_cmd	*next; //prossimo cmd nella pipeline
@@ -141,12 +143,14 @@ void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
 void	free_command_list(t_cmd_list *cmd_list);
 void	free_cmd(t_cmd *cmd);
+void	free_heredoc_delimiters(char **delimiters, int count);
 
 //DEBUG!
 void		print_token_list(t_token_list *tokens);
 const char *get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
 void		print_cmd_list_detailed(t_cmd_list *cmd_list);
+void		print_heredoc_delimiters(t_cmd *cmd);
 
 //tokens_to_cmds_handlers.c
 int	handle_argument_token(t_token *token, t_cmd *cmd);

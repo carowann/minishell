@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:02:52 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/08/26 15:17:46 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:03:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,4 +157,23 @@ void print_cmd_list_detailed(t_cmd_list *cmd_list)
 		curr_cmd = curr_cmd->next;
 		cmd_num++;
 	}
+}
+
+void	print_heredoc_delimiters(t_cmd *cmd)
+{
+	int i;
+
+	if (!cmd->heredoc_delimiters)
+	{
+		printf("No heredoc delimiters\n");
+		return;
+	}
+	printf("Heredoc delimiters (%d): ", cmd->heredoc_count);
+	i = 0;
+	while (cmd->heredoc_delimiters[i])
+	{
+		printf("\"%s\" ", cmd->heredoc_delimiters[i]);
+		i++;
+	}
+	printf("\n");
 }

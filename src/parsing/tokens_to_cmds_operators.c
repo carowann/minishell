@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 18:43:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 14:58:49 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:01:44 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,35 @@ int set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
  */
 int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token)
 {
+	char	**new_delimiters;
+	int		i;
+
+	if (!cmd || !delimiter)
+		return (-1);
+	new_delimiters = ft_calloc(cmd->heredoc_count + 2, sizeof(char *));
+	if (!new_delimiters)
+		return (-1);
+	i = 0;
+	while (i < cmd->heredoc_count)
+	{
+		new_delimiters[i] = cmd->heredoc_delimiters[i];
+		i++;
+	}
+	new_delimiters[cmd->heredoc_count] = ft_strdup(delimiter);
+	if (!new_delimiters[cmd->heredoc_count])
+	{
+		free(new_delimiters);
+		return (-1);
+	}
+	new_delimiters[cmd->heredoc_count + 1] = NULL;
+	if (cmd->heredoc_delimiters)
+		free(cmd->heredoc_delimiters);
+	cmd->heredoc_delimiters = new_delimiters;
+	cmd->heredoc_count++;
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
-	cmd->is_heredoc = 1;
 	cmd->heredoc_delimiter = ft_strdup(delimiter);
-	if (!cmd->heredoc_delimiter)
-		return (-1);
+	cmd->is_heredoc = 1;
 	*curr_token = (*curr_token)->next;
 	return (0);
 }
