@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int set_last_exit_status(t_shell_state *shell, int status)
 {

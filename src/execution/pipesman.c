@@ -49,6 +49,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 	{
 		if (cmd->is_heredoc == 1)
 		{
+			printf("heredocdelim: %s; %s\n", cmd->heredoc_delimiter, cmd->heredoc_delimiters[0]);
 			if (pipe_error(fd) == 1)
 				return (1);
 			pid = fork(); //creo un processo figlio che scrive nel pipe

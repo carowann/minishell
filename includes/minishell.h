@@ -285,7 +285,8 @@ int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path);
 int		heredoc_execve(t_cmd *cmd);
-int is_valid_cd_path(const char *path);
+int		is_valid_cd_path(const char *path);
+int		heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell);
 
 
 // inbuilt commands

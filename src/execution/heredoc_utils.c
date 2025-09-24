@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int heredoc_read_placebo(const char *delimiter)
+int heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell)
 {
 	char *line;
 	int i;
@@ -24,11 +24,12 @@ int heredoc_read_placebo(const char *delimiter)
 		{
 			ft_printfd(1, "> ");
 			line = read_line();
-			if (!line || strcmp(line, delimiter) == 0)
+			if (!line || strcmp(line, delimiter[i]) == 0)
 				break;
 		}
 		i ++;
 	}
+	heredoc_read(pipefd, delimiter[i], shell);
 	if (line)
 		free(line);
 	else if (!line) // && g_signal == NOT_RECEIVED

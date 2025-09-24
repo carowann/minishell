@@ -64,6 +64,7 @@ SRC =	src/main_utils.c			\
 	src/execution/extra.c			\
 	src/execution/pipe_utils.c		\
 	src/execution/execve_utils.c	\
+	src/execution/heredoc_utils.c	\
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra
