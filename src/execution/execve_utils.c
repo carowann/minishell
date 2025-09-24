@@ -8,11 +8,13 @@ int execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell
 		free_matrix(envp);
 	if (temp)
 		free_matrix(temp);
-	free_command_all(cmd);
+	(void)cmd;
+	free_command_all((*shell)->current_cmd_list->head);
+	free((*shell)->current_cmd_list);
 	free_env((*shell)->env_list);
     return (EXIT_FAILURE);
 }
-
+//TODO: check if the "FILE" exists and it's not a directory
 char	*find_cmd_exe(char **paths, t_cmd *cmd)
 {
 	size_t	i;
@@ -48,10 +50,14 @@ int execve_error(char **envp, char **temp, char *exe_path)
 	return (127);
 }
 
-int open_ve_error(t_cmd *cmd, t_shell_state **shell)
+int open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path)
 {
-	free_command_all(cmd);
+	(void)cmd;
+	free_command_all((*shell)->current_cmd_list->head);
+	free((*shell)->current_cmd_list);
 	free_env((*shell)->env_list);
+	free(exe_path);
+	free(*shell);
 	return (EXIT_FAILURE);
 }
 
@@ -63,7 +69,7 @@ int open_ve_doc(int *docfd, t_cmd *cmd)
     if (docfd[0]< 0)
     {
         ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
-        return (-1);	
+        return (-1);
     }
     dup2(docfd[0], STDIN_FILENO);
     close(docfd[0]);

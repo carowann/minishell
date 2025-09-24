@@ -6,14 +6,12 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/23 16:08:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:18:10 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//TODO: fix leak w/ redirection w/ non existent file
-//minishell> cat < no.t
 
 static int set_exit_status(t_shell_state **shell, int status);
 static int handle_pipeline(t_cmd *cmd, t_shell_state **shell);

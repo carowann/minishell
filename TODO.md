@@ -14,3 +14,6 @@
 
 
 [x]APRIRE IO PRIMA DEL FORK PER FAILITARE CLEANUP
+
+- [ ] !!REDIRECT: leggere "TUTTI" i redirect, invece solo l'ultimo di ogni tipo
+cat < in > out > canttouchthis  > out2 in questo momento crea l'ultimo file anche se canttouchthis non ha permessi

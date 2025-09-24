@@ -6,13 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 12:29:51 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:30:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:18:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//TODO: minishell> echo "exit status:$?" + leaks
 
 /*
  * Expands variables if token type is variable or quoted string

@@ -6,13 +6,12 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 14:56:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:18:16 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// TODO: sort env in alphabetical order
 static int is_valid_identifier(char *str);
 
 int export(t_cmd *cmd, t_shell_state **shell, int fd)

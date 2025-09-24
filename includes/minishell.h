@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:30:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:07:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,7 @@ int		execve_error(char **envp, char **temp, char *exe_path);
 int		open_ve_doc(int *docfd, t_cmd *cmd);
 int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
-int		open_ve_error(t_cmd *cmd, t_shell_state **shell);
+int		open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path);
 int		heredoc_execve(t_cmd *cmd);
 int is_valid_cd_path(const char *path);
 

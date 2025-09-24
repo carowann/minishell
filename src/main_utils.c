@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:28:38 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:09:10 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,14 @@ void	shell_loop(t_shell_state **shell)
 	while (!(*shell)->should_exit)
 	{
 		commands = NULL;
+		// signal(SIGINT, handle_signal);
+		// signal(SIGINT, SIG_DFL);
 		input = read_input_line();
+		//  handle_signal():
+		// rl_on_new_line();
+		// rl_redisplay();
+
+		// update status_code
 		if (!input)
 			break ;
 		if (ft_strlen(input) == 0 || is_all_spaces(input))

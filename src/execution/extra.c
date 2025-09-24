@@ -31,10 +31,10 @@ void	free_command_all(t_cmd *cmd)
 {
 	t_cmd	*temp_cmd;
 
-	if (!cmd || (!cmd->next))
+	if (!cmd)
 		return ;
-	while (cmd && cmd->next)
-	{	
+	while (cmd)
+	{
 		temp_cmd = cmd->next;
 		free_cmd(cmd);
 		cmd = temp_cmd;

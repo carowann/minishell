@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 17:30:13 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:34:54 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	pid_t	right_pid;
 	int		pipefd[2];
 	int		status;
-	
+
 	fflush(NULL);
 	set_up_heredoc(shell->current_cmd_list->head, shell);
 	if (pipe_error(pipefd) == 1)
@@ -85,7 +85,7 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
-	
+
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
