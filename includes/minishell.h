@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 12:07:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/24 14:32:56 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <errno.h>
+# include <string.h>
 
 typedef enum e_token_type
 {

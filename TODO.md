@@ -2,13 +2,13 @@
 [x] ./minishell tnati spazi vuoti deve ritornare il prompt senza errore
 [x]gestione exit status per $?
 []gestione segnali
-[]implementazione heredoc
+[x]implementazione heredoc
 [x]FIX SEG FAULT ECHO >
 
 //execution
 [x]cd
 [x]exit
-[]gestione permessi file e gestione append mode
+[x]gestione permessi file e gestione append mode
 [x]gestione redirection
 
 
@@ -17,3 +17,5 @@
 
 - [ ] !!REDIRECT: leggere "TUTTI" i redirect, invece solo l'ultimo di ogni tipo
 cat < in > out > canttouchthis  > out2 in questo momento crea l'ultimo file anche se canttouchthis non ha permessi
+
+- [ ] fix echo -nnnnnnnnnnnnnnnnnnn
