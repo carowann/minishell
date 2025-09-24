@@ -32,6 +32,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
+#include <linux/limits.h>
+#include <sys/stat.h>
 
 typedef enum e_token_type
 {
@@ -235,9 +237,12 @@ char	*get_value_from_env_str(char *env_str);
 // build_exe_path.c
 char	*build_exe_path(t_shell_state *shell, t_cmd *cmd);
 char	*find_cmd_exe(char **paths, t_cmd *cmd);
-
+int 	is_valid_exe_path(const char *path);
 // cleanup.c
 void	free_matrix(char **matrix);
+void	free_command_all(t_cmd *cmd);
+int		pipe_free_all(t_cmd *cmd_left, t_shell_state *shell);
+int		set_last_exit_status(t_shell_state *shell, int status);
 
 // enviroment
 int		update_env(t_env *envar, char *arg);
@@ -245,49 +250,55 @@ int		add_env(t_env **envar, char *arg);
 t_env	*find_env(t_env *envar, char *arg);
 int		env(t_env *env, int fd, int print_all);
 t_env	*env_to_list(char **envp);
+char	**env_to_matrix(t_env *env);
+char	*find_env_val(t_env *env,char *node);
+
+//redirection
+int		open_ve_out(int *docfd, t_cmd *cmd);
+int		open_ve_doc(int *docfd, t_cmd *cmd);
+int		open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path);
+int		check_param_fd(int fd, va_list arg, char c);
+
+//pipe and fork
+int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
+int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
+int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
+int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
+int 	pipe_error(int *fd);
+int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
+int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
+
+//heredoc
+int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
+char	 **heredoc_pipe(t_cmd *cmd);
+int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
+char 	*get_all_line(int fd);
+int		pipe_heredoc_changes(t_cmd *cmd);
+int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell);
+char	*expand_in_heredoc(char *line, t_shell_state *shell);
+int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
+int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
+int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
+int		heredoc_execve(t_cmd *cmd);
+int		heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell);
 
 // execution
-int		check_param_fd(int fd, va_list arg, char c);
 int		execute_cmd(t_cmd *cmd, t_shell_state **shell);
 int		is_valid_cmd(char *cmd);
 int		command_select(t_cmd *cmd, t_shell_state **shell);
 int		ft_printfd(int fd, const char *format, ...);
-char	*conv_to_strn(char **args);
-int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
-char	**env_to_matrix(t_env *env);
-int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
-int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
-int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 char	*read_line(void);
-int		open_ve(t_cmd *cmd);
-int		open_in(t_cmd *cmd, int *fd);
-int		execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell);
-void	free_command_all(t_cmd *cmd);
 char 	**dup_matrix(char **matrix);
 int		handle_builtin(t_cmd *cmd, t_shell_state **shell);
 int		handle_external_command(t_cmd *cmd, t_shell_state **shell);
-int		pipe_free_all(t_cmd *cmd_left, t_shell_state *shell);
-int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
-int		pipe_heredoc_changes(t_cmd *cmd);
-int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell);
-char	 **heredoc_pipe(t_cmd *cmd);
-int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
-char 	*get_all_line(int fd);
-int 	pipe_error(int *fd);
-int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
-int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
-int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
-int		set_last_exit_status(t_shell_state *shell, int status);
+int		is_valid_cd_path(const char *path);
+
+//external command - execve
+int		execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell);
+int		open_ve(t_cmd *cmd);
+char	*conv_to_strn(char **args);
 int 	execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell);
 int		execve_error(char **envp, char **temp, char *exe_path);
-int		open_ve_doc(int *docfd, t_cmd *cmd);
-int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
-int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
-int		open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path);
-int		heredoc_execve(t_cmd *cmd);
-int		is_valid_cd_path(const char *path);
-int		heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell);
-
 
 // inbuilt commands
 int		pwd(int fd);
@@ -301,5 +312,5 @@ int		builtin_exit(t_cmd *cmd, t_shell_state *shell);
 int		validate_exit_arg(char *arg);
 int 	change_dir(char *path, t_env *env);
 int		cd_builtin(t_cmd *cmd, t_shell_state **shell);
-char	*find_env_val(t_env *env,char *node);
+int		open_in(t_cmd *cmd, int *fd);
 #endif

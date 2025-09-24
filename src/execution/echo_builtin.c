@@ -43,7 +43,7 @@ int	echo_builtin(char **args, int fd)
 		ft_printfd(fd, "%s", "\n");
 		return (SUCCESS);
 	}
-	if (ft_strncmp(args[1], "-n", 3) == 0)
+	if (ft_strncmp(args[1], "-n", 2) == 0)
 		n_var = 1;
 	else
 		n_var = 0;

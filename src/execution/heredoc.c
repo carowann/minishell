@@ -74,13 +74,13 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 	free(line);
 	return (expanded_line);
 }
-
+// scommentare heredoc_read_placebo quando **delimiters è implementato
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	close(fd[0]);
-	if (cmd->heredoc_delimiters[1])
-		heredoc_read_placebo(fd, cmd->heredoc_delimiters, shell);
-	else
+	// if (cmd->heredoc_delimiters[1])
+	// 	heredoc_read_placebo(fd, cmd->heredoc_delimiters, shell);
+	// else
 		heredoc_read(fd, cmd->heredoc_delimiter, shell);
 	close(fd[1]);
 	if (!cmd->next)

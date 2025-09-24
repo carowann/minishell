@@ -54,17 +54,10 @@ int	open_ve(t_cmd *cmd)
 		heredoc_execve(cmd);
 	if (cmd->output_file)
 	{
-		fd[1] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
-			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
-		if (fd[1] < 0)
-		{
-			if(fd[0] >= 0) //cambiato perche anche =0 e' un fd valido da chiudere
-				close(fd[0]);
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+		if (open_ve_out(fd, cmd) == -1)
 			return (-1);
-		}
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+		close(fd[1]);	
 	}
 	return (0);
 }
@@ -95,3 +88,24 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	return(exe_path);
 }
 
+int is_valid_exe_path(const char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) != 0)
+	{
+		ft_printfd(2, "minishell: cd: %s: No such file or directory\n", path);
+		return (0);
+	}
+	if (access(path, X_OK) != 0)
+	{
+		ft_printfd(2, "minishell: cd: %s: Permission denied\n", path);
+		return (0);
+	}
+	if (S_ISDIR(statbuf.st_mode))
+	{
+		ft_printfd(2, "minishell: cd: %s: is a directory\n", path);
+		return (0);
+	}
+	return (1);
+}
