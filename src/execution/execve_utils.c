@@ -67,6 +67,7 @@ int open_ve_out(int *docfd, t_cmd *cmd)
 	i = 0;
 	while (cmd->output_files[i + 1])
 	{
+		ft_printfd(1, "Opening output file: %s\n", cmd->output_files[i]);
 		docfd[1] = open(cmd->output_files[i], O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
 			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
 		if (docfd[1] < 0)
@@ -93,6 +94,7 @@ int open_ve_doc(int *docfd, t_cmd *cmd)
 	i = 0;
 	if (!cmd->input_file || cmd->is_heredoc > 0)
 		return (0);
+	
 	while (cmd->input_files[i + 1])
 	{
 		docfd[0] = open(cmd->input_files[i], O_RDONLY);
