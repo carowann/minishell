@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 19:02:52 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 16:03:09 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:43:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void print_cmd_details(t_cmd *cmd, int cmd_num)
 {
 	int i;
 
-	printf(BOLD"=== COMMAND %d DETAILS ===\n"RESET, cmd_num);
+	printf(BOLD "=== COMMAND %d DETAILS ===\n" RESET, cmd_num);
 	printf("Arguments (%d): ", cmd->arg_count);
 	if (cmd->args)
 	{
@@ -107,6 +107,21 @@ void print_cmd_details(t_cmd *cmd, int cmd_num)
 			printf("\"%s\" ", cmd->args[i]);
 			i++;
 		}
+	}
+	printf("\n");
+	printf("Input files array (%d): ", cmd->input_count);
+	if (cmd->input_files)
+	{
+		for (i = 0; i < cmd->input_count; i++)
+			printf("\"%s\" ", cmd->input_files[i]);
+	}
+	printf("\n");
+	printf("Output files array (%d): ", cmd->output_count);
+	if (cmd->output_files)
+	{
+		for (i = 0; i < cmd->output_count; i++)
+			printf("\"%s\"(%s) ", cmd->output_files[i],
+					cmd->output_modes[i] ? "APPEND" : "TRUNC");
 	}
 	printf("\n");
 	printf("Input: ");

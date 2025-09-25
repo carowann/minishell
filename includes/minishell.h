@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 16:05:41 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:34:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ typedef struct s_cmd
 	int				heredoc_count; //numero di heredoc
 	char			*output_file; // per out redirect > o >>, if null stdout normale
 	int				append_mode; //0 sovrascrivi, 1 append
+	char **input_files;	// Array di tutti gli input
+	int input_count;
+	char **output_files; // Array di tutti gli output
+	int *output_modes;	// Array append modes (0=trunc, 1=append)
+	int output_count;
 	struct s_cmd	*next; //prossimo cmd nella pipeline
 }	t_cmd;
 
@@ -186,6 +191,8 @@ void	add_to_buffer(char c, t_parser *parser);
 int		init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input);
 void	reset_buffer(t_parser *parser);
 void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx);
+void	init_cmd(t_cmd *cmd);
+t_cmd	*create_cmd(void);
 
 //state_machine_extra.c
 int	handle_operator_state(char c, t_tokenizer_ctx *ctx);

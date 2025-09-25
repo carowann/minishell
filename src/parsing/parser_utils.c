@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:08:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:32:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,42 @@ void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
 	if (ctx->parser.buffer)
 		free(ctx->parser.buffer);
 	*ctx = (t_tokenizer_ctx){0};
+}
+
+/*
+ * Initializes a new command structure with all fields set to safe defaults
+ * @param cmd: pre-allocated command structure to initialize
+ */
+void init_cmd(t_cmd *cmd)
+{
+	if (!cmd)
+		return;
+	cmd->args = NULL;
+	cmd->arg_count = 0;
+	cmd->input_file = NULL;
+	cmd->output_file = NULL;
+	cmd->heredoc_delimiter = NULL;
+	cmd->is_heredoc = 0;
+	cmd->append_mode = 0;
+	cmd->next = NULL;
+	cmd->input_files = NULL;
+	cmd->input_count = 0;
+	cmd->output_files = NULL;
+	cmd->output_modes = NULL;
+	cmd->output_count = 0;
+}
+
+/*
+ * Allocates and initializes a new command structure
+ * @return: initialized command structure, or NULL on allocation failure
+ */
+t_cmd *create_cmd(void)
+{
+	t_cmd *new_cmd;
+
+	new_cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!new_cmd)
+		return (NULL);
+	init_cmd(new_cmd);
+	return (new_cmd);
 }

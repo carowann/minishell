@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:57:50 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 16:04:44 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:33:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	process_token_loop(t_token_list *tokens, t_cmd_list *cmd_list)
 	t_token	*curr_token;
 	t_cmd	*curr_cmd;
 
-	curr_cmd = ft_calloc(1, sizeof(t_cmd));
+	curr_cmd = create_cmd();
 	if (!curr_cmd)
 		return (-1);
 	curr_token = tokens->head;

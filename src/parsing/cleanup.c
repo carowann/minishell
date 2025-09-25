@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 15:53:48 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 11:29:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,36 +72,69 @@ void	free_command_list(t_cmd_list *cmd_list)
 }
 
 /*
- * Frees single command
- * @param cmd: comand to free (can be NULL)
+ * Frees an array of strings and the array itself
+ * @param array: array of strings to free (can be NULL)
+ * @param count: number of elements in the array
  */
+void	free_string_array(char **array, int count)
+{
+	int i;
+
+	if (!array)
+		return;
+	i = 0;
+	while (i < count)
+	{
+		if (array[i])
+			free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
+/*
+ * Frees redirect arrays in a command
+ * @param cmd: command containing redirect arrays to free
+ */
+void free_redirect_arrays(t_cmd *cmd)
+{
+	if (!cmd)
+		return;
+
+	if (cmd->input_files)
+	{
+		free_string_array(cmd->input_files, cmd->input_count);
+		cmd->input_files = NULL;
+		cmd->input_count = 0;
+	}
+	if (cmd->output_files)
+	{
+		free_string_array(cmd->output_files, cmd->output_count);
+		cmd->output_files = NULL;
+	}
+	if (cmd->output_modes)
+	{
+		free(cmd->output_modes);
+		cmd->output_modes = NULL;
+		cmd->output_count = 0;
+	}
+}
+
 void	free_cmd(t_cmd *cmd)
 {
-	int	i;
-
 	if (!cmd)
-		return ;
+		return;
+
 	if (cmd->args)
-	{
-		i = 0;
-		while (cmd->args[i])
-		{
-			free(cmd->args[i]);
-			i++;
-		}
-		free(cmd->args);
-		cmd->args = NULL;
-	}
+		free_string_array(cmd->args, cmd->arg_count);
 	if (cmd->input_file)
 		free(cmd->input_file);
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
-	if (cmd->heredoc_delimiters)
-		free_heredoc_delimiters(cmd->heredoc_delimiters, cmd->heredoc_count);
 	if (cmd->output_file)
 		free(cmd->output_file);
+	free_redirect_arrays(cmd);
 	free(cmd);
-	cmd = NULL;
 }
 
 void	free_heredoc_delimiters(char **delimiters, int count)
