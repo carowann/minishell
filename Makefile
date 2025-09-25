@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/24 10:39:36 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/09/25 16:24:35 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC =	src/main_utils.c			\
 	src/execution/pipe_utils.c		\
 	src/execution/execve_utils.c	\
 	src/execution/heredoc_utils.c	\
+	src/execution/signals.c		
 
 # Flags
 CFLAGS = -g -Wall -Werror -Wextra

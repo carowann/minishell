@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 11:09:10 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:37:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,27 @@ void	shell_loop(t_shell_state **shell)
 	t_cmd_list	*commands;
 	char		*input;
 
+	setup_interactive_signals();
 	while (!(*shell)->should_exit)
 	{
 		commands = NULL;
-		// signal(SIGINT, handle_signal);
-		// signal(SIGINT, SIG_DFL);
 		input = read_input_line();
-		//  handle_signal():
-		// rl_on_new_line();
-		// rl_redisplay();
-
-		// update status_code
-		if (!input)
-			break ;
+		if (g_signal_received == SIGINT)
+		{
+			printf("DEBUG: Ricevuto SIGINT, aggiorno exit status\n"); // DEBUG
+			(*shell)->last_exit_status = 130;
+			g_signal_received = 0;
+			if (input)
+				free(input);
+			continue;
+		}
+		if (!input) // EOF (Ctrl+D)
+		{
+			ft_putstr_fd("exit\n", STDERR_FILENO);
+			(*shell)->should_exit = 1;
+			(*shell)->exit_code = (*shell)->last_exit_status;
+			break;
+		}
 		if (ft_strlen(input) == 0 || is_all_spaces(input))
 		{
 			free(input);
@@ -60,7 +68,7 @@ void	shell_loop(t_shell_state **shell)
 }
 
 /*
- * Reads, returns line from terminal (interactive mode or not) 
+ * Reads, returns line from terminal (interactive mode or not)
  * and adds it to history
  * @return: input line
  */
@@ -106,7 +114,7 @@ int	is_all_spaces(char *input)
 }
 
 /*
- * Initialises shell state struct 
+ * Initialises shell state struct
  * @param shell: struct to initialise
  * @param envp
  * @return: 0 no, 1 yes, ut's all spaces

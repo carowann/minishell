@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 11:34:07 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:48:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
-#include <linux/limits.h>
-#include <sys/stat.h>
+# include <linux/limits.h>
+# include <sys/stat.h>
+
+extern volatile sig_atomic_t g_signal_received;
 
 typedef enum e_token_type
 {
@@ -95,11 +97,11 @@ typedef struct s_cmd
 	int				heredoc_count; //numero di heredoc
 	char			*output_file; // per out redirect > o >>, if null stdout normale
 	int				append_mode; //0 sovrascrivi, 1 append
-	char **input_files;	// Array di tutti gli input
-	int input_count;
-	char **output_files; // Array di tutti gli output
-	int *output_modes;	// Array append modes (0=trunc, 1=append)
-	int output_count;
+	char			**input_files;	// Array di tutti gli input
+	int				input_count;
+	char			**output_files; // Array di tutti gli output
+	int				*output_modes;	// Array append modes (0=trunc, 1=append)
+	int				output_count;
 	struct s_cmd	*next; //prossimo cmd nella pipeline
 }	t_cmd;
 
@@ -320,4 +322,9 @@ int		validate_exit_arg(char *arg);
 int 	change_dir(char *path, t_env *env);
 int		cd_builtin(t_cmd *cmd, t_shell_state **shell);
 int		open_in(t_cmd *cmd, int *fd);
+
+// signals
+void interactive_sigint_handler(int sig);
+void setup_interactive_signals(void);
+
 #endif

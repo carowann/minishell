@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 18:37:46 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/25 15:15:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 	free(line);
 	return (expanded_line);
 }
+
 // scommentare heredoc_read_placebo quando **delimiters è implementato
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
