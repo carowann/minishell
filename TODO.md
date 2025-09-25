@@ -4,6 +4,7 @@
 []gestione segnali
 [x]implementazione heredoc
 [x]FIX SEG FAULT ECHO >
+-[ ] echo ciao test >test1 >test2 tronca i nomi dei file togliendo la prima lettera
 
 //execution
 [x]cd

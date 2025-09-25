@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 11:32:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 18:56:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ void init_cmd(t_cmd *cmd)
 	cmd->input_file = NULL;
 	cmd->output_file = NULL;
 	cmd->heredoc_delimiter = NULL;
+	cmd->heredoc_count = 0;
+	cmd->heredoc_delimiters = NULL;
 	cmd->is_heredoc = 0;
 	cmd->append_mode = 0;
 	cmd->next = NULL;

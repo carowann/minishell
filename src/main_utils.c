@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 16:37:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 18:38:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ void	shell_loop(t_shell_state **shell)
 	{
 		commands = NULL;
 		input = read_input_line();
-		if (g_signal_received == SIGINT)
+		if (input && ft_strncmp(input, "__SIGINT__", 10) == 0)
 		{
-			printf("DEBUG: Ricevuto SIGINT, aggiorno exit status\n"); // DEBUG
 			(*shell)->last_exit_status = 130;
-			g_signal_received = 0;
-			if (input)
-				free(input);
+			ft_printfd(2, "debug: caught SIGINT in main loop w/ exit status %d\n", (*shell)->last_exit_status);
+			free(input);
 			continue;
 		}
 		if (!input) // EOF (Ctrl+D)
@@ -80,6 +78,17 @@ char	*read_input_line(void)
 	if (isatty(STDIN_FILENO))
 	{
 		input = readline(BOLD"minishell> "RESET);
+		if (g_signal_received == SIGINT)
+		{
+			ft_printfd(2, "received SIGINT\n");
+			g_signal_received = 0;  // Reset signal flag
+			if (input)
+			{
+				free(input);
+				input = NULL;
+			}
+			return (ft_strdup("__SIGINT__"));
+		}
 		if (input && *input)
 			add_history(input);
 	}
