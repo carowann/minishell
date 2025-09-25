@@ -6,12 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 12:08:46 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 12:26:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 // Function to execute a command using execve in a child process
 int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
@@ -57,7 +56,7 @@ int	open_ve(t_cmd *cmd)
 		if (open_ve_out(fd, cmd) == -1)
 			return (-1);
 		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);	
+		close(fd[1]);
 	}
 	return (0);
 }
@@ -67,7 +66,6 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	char	*exe_path;
 	char	**all_exe_paths;
 	char	*value_path_var;
-
 
 	value_path_var = get_env_value(shell, "PATH");
 	if (!value_path_var || ft_strlen(value_path_var) == 0)
@@ -93,19 +91,10 @@ int is_valid_exe_path(const char *path)
 	struct stat	statbuf;
 
 	if (stat(path, &statbuf) != 0)
-	{
-		ft_printfd(2, "minishell: cd: %s: No such file or directory\n", path);
-		return (0);
-	}
+		return (127);
 	if (access(path, X_OK) != 0)
-	{
-		ft_printfd(2, "minishell: cd: %s: Permission denied\n", path);
-		return (0);
-	}
+		return (127);
 	if (S_ISDIR(statbuf.st_mode))
-	{
-		ft_printfd(2, "minishell: cd: %s: is a directory\n", path);
-		return (0);
-	}
-	return (1);
+		return (126);
+	return (SUCCESS);
 }
