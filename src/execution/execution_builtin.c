@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_builtin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 12:18:49 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/25 18:33:23 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,24 +63,27 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 
 int open_in(t_cmd *cmd, int *fd)
 {
-	*fd = STDOUT_FILENO;
-	if (*fd < 0) //non succede mai
-	{
-		ft_printfd(2, "minishell: %s: No such file or directory\n", cmd->output_file);
-		return (-1);
-	}
-	if (cmd->output_file)
-	{
+	int i;
 
-		if (cmd->append_mode)
-			*fd = open(cmd->output_file, O_RDWR | O_CREAT | O_APPEND, OUTFILE_PERMS);
-		else
-			*fd = open(cmd->output_file, O_RDWR | O_CREAT | O_TRUNC, OUTFILE_PERMS);
-		if (*fd < 0)
-		{
-			ft_printfd(2, "minishell: %s: No such file or directory\n", cmd->output_file);
+	i = 0;
+	while (cmd->output_files[i + 1])
+	{
+		ft_printfd(1, "Opening output file: %s\n", cmd->output_files[i]);
+		fd[0] = open(cmd->output_files[i], O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
+			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
+		if (fd[0] < 0)
+			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_files[i]);
+		if (fd[0] < 0)
 			return (-1);
-		}
+		close(fd[0]);
+		i++;
+	}
+	fd[0] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
+			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
+	if (fd[0] < 0)
+	{
+		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
+		return (-1);
 	}
 	return (1);
 }
