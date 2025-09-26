@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 16:29:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 11:18:49 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,5 @@ void interactive_sigint_handler(int sig)
 void setup_interactive_signals(void)
 {
 	signal(SIGINT, interactive_sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ctrl+\ ignorato per ora
+	signal(SIGQUIT, SIG_IGN); // Ctrl+\ ignorato
 }
