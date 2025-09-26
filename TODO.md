@@ -1,10 +1,11 @@
 // PARSING //
-[x] ./minishell tnati spazi vuoti deve ritornare il prompt senza errore
-[x]gestione exit status per $?
-[]gestione segnali
-[x]implementazione heredoc
-[x]FIX SEG FAULT ECHO >
--[ ] echo ciao test >test1 >test2 tronca i nomi dei file togliendo la prima lettera
+-[x] ./minishell tnati spazi vuoti deve ritornare il prompt senza errore
+-[x]gestione exit status per $?
+-[ ]gestione segnali
+-[x]implementazione heredoc
+-[x]FIX SEG FAULT ECHO >
+-[x] echo ciao test >test1 >test2 tronca i nomi dei file togliendo la prima lettera
+-[ ] echo $""
 
 //execution
 [x]cd
