@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/26 14:15:53 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:08:16 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int set_exit_status(t_shell_state **shell, int status)
 
 static int handle_pipeline(t_cmd *cmd, t_shell_state **shell)
 {
-	int result;
+	int	result;
 
 	result = pipeman(cmd, cmd->next, *shell);
 	(*shell)->last_exit_status = result;
@@ -46,7 +46,7 @@ static int handle_pipeline(t_cmd *cmd, t_shell_state **shell)
 
 int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 {
-	int result;
+	int	result;
 
 	result = command_select(cmd, shell);
 	if (ft_strncmp(cmd->args[0], "exit", 5) != 0 || !(*shell)->should_exit)
@@ -56,8 +56,8 @@ int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 
 int handle_external_command(t_cmd *cmd, t_shell_state **shell)
 {
-	char *exe_path;
-	int result;
+	char	*exe_path;
+	int		result;
 
 	exe_path = build_exe_path(*shell, cmd);
 	if (!exe_path)

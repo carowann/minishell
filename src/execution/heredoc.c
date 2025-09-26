@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 18:39:59 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 18:40:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 char *expand_in_heredoc(char *line, t_shell_state *shell);
 
-int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
-{
-	int   pipefd[2];
-	pid_t pid;
-	int   status;
+// int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
+// {
+// 	int pipefd[2];
+// 	pid_t pid;
+// 	int status;
 
-	if (pipe_error(pipefd) == 1)
-		return (1);
-	pid = fork();
-	if (pid == -1)
-		return (fork_error(pipefd, NULL, NULL, NULL));
-	if (pid == 0) //child uno, legge da stdin e scrive su pipefd[1]
-		exit(doc_child_write(cmd, pipefd, shell));
-	else
-	{
-		close(pipefd[1]);
-		waitpid(pid, &status, 0);
-		pid = fork();
-		if (pid == -1)
-			return (fork_error(pipefd, NULL, NULL, NULL));
-		if (pid == 0) //child due, legge da pipefd[0] e duplica su stdin
-			exit(doc_child_read(cmd, pipefd, shell));
-		close(pipefd[0]);
-		waitpid(pid, &status, 0);
-		return (set_last_exit_status(*shell, status));
-	}
-}
+// 	if (pipe_error(pipefd) == 1)
+// 		return (1);
+// 	pid = fork();
+// 	if (pid == -1)
+// 		return (fork_error(pipefd, NULL, NULL, NULL));
+// 	if (pid == 0) // child uno, legge da stdin e scrive su pipefd[1]
+// 		exit(doc_child_write(cmd, pipefd, shell));
+// 	else
+// 	{
+// 		close(pipefd[1]);
+// 		waitpid(pid, &status, 0);
+// 		pid = fork();
+// 		if (pid == -1)
+// 			return (fork_error(pipefd, NULL, NULL, NULL));
+// 		if (pid == 0) // child due, legge da pipefd[0] e duplica su stdin
+// 			exit(doc_child_read(cmd, pipefd, shell));
+// 		close(pipefd[0]);
+// 		waitpid(pid, &status, 0);
+// 		return (set_last_exit_status(*shell, status));
+// 	}
+// }
 
 int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 {
-	char *line;
+	char	*line;
 
 	while (1)
 	{
@@ -75,9 +75,10 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 	return (expanded_line);
 }
 
-// scommentare heredoc_read_placebo quando **delimiters è implementato
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
+	printf("DEBUG: Setting heredoc signal handlers\n");
+	setup_default_signals();
 	close(fd[0]);
 	if (cmd->heredoc_delimiters[1])
 		heredoc_read_placebo(fd, cmd->heredoc_delimiters, shell);
@@ -112,6 +113,7 @@ int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
 int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
 {
 	int	status_code;
+
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	if (is_valid_cmd(cmd->args[0]))

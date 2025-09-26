@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 18:43:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 10:38:24 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:09:07 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,8 @@ int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
 
 int add_heredoc_delimiter(t_cmd *cmd, char *delimiter)
 {
-	char **new_array;
-	int i;
+	char	**new_array;
+	int		i;
 
 	new_array = malloc(sizeof(char *) * (cmd->heredoc_count + 2));
 	if (!new_array)

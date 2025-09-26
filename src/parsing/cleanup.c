@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 19:11:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:08:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	free_command_list(t_cmd_list *cmd_list)
  */
 void	free_string_array(char **array, int count)
 {
-	int i;
+	int	i;
 
 	if (!array)
 		return;
