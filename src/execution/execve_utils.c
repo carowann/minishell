@@ -1,4 +1,14 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execve_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
+/*   Updated: 2025/09/26 16:15:52 by lzorzit          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
@@ -60,6 +70,7 @@ int open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path)
 	free(*shell);
 	return (EXIT_FAILURE);
 }
+
 int open_ve_out(int *docfd, t_cmd *cmd)
 {
 	int i;
@@ -85,34 +96,4 @@ int open_ve_out(int *docfd, t_cmd *cmd)
 		return (-1);
 	}
 	return (0);
-}
-
-int open_ve_doc(int *docfd, t_cmd *cmd)
-{
-	int i;
-
-	i = 0;
-	if (!cmd->input_file || cmd->is_heredoc > 0)
-		return (0);
-	
-	while (cmd->input_files[i + 1])
-	{
-		docfd[0] = open(cmd->input_files[i], O_RDONLY);
-		if (docfd[0] < 0)
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_files[i]);
-		if (docfd[0] < 0)
-			return (-1);
-		close(docfd[0]);
-		i++;
-	}
-    docfd[0] = open(cmd->input_file, O_RDONLY);
-    if (docfd[0] < 0)
-    {
-        ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
-        return (-1);
-    }
-	if (cmd->is_heredoc == 0)
-		dup2(docfd[0], STDIN_FILENO);
-    close(docfd[0]);
-    return (0);
 }

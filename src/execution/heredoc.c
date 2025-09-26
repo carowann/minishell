@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:40:30 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:41:27 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@ char *expand_in_heredoc(char *line, t_shell_state *shell);
 
 // int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
 // {
-// 	int pipefd[2];
+// 	int   pipefd[2];
 // 	pid_t pid;
-// 	int status;
+// 	int   status;
 
 // 	if (pipe_error(pipefd) == 1)
 // 		return (1);
 // 	pid = fork();
 // 	if (pid == -1)
 // 		return (fork_error(pipefd, NULL, NULL, NULL));
-// 	if (pid == 0) // child uno, legge da stdin e scrive su pipefd[1]
+// 	if (pid == 0) //child uno, legge da stdin e scrive su pipefd[1]
 // 		exit(doc_child_write(cmd, pipefd, shell));
 // 	else
 // 	{
@@ -34,7 +34,7 @@ char *expand_in_heredoc(char *line, t_shell_state *shell);
 // 		pid = fork();
 // 		if (pid == -1)
 // 			return (fork_error(pipefd, NULL, NULL, NULL));
-// 		if (pid == 0) // child due, legge da pipefd[0] e duplica su stdin
+// 		if (pid == 0) //child due, legge da pipefd[0] e duplica su stdin
 // 			exit(doc_child_read(cmd, pipefd, shell));
 // 		close(pipefd[0]);
 // 		waitpid(pid, &status, 0);
@@ -80,10 +80,9 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 	printf("DEBUG: Setting heredoc signal handlers\n");
 	setup_default_signals();
 	close(fd[0]);
-	if (cmd->heredoc_delimiters[1])
-		heredoc_read_placebo(fd, cmd->heredoc_delimiters, shell);
-	else
-		heredoc_read(fd, cmd->heredoc_delimiter, shell);
+	if (cmd->heredoc_count > 1)
+		heredoc_read_placebo(cmd->heredoc_delimiters);
+	heredoc_read(fd, cmd->heredoc_delimiter, shell);
 	close(fd[1]);
 	if (!cmd->next)
 	{

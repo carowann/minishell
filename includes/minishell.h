@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 17:30:22 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:42:20 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,7 +278,7 @@ int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 
 //heredoc
-int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
+// int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
 char	 **heredoc_pipe(t_cmd *cmd);
 int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
@@ -289,7 +289,7 @@ int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
 int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		heredoc_execve(t_cmd *cmd);
-int		heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell);
+int		heredoc_read_placebo(char **delimiter);
 
 // execution
 int		execute_cmd(t_cmd *cmd, t_shell_state **shell);
@@ -321,6 +321,8 @@ int		builtin_exit(t_cmd *cmd, t_shell_state *shell);
 int		validate_exit_arg(char *arg);
 int 	change_dir(char *path, t_env *env);
 int		cd_builtin(t_cmd *cmd, t_shell_state **shell);
+int 	open_in_placebo(t_cmd *cmd, int *fd, int i, int bool);
+int		set_output(t_cmd *cmd, int *fd);
 int		open_in(t_cmd *cmd, int *fd);
 
 // signals

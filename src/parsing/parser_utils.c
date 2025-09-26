@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 16:17:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:21:38 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,8 @@ void init_cmd(t_cmd *cmd)
 	cmd->input_file = NULL;
 	cmd->output_file = NULL;
 	cmd->heredoc_delimiter = NULL;
-	cmd->heredoc_count = 0;
 	cmd->heredoc_delimiters = NULL;
+	cmd->heredoc_count = 0;
 	cmd->is_heredoc = 0;
 	cmd->append_mode = 0;
 	cmd->next = NULL;
