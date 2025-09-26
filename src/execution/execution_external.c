@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 12:26:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:12:16 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 		return (-1);
 	if (pid == 0)
 	{
+		setup_default_signals();
 		if (open_ve(cmd) == -1)
 			exit(open_ve_error(cmd, shell, exe_path));
 		envp = env_to_matrix((*shell)->env_list);
