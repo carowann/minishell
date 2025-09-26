@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 18:43:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 11:40:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 10:38:24 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,34 @@ int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
 	return (0);
 }
 
+int add_heredoc_delimiter(t_cmd *cmd, char *delimiter)
+{
+	char **new_array;
+	int i;
+
+	new_array = malloc(sizeof(char *) * (cmd->heredoc_count + 2));
+	if (!new_array)
+		return (-1);
+	i = 0;
+	while (i < cmd->heredoc_count)
+	{
+		new_array[i] = cmd->heredoc_delimiters[i];
+		i++;
+	}
+	new_array[cmd->heredoc_count] = ft_strdup(delimiter);
+	if (!new_array[cmd->heredoc_count])
+	{
+		free(new_array);
+		return (-1);
+	}
+	new_array[cmd->heredoc_count + 1] = NULL;
+	if (cmd->heredoc_delimiters)
+		free(cmd->heredoc_delimiters);
+	cmd->heredoc_delimiters = new_array;
+	cmd->heredoc_count++;
+	return (0);
+}
+
 /*
  * Sets heredoc delimiter in cmd struct
  * @param cmd: command to modify
@@ -131,6 +159,8 @@ int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
  */
 int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token)
 {
+	if (add_heredoc_delimiter(cmd, delimiter) == -1)
+		return (-1);
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
 	cmd->is_heredoc = 1;

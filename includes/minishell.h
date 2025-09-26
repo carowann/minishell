@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 16:48:38 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:19:43 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,7 +278,7 @@ int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 
 //heredoc
-int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
+// int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
 char	 **heredoc_pipe(t_cmd *cmd);
 int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
@@ -326,5 +326,9 @@ int		open_in(t_cmd *cmd, int *fd);
 // signals
 void interactive_sigint_handler(int sig);
 void setup_interactive_signals(void);
+void execution_sigquit_handler(int sig);
+void setup_execution_signals(void);
+void setup_default_signals(void);
+void child_signal_handler(int sig);
 
 #endif

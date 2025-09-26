@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 16:29:26 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:23:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,37 @@ void interactive_sigint_handler(int sig)
 void setup_interactive_signals(void)
 {
 	signal(SIGINT, interactive_sigint_handler);
-	signal(SIGQUIT, SIG_IGN); // Ctrl+\ ignorato per ora
+	signal(SIGQUIT, SIG_IGN); // Ctrl+\ ignorato
+}
+
+void execution_sigint_handler(int sig)
+{
+	write(STDOUT_FILENO, "\n", 1);
+	(void)sig;
+}
+
+void execution_sigquit_handler(int sig)
+{
+	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
+	(void)sig;
+}
+
+void setup_execution_signals(void)
+{
+	signal(SIGINT, execution_sigint_handler);            // Ignora SIGINT nel padre
+	signal(SIGQUIT, execution_sigquit_handler); // SIGQUIT stampa messaggio
+}
+
+// Ripristina i segnali alle impostazioni di default per i processi figli
+void setup_default_signals(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+// Handler per il processo figlio che libera memoria prima di terminare
+void child_signal_handler(int sig)
+{
+
+	exit(128 + sig);
 }

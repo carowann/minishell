@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_external.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 12:26:36 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:16:04 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 		return (-1);
 	if (pid == 0)
 	{
+		setup_default_signals();
 		if (open_ve(cmd) == -1)
 			exit(open_ve_error(cmd, shell, exe_path));
 		envp = env_to_matrix((*shell)->env_list);
@@ -98,3 +99,33 @@ int is_valid_exe_path(const char *path)
 		return (126);
 	return (SUCCESS);
 }
+
+int open_ve_doc(int *docfd, t_cmd *cmd)
+{
+	int i;
+
+	i = 0;
+	if (!cmd->input_file || cmd->is_heredoc > 0)
+		return (0);
+	while (cmd->input_files[i + 1])
+	{
+		docfd[0] = open(cmd->input_files[i], O_RDONLY);
+		if (docfd[0] < 0)
+			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_files[i]);
+		if (docfd[0] < 0)
+			return (-1);
+		close(docfd[0]);
+		i++;
+	}
+    docfd[0] = open(cmd->input_file, O_RDONLY);
+    if (docfd[0] < 0)
+    {
+        ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
+        return (-1);
+    }
+	if (cmd->is_heredoc == 0)
+		dup2(docfd[0], STDIN_FILENO);
+    close(docfd[0]);
+    return (0);
+}
+
