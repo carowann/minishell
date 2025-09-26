@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:41:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:26:43 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 	{
 		ft_printfd(1, "> ");
 		line = read_line();
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0) //TODO: era strcmp!!!! check forbidden functions
 			break;
 		if (ft_strchr(line, '$'))
 			line = expand_in_heredoc(line, shell);
-		write(pipefd[1], line, strlen(line));
+		write(pipefd[1], line, ft_strlen(line)); //TODO: era strlen normale!!!! check forbidden functions
 		write(pipefd[1], "\n", 1);
 		free(line);
 	}
@@ -77,8 +77,9 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
-	printf("DEBUG: Setting heredoc signal handlers\n");
-	setup_default_signals();
+	    signal(SIGINT, heredoc_exit_handler);  // ← Cambia questa linea
+    signal(SIGQUIT, SIG_DFL);              // ← Aggiungi questa linea
+    
 	close(fd[0]);
 	if (cmd->heredoc_count > 1)
 		heredoc_read_placebo(cmd->heredoc_delimiters);

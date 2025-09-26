@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:42:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:27:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,12 @@ typedef struct s_shell_state
 	int			exit_code;
 	t_cmd_list	*current_cmd_list;
 } t_shell_state;
+
+typedef struct s_signal_state
+{
+	void (*sigint_handler)(int);
+	void (*sigquit_handler)(int);
+} t_signal_state;
 
 /****************MAIN UTILS******************/
 
@@ -330,6 +336,8 @@ void setup_interactive_signals(void);
 void setup_pipeline_signals(void);
 void setup_execution_signals(void);
 void setup_default_signals(void);
-void setup_heredoc_signals(void);
+void save_signal_state(t_signal_state *state);
+void restore_signal_state(t_signal_state *state);
+void heredoc_exit_handler(int sig);
 
 #endif

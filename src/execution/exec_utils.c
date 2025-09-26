@@ -6,14 +6,14 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:24:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 16:29:33 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:56:49 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Function to read a line from standard input
-char *read_line(void)
+char *read_line(void) //TODO: change forbidden functions!!!!
 {
 	char buffer[1024];
 	if (fgets(buffer, sizeof(buffer), stdin) == NULL)
@@ -36,13 +36,13 @@ char *conv_to_strn(char	**args)
 		str = ft_strndup(args[i], ft_strlen(args[i]));
 	i++;
 	if(args[i])
-		str = ft_strjoin(str, " ");	
+		str = ft_strjoin(str, " ");
 	while (args[i])
 	{
 		str = ft_strjoin(str, args[i]);
 		i++;
 		if(args[i])
-			str = ft_strjoin(str, " ");	
+			str = ft_strjoin(str, " ");
 	}
 	return(str);
 }

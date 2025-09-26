@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:42:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:21:11 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,11 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 
 int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 {
-	int		status;
-	int		fd[2];
-	char	*line;
-	pid_t	pid;
+	int				status;
+	int				fd[2];
+	char			*line;
+	pid_t			pid;
+	t_signal_state	saved_signals;
 
 	while (cmd)
 	{
@@ -67,10 +68,14 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 		{
 			if (pipe_error(fd) == 1)
 				return (1);
-			pid = fork(); //creo un processo figlio che scrive nel pipe
+			save_signal_state(&saved_signals);
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
+			pid = fork();
 			if (pid == 0)
-				exit (heredoc_sub(cmd, fd, shell));
+				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
+			restore_signal_state(&saved_signals);
 			if (WIFSIGNALED(status))
 			{
 				close(fd[1]);

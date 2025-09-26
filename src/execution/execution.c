@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/26 18:42:32 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 18:59:16 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 	if (cmd->next != NULL)
 		return (handle_pipeline(cmd, shell));
 	if (cmd->is_heredoc == 1)
-		set_up_heredoc(cmd, *shell);
+	{
+		if (set_up_heredoc(cmd, *shell) == -1)
+			return ((*shell)->last_exit_status);
+	}
 	if (is_valid_cmd(cmd->args[0]))
 		return (handle_builtin(cmd, shell));
 	return (handle_external_command(cmd, shell));

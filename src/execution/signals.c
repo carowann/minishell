@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:03:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 19:25:48 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,25 @@ void setup_default_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void save_signal_state(t_signal_state *state)
+{
+	state->sigint_handler = signal(SIGINT, SIG_DFL);
+	signal(SIGINT, state->sigint_handler);
+
+	state->sigquit_handler = signal(SIGQUIT, SIG_DFL);
+	signal(SIGQUIT, state->sigquit_handler);
+}
+
+void restore_signal_state(t_signal_state *state)
+{
+	signal(SIGINT, state->sigint_handler);
+	signal(SIGQUIT, state->sigquit_handler);
+}
+
+void heredoc_exit_handler(int sig)
+{
+	write(STDOUT_FILENO, "\n", 1); // Newline per andare a capo
+	exit(128 + sig);			   // Termina con exit status corretto
 }
