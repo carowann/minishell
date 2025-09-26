@@ -6,13 +6,13 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 18:38:43 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/24 18:45:20 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 16:33:05 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell)
+int heredoc_read_placebo(char **delimiter)
 {
 	char *line;
 	int i;
@@ -29,7 +29,6 @@ int heredoc_read_placebo(int *pipefd, char **delimiter, t_shell_state *shell)
 		}
 		i ++;
 	}
-	heredoc_read(pipefd, delimiter[i], shell);
 	if (line)
 		free(line);
 	else if (!line) // && g_signal == NOT_RECEIVED

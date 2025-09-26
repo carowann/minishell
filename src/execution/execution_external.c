@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 16:16:04 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 17:02:46 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	open_ve(t_cmd *cmd)
 	int fd[2];
 
 	fd[0] = -1;
-	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditionsl jump
+	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditional jump
 	if (open_ve_doc(fd, cmd) == -1)
 		return (-1);
 	else if (cmd->is_heredoc > 1)
@@ -105,7 +105,7 @@ int open_ve_doc(int *docfd, t_cmd *cmd)
 	int i;
 
 	i = 0;
-	if (!cmd->input_file || cmd->is_heredoc > 0)
+	if (!cmd->input_file)
 		return (0);
 	while (cmd->input_files[i + 1])
 	{

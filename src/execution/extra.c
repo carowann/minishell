@@ -52,7 +52,7 @@ int heredoc_execve(t_cmd *cmd)
 		perror("pipe in heredoc failed");
 		return (-1);
 	}
-	write(fd[1], cmd->input_file, ft_strlen(cmd->input_file));
+	write(fd[1], cmd->heredoc_delimiter, ft_strlen(cmd->heredoc_delimiter));
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);

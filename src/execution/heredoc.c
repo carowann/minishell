@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 16:19:34 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 17:38:40 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	close(fd[0]);
-	if (cmd->heredoc_delimiters[1])
-		heredoc_read_placebo(fd, cmd->heredoc_delimiters, shell);
-	else
-		heredoc_read(fd, cmd->heredoc_delimiter, shell);
+	if (cmd->heredoc_count > 1)
+		heredoc_read_placebo(cmd->heredoc_delimiters);
+	heredoc_read(fd, cmd->heredoc_delimiter, shell);
 	close(fd[1]);
 	if (!cmd->next)
 	{

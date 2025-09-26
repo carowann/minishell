@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 14:39:46 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:48:22 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,14 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			pid = fork(); //creo un processo figlio che scrive nel pipe
 			if (pid == 0)
 				exit (heredoc_sub(cmd, fd, shell));
-			ft_printfd(STDERR_FILENO, "PID: %d\n", pid);
 			waitpid(pid, NULL, 0);
 			close(fd[1]);
 			line = get_all_line(fd[0]);
 			close(fd[0]);
-			cmd->input_file = ft_strdup(line);
+			if (!line)
+				cmd->heredoc_delimiter = NULL;
+			else
+				cmd->heredoc_delimiter = ft_strdup(line);
 			cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
 			free(line);
 		}
