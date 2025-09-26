@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 18:38:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 10:37:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	shell_loop(t_shell_state **shell)
 		if (input && ft_strncmp(input, "__SIGINT__", 10) == 0)
 		{
 			(*shell)->last_exit_status = 130;
-			ft_printfd(2, "debug: caught SIGINT in main loop w/ exit status %d\n", (*shell)->last_exit_status);
 			free(input);
 			continue;
 		}
