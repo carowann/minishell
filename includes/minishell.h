@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 16:19:43 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 16:21:55 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,6 +327,7 @@ int		open_in(t_cmd *cmd, int *fd);
 void interactive_sigint_handler(int sig);
 void setup_interactive_signals(void);
 void execution_sigquit_handler(int sig);
+void setup_pipeline_signals(void);
 void setup_execution_signals(void);
 void setup_default_signals(void);
 void child_signal_handler(int sig);
