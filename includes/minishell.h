@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 14:12:41 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:39:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -327,6 +327,7 @@ int		open_in(t_cmd *cmd, int *fd);
 void interactive_sigint_handler(int sig);
 void setup_interactive_signals(void);
 void execution_sigquit_handler(int sig);
+void setup_pipeline_signals(void);
 void setup_execution_signals(void);
 void setup_default_signals(void);
 void child_signal_handler(int sig);

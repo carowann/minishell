@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 14:23:40 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:43:24 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ void execution_sigquit_handler(int sig)
 {
 	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	(void)sig;
+}
+
+void setup_pipeline_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void setup_execution_signals(void)

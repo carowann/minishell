@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 18:45:27 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/26 14:39:46 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,30 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 
 	fflush(NULL);
 	set_up_heredoc(shell->current_cmd_list->head, shell);
+	setup_pipeline_signals();
 	if (pipe_error(pipefd) == 1)
+	{
+		setup_interactive_signals();
 		return (-1);
+	}
 	left_pid = fork();
 	if (left_pid == -1)
+	{
+		setup_interactive_signals();
 		return (fork_error(pipefd, NULL, NULL, 0));
+	}
 	if (left_pid == 0)
 		exit(exec_pipeline_left(cmd_left, shell, pipefd));
 	right_pid = fork();
 	if (right_pid == -1)
+	{
+		setup_interactive_signals();
 		return (fork_error(pipefd, &left_pid, NULL, 0));
+	}
 	if (right_pid == 0)
-		exit( exec_pipeline_right(cmd_right, shell, pipefd));
+		exit(exec_pipeline_right(cmd_right, shell, pipefd));
 	fork_close(pipefd, &left_pid, &right_pid, &status);
+	setup_interactive_signals();
 	set_last_exit_status(shell, status);
 	return (shell->last_exit_status);
 }
@@ -72,6 +83,7 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
 
+	setup_default_signals();
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
@@ -87,6 +99,7 @@ int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
 
+	setup_default_signals();
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
