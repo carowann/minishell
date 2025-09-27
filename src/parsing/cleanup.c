@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 17:08:30 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:36:08 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	free_cmd(t_cmd *cmd)
 		free_string_array(cmd->args, cmd->arg_count);
 	if (cmd->input_file)
 		free(cmd->input_file);
-	if (cmd->heredoc_delimiter)
+	if (cmd->heredoc_delimiter) 
 		free(cmd->heredoc_delimiter);
 	if (cmd->output_file)
 		free(cmd->output_file);

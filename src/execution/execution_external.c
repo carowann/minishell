@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 17:02:46 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/27 19:00:05 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int open_ve_doc(int *docfd, t_cmd *cmd)
 	i = 0;
 	if (!cmd->input_file)
 		return (0);
-	while (cmd->input_files[i + 1])
+	while (i < cmd->input_count - 1)
 	{
 		docfd[0] = open(cmd->input_files[i], O_RDONLY);
 		if (docfd[0] < 0)

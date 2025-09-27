@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/26 16:15:52 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/27 19:01:01 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,8 @@ int open_ve_out(int *docfd, t_cmd *cmd)
 	int i;
 
 	i = 0;
-	while (cmd->output_files[i + 1])
+	while (i < cmd->output_count - 1)
 	{
-		ft_printfd(1, "Opening output file: %s\n", cmd->output_files[i]);
 		docfd[1] = open(cmd->output_files[i], O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
 			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
 		if (docfd[1] < 0)

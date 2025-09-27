@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 19:21:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/27 19:14:42 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
 			restore_signal_state(&saved_signals);
-			if (WIFSIGNALED(status))
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			{
-				close(fd[1]);
-				close(fd[0]);
-				shell->last_exit_status = 128 + WTERMSIG(status);
-				return (-1); //l'heredoc è stato interrotto
+   				close(fd[1]);
+    			close(fd[0]);
+    			shell->last_exit_status = 130;
+    			return (-1);
 			}
 			close(fd[1]);
 			line = get_all_line(fd[0]);
@@ -89,7 +89,10 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			if (!line)
 				cmd->heredoc_delimiter = NULL;
 			else
+			{
+				free(cmd->heredoc_delimiter);
 				cmd->heredoc_delimiter = ft_strdup(line);
+			}
 			cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
 			free(line);
 		}

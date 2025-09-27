@@ -6,7 +6,7 @@
 /*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 18:24:39 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/27 18:58:10 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,19 @@ int open_in(t_cmd *cmd, int *fd)
 	fd[0] = STDOUT_FILENO;
 	if (cmd->input_file != NULL)
 	{
-		while (cmd->input_files[i])
+		while (i < cmd->input_count)
 		{
 			if (open_in_placebo(cmd, fd, i, 0) == -1)
 				return (-1);
 			i++;
 		}
 	}
+	i = 0;
 	if (cmd->output_file != NULL)
 	{
-		while (cmd->output_files[i + 1])
+		if (cmd->output_count == 1)
+			return (set_output(cmd, fd));
+		while (i < cmd->output_count - 1)
 		{
 			if (open_in_placebo(cmd, fd, i, 1) == -1)
 				return (-1);
