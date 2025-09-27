@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 19:09:04 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/27 23:09:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,18 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 
 	while (1)
 	{
-		ft_printfd(1, "> ");
-		line = read_line();
-		if (!line || ft_strcmp(line, delimiter) == 0) //TODO: era strcmp!!!! check forbidden functions
+		//ft_printfd(1, "> ");
+		//line = read_line();
+		if (g_signal_received == SIGINT)
+			return (-1);
+		line = readline("> "); //TODO: check se va bene uguale
+		if (g_signal_received == SIGINT)
+		{
+			if (line)
+				free(line);
+			return (-1);
+		}
+		if (!line || ft_strcmp(line, delimiter) == 0) // TODO: era strcmp!!!! check forbidden functions
 			break;
 		if (ft_strchr(line, '$'))
 			line = expand_in_heredoc(line, shell);
@@ -77,13 +86,17 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
-	    signal(SIGINT, heredoc_exit_handler);  // ← Cambia questa linea
-    signal(SIGQUIT, SIG_DFL);              // ← Aggiungi questa linea
-    
+	signal(SIGINT, heredoc_exit_handler);
+	signal(SIGQUIT, SIG_IGN);
 	close(fd[0]);
 	if (cmd->heredoc_count > 1)
 		heredoc_read_placebo(cmd->heredoc_delimiters);
-	heredoc_read(fd, cmd->heredoc_delimiter, shell);
+	if (heredoc_read(fd, cmd->heredoc_delimiter, shell) == -1)
+	{
+		close(fd[1]);
+		pipe_free_all(cmd, shell);
+		exit(130);
+	}
 	close(fd[1]);
 	pipe_free_all(cmd, shell);
 	return (0);

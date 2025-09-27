@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 19:27:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/09/27 22:42:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,7 +296,7 @@ int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		heredoc_execve(t_cmd *cmd);
 int		heredoc_read_placebo(char **delimiter);
-
+int		heredoc_sub_with_cleanup(t_cmd *cmd, int *fd, t_shell_state *shell);
 // execution
 int		execute_cmd(t_cmd *cmd, t_shell_state **shell);
 int		is_valid_cmd(char *cmd);
@@ -339,5 +339,6 @@ void setup_default_signals(void);
 void save_signal_state(t_signal_state *state);
 void restore_signal_state(t_signal_state *state);
 void heredoc_exit_handler(int sig);
+void heredoc_controlled_exit_handler(int sig);
 
 #endif

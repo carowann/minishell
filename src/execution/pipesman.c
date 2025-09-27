@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 19:14:42 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/09/27 22:59:17 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 	int		pipefd[2];
 	int		status;
 
-	fflush(NULL);
+	fflush(NULL); //TODO: remove forbidden function
 	if (set_up_heredoc(shell->current_cmd_list->head, shell) == -1)
 	{
 		setup_interactive_signals();
@@ -78,14 +78,20 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			restore_signal_state(&saved_signals);
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			{
-   				close(fd[1]);
-    			close(fd[0]);
-    			shell->last_exit_status = 130;
-    			return (-1);
+				close(fd[1]);
+				close(fd[0]);
+				shell->last_exit_status = 130;
+				return (-1);
 			}
 			close(fd[1]);
 			line = get_all_line(fd[0]);
 			close(fd[0]);
+			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
+			{
+				free(line);
+				shell->last_exit_status = 130;
+				return (-1);
+			}
 			if (!line)
 				cmd->heredoc_delimiter = NULL;
 			else
