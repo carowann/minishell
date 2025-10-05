@@ -46,6 +46,7 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 {
 	char	*line;
 
+	write(pipefd[1], "", 0); // Per evitare potenziali problemi di empty writes
 	while (1)
 	{
 		ft_printfd(1, "> ");

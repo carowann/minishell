@@ -72,6 +72,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, SIG_IGN);
 			pid = fork();
+			printf("Forked heredoc process with PID %d\n", pid); // Debug line
 			if (pid == 0)
 				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
@@ -87,7 +88,10 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			line = get_all_line(fd[0]);
 			close(fd[0]);
 			if (!line)
+			{
+				free(cmd->heredoc_delimiter);
 				cmd->heredoc_delimiter = NULL;
+			}
 			else
 			{
 				free(cmd->heredoc_delimiter);
