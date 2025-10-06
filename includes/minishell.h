@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 17:12:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 18:44:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,12 @@ int	handle_redirect_token(t_token **curr_token, t_cmd *cmd);
 int	set_input_redirect(t_cmd *cmd, char *filename, t_token **curr_token);
 int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **curr_token);
 int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token);
+
+//tokens_to_cmds_operators_utils.c
+int	add_input_file(t_cmd *cmd, char *filename);
+int	add_output_file(t_cmd *cmd, char *filename, int append);
+int	add_heredoc_delimiter(t_cmd *cmd, char *delimiter);
+int	allocate_output_arrays(t_cmd *cmd, char ***new_files, int **new_modes);
 
 //tokens_to_cmds_utils.c
 int	is_argument_token(t_token *token);
