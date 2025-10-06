@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 22:42:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:09:54 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ typedef struct s_shell_state
 	int			last_exit_status;
 	int			should_exit;
 	int			exit_code;
+	int 		is_child;
 	t_cmd_list	*current_cmd_list;
 } t_shell_state;
 

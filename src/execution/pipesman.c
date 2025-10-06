@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 22:59:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:14:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
 
+	shell->is_child = 1;
 	setup_default_signals();
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
@@ -131,6 +132,7 @@ int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
 	int result;
 
+	shell->is_child = 1;
 	setup_default_signals();
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/27 18:58:51 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/10/06 12:52:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+//TODO: cwannhed@c1r6p8:~$ echo -n -n hello
 
 //	execution of command after vars are passed by echo
 int	echo_exec(char **str, int n_var, int fd)

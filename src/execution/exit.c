@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:16:26 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/10/06 14:13:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int	builtin_exit(t_cmd *cmd, t_shell_state *shell)
 {
 	int	exit_code;
 
-	ft_putstr_fd("exit\n", STDERR_FILENO);
+	if (!shell->is_child)
+		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
 		exit_code = shell->last_exit_status;
 	else if (cmd->args[2])
@@ -26,6 +27,11 @@ int	builtin_exit(t_cmd *cmd, t_shell_state *shell)
 	}
 	else
 		exit_code = validate_exit_arg(cmd->args[1]);
+	if (shell->is_child)
+	{
+		pipe_free_all(shell->current_cmd_list->head, shell);
+		exit(exit_code);
+	}
 	shell->should_exit = 1;
 	shell->exit_code = exit_code;
 	return (exit_code);

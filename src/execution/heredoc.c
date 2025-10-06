@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 12:16:52 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 14:19:39 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
+	shell->is_child = 1;
 	signal(SIGINT, heredoc_exit_handler);
 	signal(SIGQUIT, SIG_DFL);
 	close(fd[0]);
@@ -103,26 +104,26 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 	return (0);
 }
 
-int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
-{
-	close(fd[0]);
-	heredoc_read(fd, cmd->heredoc_delimiter, *shell);
-	close(fd[1]);
-	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-	return(0);
-}
+// int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
+// {
+// 	close(fd[0]);
+// 	heredoc_read(fd, cmd->heredoc_delimiter, *shell);
+// 	close(fd[1]);
+// 	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+// 	return(0);
+// }
 
-int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
-{
-	int	status_code;
+// int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
+// {
+// 	int	status_code;
 
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	if (is_valid_cmd(cmd->args[0]))
-		handle_builtin(cmd, shell);
-	else
-		handle_external_command(cmd, shell);
-	status_code = (*shell)->last_exit_status;
-	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-	return(status_code);
-}
+// 	dup2(fd[0], STDIN_FILENO);
+// 	close(fd[0]);
+// 	if (is_valid_cmd(cmd->args[0]))
+// 		handle_builtin(cmd, shell);
+// 	else
+// 		handle_external_command(cmd, shell);
+// 	status_code = (*shell)->last_exit_status;
+// 	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+// 	return(status_code);
+// }
