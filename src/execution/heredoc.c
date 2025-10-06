@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 23:09:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 12:16:52 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	signal(SIGINT, heredoc_exit_handler);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, SIG_DFL);
 	close(fd[0]);
 	if (cmd->heredoc_count > 1)
 		heredoc_read_placebo(cmd->heredoc_delimiters);
