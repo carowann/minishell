@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 14:09:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:12:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,10 +163,13 @@ void	free_heredoc_delimiters(char **delimiters, int count);
 
 //DEBUG!
 void		print_token_list(t_token_list *tokens);
-const char *get_token_type_name(t_token_type type);
+const char	*get_token_type_name(t_token_type type);
 void		print_cmd_list(t_cmd_list *cmd_list);
 void		print_cmd_list_detailed(t_cmd_list *cmd_list);
 void		print_heredoc_delimiters(t_cmd *cmd);
+
+//token_cleanup.c
+void	free_string_array(char **array, int count);
 
 //tokens_to_cmds_handlers.c
 int	handle_argument_token(t_token *token, t_cmd *cmd);

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:08:28 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 12:40:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/06 17:08:22 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	create_redirect_token(t_tokenizer_ctx *ctx)
  */
 int	handle_first_var_char(char c, t_tokenizer_ctx *ctx)
 {
-	if (c == '?')
+	if (c == '?' || ft_isdigit(c))
 	{
 		add_to_buffer(c, &ctx->parser);
 		if (safe_create_and_add_token(ctx, VARIABLE) == -1)
@@ -86,24 +86,14 @@ int	handle_first_var_char(char c, t_tokenizer_ctx *ctx)
 	}
 	else if (ft_isalpha(c) || c == '_')
 		add_to_buffer(c, &ctx->parser);
-	else if (ft_isdigit(c))
-	{
-		add_to_buffer(c, &ctx->parser);
-		if (safe_create_and_add_token(ctx, VARIABLE) == -1)
-			return (-1);
-		ctx->parser.state = DEFAULT;
-	}
 	else
 	{
+		ctx->parser.state = DEFAULT;
 		if (c == '"' || c == '\'')
-		{
-			ctx->parser.state = DEFAULT;
 			return (handle_state_machine(c, ctx));
-		}
 		add_to_buffer('$', &ctx->parser);
 		if (safe_create_and_add_token(ctx, WORD) == -1)
 			return (-1);
-		ctx->parser.state = DEFAULT;
 		return (handle_state_machine(c, ctx));
 	}
 	return (0);
