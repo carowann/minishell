@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 12:01:51 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:55:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef enum e_token_type
 	QUOTED_STRING,
 	VARIABLE
 }	t_token_type;
+
+typedef enum e_signal_mode
+{
+	INTERACTIVE,
+	EXECUTION,
+	PIPELINE,
+	DFL
+}	t_signal_mode;
 
 typedef struct s_token
 {
@@ -345,13 +353,10 @@ int		set_output(t_cmd *cmd, int *fd);
 int		open_in(t_cmd *cmd, int *fd);
 
 // signals
-void setup_interactive_signals(void);
-void setup_pipeline_signals(void);
-void setup_execution_signals(void);
-void setup_default_signals(void);
-void save_signal_state(t_signal_state *state);
-void restore_signal_state(t_signal_state *state);
-void heredoc_exit_handler(int sig);
-void heredoc_controlled_exit_handler(int sig);
+void	save_signal_state(t_signal_state *state);
+void	restore_signal_state(t_signal_state *state);
+void	heredoc_exit_handler(int sig);
+void	setup_signals(int mode);
+void	heredoc_sigint_handler(int sig);
 
 #endif

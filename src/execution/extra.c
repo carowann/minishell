@@ -39,7 +39,7 @@ void	free_command_all(t_cmd *cmd)
 		free_cmd(cmd);
 		cmd = temp_cmd;
 	}
-	free_cmd(cmd);
+	//free_cmd(cmd);
 	return ;
 }
 

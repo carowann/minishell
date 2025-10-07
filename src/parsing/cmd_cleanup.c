@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:59:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 17:00:59 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:38:19 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	free_command_list(t_cmd_list *cmd_list)
 		}
 	}
 	free(cmd_list);
+	cmd_list = NULL;
 }
 
 /*
@@ -67,32 +68,38 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
+	write(1, "Freeing cmd\n", 12);
 	if (cmd->args)
+	{
+		write(1, "Freeing args\n", 13);
 		free_string_array(cmd->args, cmd->arg_count);
-	if (cmd->input_file)
-		free(cmd->input_file);
+	}
 	if (cmd->heredoc_delimiter)
+	{
+		write(1, "Freeing heredoc_delimiter\n", 26);
 		free(cmd->heredoc_delimiter);
-	if (cmd->output_file)
-		free(cmd->output_file);
+	}
 	if (cmd->heredoc_delimiters)
+	{
+		write(1, "Freeing heredoc_delimiters\n", 27);
 		free_heredoc_delimiters(cmd->heredoc_delimiters, cmd->heredoc_count);
+	}
 	free_redirect_arrays(cmd);
 	free(cmd);
 }
 
-void	free_heredoc_delimiters(char **delimiters, int count)
+void	free_heredoc_delimiters(char **delimiters, int count) //TODO change param
 {
 	int	i;
 
 	if (!delimiters)
 		return ;
 	i = 0;
-	while (i < count)
+	while (delimiters[i])
 	{
-		if (delimiters[i])
-			free(delimiters[i]);
+		free(delimiters[i]);
 		i++;
 	}
 	free(delimiters);
+	(void)count;
 }

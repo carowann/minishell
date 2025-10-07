@@ -6,32 +6,27 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/27 23:00:27 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:54:12 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-volatile sig_atomic_t g_signal_received = 0;
+volatile sig_atomic_t	g_signal_received = 0;
 
-void simple_newline_handler(int sig)
+void	simple_newline_handler(int sig)
 {
 	write(STDOUT_FILENO, "\n", 1);
 	(void)sig;
 }
 
-void quit_message_handler(int sig)
+void	quit_message_handler(int sig)
 {
 	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 	(void)sig;
 }
 
-void exit_with_signal_handler(int sig)
-{
-	exit(128 + sig);
-}
-
-void interactive_prompt_handler(int sig)
+void	interactive_prompt_handler(int sig)
 {
 	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
@@ -40,53 +35,55 @@ void interactive_prompt_handler(int sig)
 	rl_redisplay();
 }
 
-void setup_interactive_signals(void)
+void	heredoc_exit_handler(int sig)
 {
-	signal(SIGINT, interactive_prompt_handler);
-	signal(SIGQUIT, SIG_IGN);
+	write(STDOUT_FILENO, "\n", 1);
+	exit(128 + sig);
 }
 
-void setup_execution_signals(void)
+/*
+ * Unified signal setup function
+ * @param mode: signal configuration mode
+ */
+void	setup_signals(int mode)
 {
-	signal(SIGINT, simple_newline_handler);
-	signal(SIGQUIT, quit_message_handler);
+	if (mode == INTERACTIVE)
+	{
+		signal(SIGINT, interactive_prompt_handler);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == EXECUTION)
+	{
+		signal(SIGINT, simple_newline_handler);
+		signal(SIGQUIT, quit_message_handler);
+	}
+	else if (mode == PIPELINE)
+	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (mode == DFL)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 }
 
-void setup_pipeline_signals(void)
+void heredoc_sigint_handler(int sig)
 {
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	g_signal_received = sig;
 }
 
-// void setup_heredoc_signals(void)
-// {
-// 	signal(SIGINT, exit_with_signal_handler);
-// 	signal(SIGQUIT, exit_with_signal_handler);
-// }
-
-void setup_default_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void save_signal_state(t_signal_state *state)
+void	save_signal_state(t_signal_state *state)
 {
 	state->sigint_handler = signal(SIGINT, SIG_DFL);
 	signal(SIGINT, state->sigint_handler);
-
 	state->sigquit_handler = signal(SIGQUIT, SIG_DFL);
 	signal(SIGQUIT, state->sigquit_handler);
 }
 
-void restore_signal_state(t_signal_state *state)
+void	restore_signal_state(t_signal_state *state)
 {
 	signal(SIGINT, state->sigint_handler);
 	signal(SIGQUIT, state->sigquit_handler);
-}
-
-void heredoc_exit_handler(int sig)
-{
-	write(STDOUT_FILENO, "\n", 1); // Newline per andare a capo
-	exit(128 + sig);			   // Termina con exit status corretto
 }

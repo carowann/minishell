@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 14:24:59 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 18:49:17 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	shell_loop(t_shell_state **shell)
 	t_cmd_list	*commands;
 	char		*input;
 
-	setup_interactive_signals();
+	setup_signals(INTERACTIVE);
 	while (!(*shell)->should_exit)
 	{
 		commands = NULL;
@@ -56,8 +56,11 @@ void	shell_loop(t_shell_state **shell)
 		}
 		free(input);
 		(*shell)->current_cmd_list = commands;
+		write(1, "Before execute_cmd\n", 19);
 		execute_cmd(commands->head, shell);
+		write(1, "After execute_cmd\n", 18);
 		free_command_list(commands);
+		write(1, "After free_command_list\n", 24);
 		(*shell)->current_cmd_list = NULL;
 	}
 	return ;
@@ -73,26 +76,9 @@ char	*read_input_line(void)
 	char	*input;
 	size_t	len;
 
-	// if (g_signal_received == SIGINT)
-	// {
-	// 	ft_printfd(2, "received SIGINT\n");
-	// 	g_signal_received = 0;  // Reset signal flag
-	// 	return (ft_strdup("__SIGINT__"));
-	// }
 	if (isatty(STDIN_FILENO))
 	{
 		input = readline(BOLD"minishell> "RESET);
-		// if (g_signal_received == SIGINT)
-		// {
-		// 	ft_printfd(2, "received SIGINT\n");
-		// 	g_signal_received = 0;  // Reset signal flag
-		// 	if (input)
-		// 	{
-		// 		free(input);
-		// 		input = NULL;
-		// 	}
-		// 	return (ft_strdup("__SIGINT__"));
-		// }
 		if (input && *input)
 			add_history(input);
 	}

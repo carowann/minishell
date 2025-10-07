@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 14:19:39 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:07:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,9 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 	write(pipefd[1], "", 0); // Per evitare potenziali problemi di empty writes
 	while (1)
 	{
-		//ft_printfd(1, "> ");
-		//line = read_line();
 		if (g_signal_received == SIGINT)
 			return (-1);
-		line = readline("> "); //TODO: check se va bene uguale
+		line = readline("> ");
 		if (g_signal_received == SIGINT)
 		{
 			if (line)

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/26 18:59:16 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 13:08:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int handle_external_command(t_cmd *cmd, t_shell_state **shell)
 		ft_printfd(STDERR_FILENO, "minishell: %s: command not found\n", cmd->args[0]);
 		return (set_exit_status(shell, 127));
 	}
-	setup_execution_signals();
+	setup_signals(EXECUTION);
 	result = execve_temp(exe_path, cmd, shell);
-	setup_interactive_signals();
+	setup_signals(INTERACTIVE);
 	free(exe_path);
 	return (set_exit_status(shell, result));
 }

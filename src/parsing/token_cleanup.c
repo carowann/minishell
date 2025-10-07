@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 11:45:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 19:13:44 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ void	free_string_array(char **array, int count)
 	if (!array)
 		return ;
 	i = 0;
-	while (i < count)
+	while (array[i])
 	{
-		if (array[i])
-			free(array[i]);
+		write(1, "Freeing array element\n", 22);
+		free(array[i]);
 		i++;
 	}
 	free(array);
+	(void)count;
 }
 
 /*
