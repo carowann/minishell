@@ -1,4 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 12:26:02 by ludovico          #+#    #+#             */
+/*   Updated: 2025/10/07 17:46:00 by ludovico         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
+
+int fork_and_execute(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell, int *pipefd)
+{
+	pid_t	left_pid;
+	pid_t	right_pid;
+	left_pid = fork();
+	if (left_pid == -1)
+	{
+		setup_interactive_signals();
+		return (fork_error(pipefd, NULL, NULL, 0));
+	}
+	if (left_pid == 0)
+		exit(exec_pipeline_left(cmd_left, shell, pipefd));
+	right_pid = fork();
+	if (right_pid == -1)
+	{
+		setup_interactive_signals();
+		return (fork_error(pipefd, &left_pid, NULL, 0));
+	}
+	if (right_pid == 0)
+		exit(exec_pipeline_right(cmd_right, shell, pipefd));
+	return (0);
+}
 
 int set_last_exit_status(t_shell_state *shell, int status)
 {
@@ -38,3 +73,4 @@ int fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status)
 	fork_close(fd, whait1, whait2, status);
 	return (-1);
 }
+

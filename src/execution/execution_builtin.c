@@ -69,12 +69,8 @@ int open_in(t_cmd *cmd, int *fd)
 	fd[0] = STDOUT_FILENO;
 	if (cmd->input_file != NULL)
 	{
-		while (i < cmd->input_count)
-		{
-			if (open_in_placebo(cmd, fd, i, 0) == -1)
-				return (-1);
-			i++;
-		}
+		if (open_placebo_all(cmd, fd) == -1)
+			return (-1);
 	}
 	i = 0;
 	if (cmd->output_file != NULL)
