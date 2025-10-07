@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/10/06 18:45:06 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/10/07 12:05:09 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,45 +28,46 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 INCLUDES = -I./includes -I./$(LIBFT_DIR)
 
-SRC =	src/main_utils.c			\
-	src/main.c				\
-	src/parsing/debug.c			\
-	src/parsing/token_cleanup.c		\
-	src/parsing/cmd_cleanup.c		\
-	src/parsing/tokens_to_cmds_handlers.c	\
-	src/parsing/tokens_to_cmds_operators.c	\
+SRC =	src/main_utils.c				\
+	src/main.c					\
+	src/parsing/debug.c				\
+	src/parsing/token_cleanup.c			\
+	src/parsing/cmd_cleanup.c			\
+	src/parsing/tokens_to_cmds_handlers.c		\
+	src/parsing/tokens_to_cmds_operators.c		\
 	src/parsing/tokens_to_cmds_operators_utils.c	\
-	src/parsing/tokens_to_cmds_utils.c	\
-	src/parsing/tokens_to_cmds.c		\
-	src/parsing/parser.c			\
-	src/parsing/parser_utils.c		\
-	src/parsing/state_machine_extra.c	\
-	src/parsing/state_machine_handlers.c	\
-	src/parsing/state_machine.c		\
-	src/parsing/token_merger.c		\
-	src/parsing/token_utils.c		\
-	src/parsing/var_expansion.c		\
-	src/parsing/var_expansion_utils.c	\
-	src/execution/echo_builtin.c		\
-	src/execution/env_builtin.c		\
-	src/env/environment.c			\
-	src/execution/cleanup.c			\
-	src/execution/exit.c			\
-	src/execution/export.c			\
-	src/execution/execution_builtin.c	\
-	src/execution/execution_external.c	\
-	src/execution/execution.c		\
-	src/execution/printfd.c			\
-	src/execution/pwd.c			\
-	src/execution/unset.c			\
-	src/execution/pipesman.c		\
-	src/execution/exec_utils.c		\
-	src/execution/cd_builtin.c 		\
-	src/execution/heredoc.c			\
-	src/execution/extra.c			\
-	src/execution/pipe_utils.c		\
-	src/execution/execve_utils.c	\
-	src/execution/heredoc_utils.c	\
+	src/parsing/tokens_to_cmds_utils.c		\
+	src/parsing/tokens_to_cmds.c			\
+	src/parsing/parser.c				\
+	src/parsing/parser_utils.c			\
+	src/parsing/state_machine_extra.c		\
+	src/parsing/state_machine_handlers.c		\
+	src/parsing/state_machine.c			\
+	src/parsing/token_merger.c			\
+	src/parsing/token_utils.c			\
+	src/parsing/utils.c				\
+	src/parsing/var_expansion.c			\
+	src/parsing/var_expansion_utils.c		\
+	src/execution/echo_builtin.c			\
+	src/execution/env_builtin.c			\
+	src/env/environment.c				\
+	src/execution/cleanup.c				\
+	src/execution/exit.c				\
+	src/execution/export.c				\
+	src/execution/execution_builtin.c		\
+	src/execution/execution_external.c		\
+	src/execution/execution.c			\
+	src/execution/printfd.c				\
+	src/execution/pwd.c				\
+	src/execution/unset.c				\
+	src/execution/pipesman.c			\
+	src/execution/exec_utils.c			\
+	src/execution/cd_builtin.c 			\
+	src/execution/heredoc.c				\
+	src/execution/extra.c				\
+	src/execution/pipe_utils.c			\
+	src/execution/execve_utils.c			\
+	src/execution/heredoc_utils.c			\
 	src/execution/signals.c
 
 # Flags

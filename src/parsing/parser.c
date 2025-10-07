@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:52:46 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 16:58:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:01:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,8 @@ int	tokenize(char *input, t_tokenizer_ctx *ctx)
  */
 int	finalize_pending_token(t_tokenizer_ctx *ctx)
 {
-	if (ctx->parser.state == IN_DOUBLE_QUOTES || ctx->parser.state == IN_SINGLE_QUOTES)
-	{
-		ft_printfd(2, "minishell: syntax error: unterminated quoted string\n");
+	if (check_unclosed_quotes(&ctx->parser) == -1)
 		return (-1);
-	}
 	if (ctx->parser.state == IN_VARIABLE && ctx->parser.buffer_pos == 0)
 	{
 		add_to_buffer('$', &ctx->parser);

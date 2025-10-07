@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 17:00:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:45:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,18 @@ void	free_string_array(char **array, int count)
 		i++;
 	}
 	free(array);
+}
+
+/*
+ * Cleans up all resources in tokenizer context
+ * Frees token list, buffer, and zeros context
+ * @param ctx: context to cleanup (can be NULL)
+ */
+void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
+{
+	if (ctx->tokens)
+		free_token_list(ctx->tokens);
+	if (ctx->parser.buffer)
+		free(ctx->parser.buffer);
+	*ctx = (t_tokenizer_ctx){0};
 }

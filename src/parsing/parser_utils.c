@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:03:31 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 16:21:38 by lzorzit          ###   ########.fr       */
+/*   Updated: 2025/10/07 11:45:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,13 @@ int	init_tokenizer_ctx(t_tokenizer_ctx *ctx, char *input)
 }
 
 /*
- * Cleans up all resources in tokenizer context
- * Frees token list, buffer, and zeros context
- * @param ctx: context to cleanup (can be NULL)
- */
-void	cleanup_tokenizer_ctx(t_tokenizer_ctx *ctx)
-{
-	if (ctx->tokens)
-		free_token_list(ctx->tokens);
-	if (ctx->parser.buffer)
-		free(ctx->parser.buffer);
-	*ctx = (t_tokenizer_ctx){0};
-}
-
-/*
  * Initializes a new command structure with all fields set to safe defaults
  * @param cmd: pre-allocated command structure to initialize
  */
-void init_cmd(t_cmd *cmd)
+void	init_cmd(t_cmd *cmd)
 {
 	if (!cmd)
-		return;
+		return ;
 	cmd->args = NULL;
 	cmd->arg_count = 0;
 	cmd->input_file = NULL;
@@ -104,9 +90,9 @@ void init_cmd(t_cmd *cmd)
  * Allocates and initializes a new command structure
  * @return: initialized command structure, or NULL on allocation failure
  */
-t_cmd *create_cmd(void)
+t_cmd	*create_cmd(void)
 {
-	t_cmd *new_cmd;
+	t_cmd	*new_cmd;
 
 	new_cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!new_cmd)
