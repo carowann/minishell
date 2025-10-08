@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 17:03:37 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:03:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*content;
 	int				prec_space;
+	int				was_quoted;
 	struct s_token	*next;
 }	t_token;
 
@@ -103,6 +104,7 @@ typedef struct s_cmd
 	char			*heredoc_delimiter;
 	char			**heredoc_delimiters; //array di delimitatori per heredoc multipli
 	int				heredoc_count; //numero di heredoc
+	int				heredoc_expand; //1 se deve espandere variabili, 0 no
 	char			*output_file; // per out redirect > o >>, if null stdout normale
 	int				append_mode; //0 sovrascrivi, 1 append
 	char			**input_files;	// Array di tutti gli input
@@ -300,7 +302,7 @@ int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
 int 	fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pipefd);
 int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
 int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
-int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
+// int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 int 	pipe_error(int *fd);
 int		heredoc_status(int *fd, t_shell_state *shell);
 int		heredoc_closing(t_cmd *cmd, int *fd);
@@ -313,7 +315,7 @@ int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
 // int		pipe_heredoc_changes(t_cmd *cmd);
-int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell);
+int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell, int expand);
 char	*expand_in_heredoc(char *line, t_shell_state *shell);
 int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
 // int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);

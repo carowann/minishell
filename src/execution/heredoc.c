@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 16:49:35 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:04:08 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,18 @@ char *expand_in_heredoc(char *line, t_shell_state *shell);
 // 	}
 // }
 
-int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
+int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell, int expand)
 {
 	char	*line;
 
 	write(pipefd[1], "", 0); // Per evitare potenziali problemi di empty writes
 	while (1)
 	{
+		//ft_printfd(1, "> ");
+		//line = read_line();
 		if (g_signal_received == SIGINT)
 			return (-1);
-		line = readline("> ");
+		line = readline("> "); //TODO: check se va bene uguale
 		if (g_signal_received == SIGINT)
 		{
 			if (line)
@@ -60,7 +62,7 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 		}
 		if (!line || ft_strcmp(line, delimiter) == 0) // TODO: era strcmp!!!! check forbidden functions
 			break;
-		if (ft_strchr(line, '$'))
+		if (expand && ft_strchr(line, '$'))
 			line = expand_in_heredoc(line, shell);
 		write(pipefd[1], line, ft_strlen(line)); //TODO: era strlen normale!!!! check forbidden functions
 		write(pipefd[1], "\n", 1);
@@ -68,11 +70,9 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 	}
 	if (line)
 		free(line);
-	else if (!line && g_signal_received != SIGINT)
+	else if (!line) // && g_signal == NOT_RECEIVED
 		ft_printfd(2, "warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 	close(pipefd[1]);
-	if (g_signal_received == SIGINT)
-		return (-1);
 	return (0);
 }
 
@@ -87,13 +87,12 @@ char *expand_in_heredoc(char *line, t_shell_state *shell)
 
 int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
-	shell->is_child = 1;
 	signal(SIGINT, heredoc_exit_handler);
 	signal(SIGQUIT, SIG_DFL);
 	close(fd[0]);
 	if (cmd->heredoc_count > 1)
 		heredoc_read_placebo(cmd->heredoc_delimiters);
-	if (heredoc_read(fd, cmd->heredoc_delimiter, shell) == -1)
+	if (heredoc_read(fd, cmd->heredoc_delimiter, shell, cmd->heredoc_expand) == -1)
 	{
 		close(fd[1]);
 		pipe_free_all(cmd, shell);
@@ -104,26 +103,26 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 	return (0);
 }
 
-// int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
-// {
-// 	close(fd[0]);
-// 	heredoc_read(fd, cmd->heredoc_delimiter, *shell);
-// 	close(fd[1]);
-// 	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-// 	return(0);
-// }
+int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
+{
+	close(fd[0]);
+	heredoc_read(fd, cmd->heredoc_delimiter, *shell, cmd->heredoc_expand);
+	close(fd[1]);
+	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+	return(0);
+}
 
-// int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
-// {
-// 	int	status_code;
+int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
+{
+	int	status_code;
 
-// 	dup2(fd[0], STDIN_FILENO);
-// 	close(fd[0]);
-// 	if (is_valid_cmd(cmd->args[0]))
-// 		handle_builtin(cmd, shell);
-// 	else
-// 		handle_external_command(cmd, shell);
-// 	status_code = (*shell)->last_exit_status;
-// 	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-// 	return(status_code);
-// }
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	if (is_valid_cmd(cmd->args[0]))
+		handle_builtin(cmd, shell);
+	else
+		handle_external_command(cmd, shell);
+	status_code = (*shell)->last_exit_status;
+	pipe_free_all((*shell)->current_cmd_list->head, *shell);
+	return(status_code);
+}

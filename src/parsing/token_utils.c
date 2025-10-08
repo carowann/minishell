@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:31:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 10:37:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:53:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	create_token(t_token *token, char *buffer, t_token_type type)
 {
 	token->type = type;
 	token->next = NULL;
+	token->was_quoted = 0;
 	if (type == PIPE)
 		token->content = ft_strdup("|");
 	else

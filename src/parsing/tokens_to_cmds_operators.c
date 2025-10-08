@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 18:43:12 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 18:43:41 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:59:12 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ int	set_output_redirect(t_cmd *cmd, char *filename, int append, t_token **token)
  */
 int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token)
 {
+	t_token	*delimiter_token;
+
+	delimiter_token = (*curr_token)->next;
 	if (add_heredoc_delimiter(cmd, delimiter) == -1)
 		return (-1);
 	if (cmd->heredoc_delimiter)
@@ -71,6 +74,7 @@ int	set_heredoc_delimiter(t_cmd *cmd, char *delimiter, t_token **curr_token)
 	cmd->heredoc_delimiter = ft_strdup(delimiter);
 	if (!cmd->heredoc_delimiter)
 		return (-1);
+	cmd->heredoc_expand = !delimiter_token->was_quoted;
 	*curr_token = (*curr_token)->next;
 	return (0);
 }

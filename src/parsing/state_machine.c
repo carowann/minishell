@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 19:07:47 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/23 18:15:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:53:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,19 @@ int	handle_state_machine(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
 {
+	t_token	*last_token;
+
 	if (c == '"')
 	{
 		if (safe_create_and_add_token(ctx, QUOTED_STRING) == -1)
 			return (-1);
+		if (ctx->tokens->head)
+		{
+			last_token = ctx->tokens->head;
+			while (last_token->next)
+				last_token = last_token->next;
+			last_token->was_quoted = 1;
+		}
 		ctx->parser.state = DEFAULT;
 	}
 	else
@@ -63,10 +72,19 @@ int	handle_double_quotes(char c, t_tokenizer_ctx *ctx)
  */
 int	handle_single_quotes(char c, t_tokenizer_ctx *ctx)
 {
+	t_token	*last_token;
+
 	if (c == '\'')
 	{
 		if (safe_create_and_add_token(ctx, WORD) == -1)
 			return (-1);
+		if (ctx->tokens->head)
+		{
+			last_token = ctx->tokens->head;
+			while (last_token->next)
+				last_token = last_token->next;
+			last_token->was_quoted = 1;
+		}
 		ctx->parser.state = DEFAULT;
 	}
 	else

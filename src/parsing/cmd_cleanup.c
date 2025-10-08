@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:59:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 17:05:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:43:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
  * Frees entire command list and all single commands
  * @param cmd_list: command list to free (can be NULL)
  */
-void free_command_list(t_cmd_list *cmd_list)
+void	free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd *curr_cmd;
-	t_cmd *temp_cmd;
+	t_cmd	*curr_cmd;
+	t_cmd	*temp_cmd;
 
 	if (!cmd_list)
-		return;
+		return ;
 	if (cmd_list->head)
 	{
 		curr_cmd = cmd_list->head;
@@ -41,10 +41,10 @@ void free_command_list(t_cmd_list *cmd_list)
  * Frees redirect arrays in a command
  * @param cmd: command containing redirect arrays to free
  */
-void free_redirect_arrays(t_cmd *cmd)
+void	free_redirect_arrays(t_cmd *cmd)
 {
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->input_files)
 	{
 		free_string_array(cmd->input_files, cmd->input_count);
@@ -64,10 +64,10 @@ void free_redirect_arrays(t_cmd *cmd)
 	}
 }
 
-void free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
-		return;
+		return ;
 	if (cmd->args)
 		free_string_array(cmd->args, cmd->arg_count);
 	if (cmd->heredoc_delimiter)
@@ -88,12 +88,12 @@ void free_cmd(t_cmd *cmd)
 	free(cmd);
 }
 
-void free_heredoc_delimiters(char **delimiters)
+void	free_heredoc_delimiters(char **delimiters)
 {
-	int i;
+	int	i;
 
 	if (!delimiters)
-		return;
+		return ;
 	i = 0;
 	while (delimiters[i])
 	{
