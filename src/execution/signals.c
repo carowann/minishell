@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 18:54:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:49:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ void	interactive_prompt_handler(int sig)
 
 void	heredoc_exit_handler(int sig)
 {
+	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
-	exit(128 + sig);
+	//exit(128 + sig);
+	close(STDIN_FILENO);
 }
 
 /*

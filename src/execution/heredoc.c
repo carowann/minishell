@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 19:07:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:50:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 		line = readline("> ");
 		if (g_signal_received == SIGINT)
 		{
+			write(2, "DEBUG: SIGINT received in heredoc_read\n", 40);
 			if (line)
 				free(line);
 			return (-1);
@@ -68,9 +69,11 @@ int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell)
 	}
 	if (line)
 		free(line);
-	else if (!line) // && g_signal == NOT_RECEIVED
+	else if (!line && g_signal_received != SIGINT) // <-- Stampa warning SOLO se NON è SIGINT
 		ft_printfd(2, "warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 	close(pipefd[1]);
+	if (g_signal_received == SIGINT)
+		return (-1);
 	return (0);
 }
 
@@ -93,8 +96,10 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 		heredoc_read_placebo(cmd->heredoc_delimiters);
 	if (heredoc_read(fd, cmd->heredoc_delimiter, shell) == -1)
 	{
+		write(2, "DEBUG: heredoc_read returned -1, cleaning up\n", 46);
 		close(fd[1]);
 		pipe_free_all(cmd, shell);
+		write(2, "DEBUG: about to exit(130)\n", 26);
 		exit(130);
 	}
 	close(fd[1]);

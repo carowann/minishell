@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 14:48:14 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 15:45:53 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
 			// restore_signal_state(&saved_signals);
-			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			if (WIFSIGNALED(status) && WEXITSTATUS(status) == 130)
 			{
 				close(fd[1]);
 				close(fd[0]);
