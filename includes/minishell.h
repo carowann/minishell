@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 17:59:47 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:39:10 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int		check_param_fd(int fd, va_list arg, char c);
 
 //pipe and fork
 int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
-int 	fork_and_execute(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell, int *pipefd);
+int 	fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pipefd);
 int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
 int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);

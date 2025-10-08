@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 17:59:39 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:38:36 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		return (-1);
 	}
 	if (cmd_right == NULL)
-		return (execute_cmd(cmd_left, &shell));
-	if (fork_and_execute(cmd_left, cmd_right, shell, pipefd) == -1)
+		return (printf("Error: cmd_right is NULL\n"), -1);
+	if (fork_and_execute(cmd_left, &status, shell, pipefd) == -1)
 		return (fork_close(pipefd, NULL, NULL, &status));
 	setup_interactive_signals();
 	set_last_exit_status(shell, status);

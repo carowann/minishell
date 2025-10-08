@@ -6,16 +6,19 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:26:02 by ludovico          #+#    #+#             */
-/*   Updated: 2025/10/07 17:46:00 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:39:11 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int fork_and_execute(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell, int *pipefd)
+int fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pipefd)
 {
 	pid_t	left_pid;
 	pid_t	right_pid;
+	t_cmd	*cmd_right;
+
+	cmd_right = cmd_left->next;
 	left_pid = fork();
 	if (left_pid == -1)
 	{
@@ -32,6 +35,7 @@ int fork_and_execute(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell, in
 	}
 	if (right_pid == 0)
 		exit(exec_pipeline_right(cmd_right, shell, pipefd));
+	fork_close(pipefd, &left_pid, &right_pid, status);
 	return (0);
 }
 
