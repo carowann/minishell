@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 16:52:30 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:03:37 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,10 +297,13 @@ int		check_param_fd(int fd, va_list arg, char c);
 
 //pipe and fork
 int		pipeman(t_cmd *cmd_left, t_cmd *cmd_right, t_shell_state *shell);
+int 	fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pipefd);
 int 	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd);
 int 	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd);
 int		exec_pipeline(t_cmd *cmd, t_shell_state *shell, int *fd, int flag);
 int 	pipe_error(int *fd);
+int		heredoc_status(int *fd, t_shell_state *shell);
+int		heredoc_closing(t_cmd *cmd, int *fd);
 int		fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 
@@ -337,6 +340,7 @@ int 	execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shel
 int		execve_error(char **envp, char **temp, char *exe_path);
 
 // inbuilt commands
+int		open_placebo_all(t_cmd *cmd, int *fd);
 int		pwd(int fd);
 int		echo_exec(char **str, int n_var, int fd);
 void	free_env(t_env *head);

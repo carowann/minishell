@@ -20,7 +20,7 @@ int	echo_exec(char **str, int n_var, int fd)
 	int	i;
 
 	i = 1;
-	if (n_var == 1)
+	while (i != n_var)
 		i++;
 	while (str[i])
 	{
@@ -30,7 +30,7 @@ int	echo_exec(char **str, int n_var, int fd)
 		if (str[i] && str[i - 1][0] != '\0')
 			ft_printfd(fd, " ");
 	}
-	if (n_var == 0)
+	if (n_var == 1)
 		write(fd, "\n", 1);
 	return (1);
 }
@@ -40,15 +40,14 @@ int	echo_builtin(char **args, int fd)
 {
 	int	n_var;
 
+	n_var = 1;
 	if (!args[1])
 	{
 		ft_printfd(fd, "%s", "\n");
 		return (SUCCESS);
 	}
-	if (ft_strncmp(args[1], "-n", 2) == 0)
-		n_var = 1;
-	else
-		n_var = 0;
+	while (ft_strncmp(args[n_var], "-n", 2) == 0)
+		n_var ++;
 	if (echo_exec(args, n_var, fd) == 0)
 		return (1);
 	return (SUCCESS);

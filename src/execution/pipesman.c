@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 15:45:53 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:03:44 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 // Manages the piping between two commands
 int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 {
-	pid_t	left_pid;
-	pid_t	right_pid;
 	int		pipefd[2];
 	int		status;
 
@@ -32,23 +30,10 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 		setup_signals(INTERACTIVE);
 		return (-1);
 	}
-	left_pid = fork();
-	if (left_pid == -1)
-	{
-		setup_signals(INTERACTIVE);
-		return (fork_error(pipefd, NULL, NULL, 0));
-	}
-	if (left_pid == 0)
-		exit(exec_pipeline_left(cmd_left, shell, pipefd));
-	right_pid = fork();
-	if (right_pid == -1)
-	{
-		setup_signals(INTERACTIVE);
-		return (fork_error(pipefd, &left_pid, NULL, 0));
-	}
-	if (right_pid == 0)
-		exit(exec_pipeline_right(cmd_right, shell, pipefd));
-	fork_close(pipefd, &left_pid, &right_pid, &status);
+	if (cmd_right == NULL)
+		return (printf("Error: cmd_right is NULL\n"), -1);
+	if (fork_and_execute(cmd_left, &status, shell, pipefd) == -1)
+		return (fork_close(pipefd, NULL, NULL, &status));
 	setup_signals(INTERACTIVE);
 	set_last_exit_status(shell, status);
 	return (shell->last_exit_status);
@@ -56,11 +41,9 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 
 int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 {
-	int		status;
-	int		fd[2];
-	char	*line;
-	pid_t	pid;
-	// t_signal_state	saved_signals;
+	int				status;
+	int				fd[2];
+	pid_t			pid;
 
 	while (cmd)
 	{
@@ -68,43 +51,13 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 		{
 			if (pipe_error(fd) == 1)
 				return (1);
-			// save_signal_state(&saved_signals);
-			// signal(SIGINT, SIG_IGN);
-			// signal(SIGQUIT, SIG_IGN);
 			pid = fork();
-			//printf("Forked heredoc process with PID %d\n", pid); // Debug line
 			if (pid == 0)
 				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
-			// restore_signal_state(&saved_signals);
 			if (WIFSIGNALED(status) && WEXITSTATUS(status) == 130)
-			{
-				close(fd[1]);
-				close(fd[0]);
-				shell->last_exit_status = 130;
-				return (-1);
-			}
-			close(fd[1]);
-			line = get_all_line(fd[0]);
-			close(fd[0]);
-			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
-			{
-				free(line);
-				shell->last_exit_status = 130;
-				return (-1);
-			}
-			if (!line)
-			{
-				free(cmd->heredoc_delimiter);
-				cmd->heredoc_delimiter = NULL;
-			}
-			else
-			{
-				free(cmd->heredoc_delimiter);
-				cmd->heredoc_delimiter = ft_strdup(line);
-			}
-			cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
-			free(line);
+				return (heredoc_status(fd, shell));
+			heredoc_closing(cmd, fd);
 		}
 		cmd = cmd->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 19:13:44 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:05:32 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	free_string_array(char **array, int count)
 	i = 0;
 	while (array[i])
 	{
-		write(1, "Freeing array element\n", 22);
 		free(array[i]);
 		i++;
 	}

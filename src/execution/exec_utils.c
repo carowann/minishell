@@ -95,3 +95,20 @@ char **dup_matrix(char **matrix)
 	}
 	return (dup);
 }
+
+int open_placebo_all(t_cmd *cmd, int *fd)
+{
+	int i;
+
+	i = 0;
+	if (cmd->input_file != NULL)
+	{
+		while (i < cmd->input_count)
+		{
+			if (open_in_placebo(cmd, fd, i, 0) == -1)
+				return (-1);
+			i++;
+		}
+	}
+	return (0);
+}

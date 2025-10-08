@@ -61,3 +61,33 @@ int heredoc_execve(t_cmd *cmd)
 	close(fd[0]);
 	return (0);
 }
+int heredoc_status(int *fd, t_shell_state *shell)
+{
+	close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	close(fd[0]);
+	shell->last_exit_status = 130;
+	return (-1);
+}
+
+int heredoc_closing(t_cmd *cmd, int *fd)
+{
+	char *line;
+
+	close(fd[1]);
+	line = get_all_line(fd[0]);
+	close(fd[0]);
+	if (!line)
+	{
+		free(cmd->heredoc_delimiter);
+		cmd->heredoc_delimiter = NULL;
+	}
+	else
+	{
+		free(cmd->heredoc_delimiter);
+		cmd->heredoc_delimiter = ft_strdup(line);
+	}
+	cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
+	free(line);
+	return (0);
+}

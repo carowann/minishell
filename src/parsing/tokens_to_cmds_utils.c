@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:57:50 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/25 11:33:01 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:07:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ int	finalize_last_command(t_cmd *curr_cmd, t_cmd_list *cmd_list)
 		|| curr_cmd->input_file
 		|| curr_cmd->output_file)
 	{
-		if (curr_cmd->heredoc_count > 0)
-			print_heredoc_delimiters(curr_cmd);
 		if (add_command_to_list(curr_cmd, cmd_list) == -1)
 		{
 			free_cmd(curr_cmd);

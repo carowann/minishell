@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:59:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 16:50:23 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:05:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,12 @@ void free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return;
-	write(1, "Freeing cmd\n", 12);
 	if (cmd->args)
-	{
-		write(1, "Freeing args\n", 13);
 		free_string_array(cmd->args, cmd->arg_count);
-	}
 	if (cmd->heredoc_delimiter)
-	{
-		write(1, "Freeing heredoc_delimiter\n", 26);
 		free(cmd->heredoc_delimiter);
-	}
 	if (cmd->heredoc_delimiters)
-	{
-		write(1, "Freeing heredoc_delimiters\n", 27);
 		free_heredoc_delimiters(cmd->heredoc_delimiters);
-	}
 	if (cmd->input_file)
 	{
 		free(cmd->input_file);

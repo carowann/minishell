@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 18:49:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:05:58 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,8 @@ void	shell_loop(t_shell_state **shell)
 		}
 		free(input);
 		(*shell)->current_cmd_list = commands;
-		write(1, "Before execute_cmd\n", 19);
 		execute_cmd(commands->head, shell);
-		write(1, "After execute_cmd\n", 18);
 		free_command_list(commands);
-		write(1, "After free_command_list\n", 24);
 		(*shell)->current_cmd_list = NULL;
 	}
 	return ;
