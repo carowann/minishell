@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 18:38:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/06 18:46:13 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:10:20 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	add_input_file(t_cmd *cmd, char *filename)
 	char	**new_array;
 	int		i;
 
-	new_array = ft_calloc(sizeof(char *), (cmd->input_count + 1));
+	new_array = ft_calloc(sizeof(char *), (cmd->input_count + 2));
 	if (!new_array)
 		return (-1);
 	i = 0;
@@ -95,8 +95,8 @@ int	allocate_output_arrays(t_cmd *cmd, char ***new_files, int **new_modes)
 {
 	int	i;
 
-	*new_files = ft_calloc(sizeof(char *), (cmd->output_count + 1));
-	*new_modes = ft_calloc(sizeof(int), (cmd->output_count + 1));
+	*new_files = ft_calloc(sizeof(char *), (cmd->output_count + 2));
+	*new_modes = ft_calloc(sizeof(int), (cmd->output_count + 2));
 	if (!*new_files || !*new_modes)
 	{
 		if (*new_files)

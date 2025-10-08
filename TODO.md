@@ -21,3 +21,9 @@
 
 - [ ] rimuovere cartella env e spostare file
 - [ ] migliorare nomi file
+- [ ] cwannhed@c1r6p8:~$ cat << 'eof'
+> $HOME
+> '$HOME'
+> "$HOME"
+non dovrebbe espandere
+controllare altri comportmaneti per espansione in heredoc

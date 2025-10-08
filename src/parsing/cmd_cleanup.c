@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:59:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 19:38:19 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:50:23 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
  * Frees entire command list and all single commands
  * @param cmd_list: command list to free (can be NULL)
  */
-void	free_command_list(t_cmd_list *cmd_list)
+void free_command_list(t_cmd_list *cmd_list)
 {
-	t_cmd	*curr_cmd;
-	t_cmd	*temp_cmd;
+	t_cmd *curr_cmd;
+	t_cmd *temp_cmd;
 
 	if (!cmd_list)
-		return ;
+		return;
 	if (cmd_list->head)
 	{
 		curr_cmd = cmd_list->head;
@@ -41,10 +41,10 @@ void	free_command_list(t_cmd_list *cmd_list)
  * Frees redirect arrays in a command
  * @param cmd: command containing redirect arrays to free
  */
-void	free_redirect_arrays(t_cmd *cmd)
+void free_redirect_arrays(t_cmd *cmd)
 {
 	if (!cmd)
-		return ;
+		return;
 	if (cmd->input_files)
 	{
 		free_string_array(cmd->input_files, cmd->input_count);
@@ -64,10 +64,10 @@ void	free_redirect_arrays(t_cmd *cmd)
 	}
 }
 
-void	free_cmd(t_cmd *cmd)
+void free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
-		return ;
+		return;
 	write(1, "Freeing cmd\n", 12);
 	if (cmd->args)
 	{
@@ -82,18 +82,28 @@ void	free_cmd(t_cmd *cmd)
 	if (cmd->heredoc_delimiters)
 	{
 		write(1, "Freeing heredoc_delimiters\n", 27);
-		free_heredoc_delimiters(cmd->heredoc_delimiters, cmd->heredoc_count);
+		free_heredoc_delimiters(cmd->heredoc_delimiters);
+	}
+	if (cmd->input_file)
+	{
+		free(cmd->input_file);
+		cmd->input_file = NULL;
+	}
+	if (cmd->output_file)
+	{
+		free(cmd->output_file);
+		cmd->output_file = NULL;
 	}
 	free_redirect_arrays(cmd);
 	free(cmd);
 }
 
-void	free_heredoc_delimiters(char **delimiters, int count) //TODO change param
+void free_heredoc_delimiters(char **delimiters)
 {
-	int	i;
+	int i;
 
 	if (!delimiters)
-		return ;
+		return;
 	i = 0;
 	while (delimiters[i])
 	{
@@ -101,5 +111,4 @@ void	free_heredoc_delimiters(char **delimiters, int count) //TODO change param
 		i++;
 	}
 	free(delimiters);
-	(void)count;
 }

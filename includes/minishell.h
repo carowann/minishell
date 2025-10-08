@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 18:55:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/08 16:52:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	free_token(t_token *token);
 void	free_token_list(t_token_list *token_list);
 void	free_command_list(t_cmd_list *cmd_list);
 void	free_cmd(t_cmd *cmd);
-void	free_heredoc_delimiters(char **delimiters, int count);
+void	free_heredoc_delimiters(char **delimiters);
 
 //DEBUG!
 void		print_token_list(t_token_list *tokens);
@@ -306,18 +306,18 @@ int		fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status);
 
 //heredoc
 // int		handle_heredoc(t_cmd *cmd, t_shell_state **shell);
-char	 **heredoc_pipe(t_cmd *cmd);
+// char	 **heredoc_pipe(t_cmd *cmd);
 int		set_up_heredoc(t_cmd *cmd, t_shell_state *shell);
 char 	*get_all_line(int fd);
-int		pipe_heredoc_changes(t_cmd *cmd);
+// int		pipe_heredoc_changes(t_cmd *cmd);
 int		heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell);
 char	*expand_in_heredoc(char *line, t_shell_state *shell);
 int		heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell);
-int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
-int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
+// int		doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell);
+// int		doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell);
 int		heredoc_execve(t_cmd *cmd);
 int		heredoc_read_placebo(char **delimiter);
-int		heredoc_sub_with_cleanup(t_cmd *cmd, int *fd, t_shell_state *shell);
+// int		heredoc_sub_with_cleanup(t_cmd *cmd, int *fd, t_shell_state *shell);
 // execution
 int		execute_cmd(t_cmd *cmd, t_shell_state **shell);
 int		is_valid_cmd(char *cmd);
