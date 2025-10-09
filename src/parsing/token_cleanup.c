@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:45:58 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 17:05:32 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:07:30 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_token_list(t_token_list *token_list)
  * @param array: array of strings to free (can be NULL)
  * @param count: number of elements in the array
  */
-void	free_string_array(char **array, int count)
+void	free_string_array(char **array)
 {
 	int	i;
 
@@ -65,7 +65,6 @@ void	free_string_array(char **array, int count)
 		i++;
 	}
 	free(array);
-	(void)count;
 }
 
 /*

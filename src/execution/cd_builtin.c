@@ -6,17 +6,14 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:00:12 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/24 17:37:38 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 17:54:14 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <linux/limits.h>
-#include <unistd.h>
-#include <sys/stat.h>
 
 // Checks if path is a valid directory for cd (exists, is dir, executable)
-int is_valid_cd_path(const char *path)
+int	is_valid_cd_path(const char *path)
 {
 	struct stat	statbuf;
 
@@ -57,7 +54,7 @@ void	change_env_wd(char *newwd, char *oldwd, t_env *env)
 	return ;
 }
 
-int change_dir(char *path, t_env *env)
+int	change_dir(char *path, t_env *env)
 {
 	char	*oldwd;
 	char	*currentcwd;
@@ -70,11 +67,11 @@ int change_dir(char *path, t_env *env)
 	if (!oldwd)
 	{
 		ft_printfd(2, "cd: error retrieving current directory");
-		return(1);
+		return (1);
 	}
 	else
 		oldwd = ft_strdup(cwd);
-	currentcwd= getcwd(cwd, PATH_MAX);
+	currentcwd = getcwd(cwd, PATH_MAX);
 	change_env_wd(currentcwd, oldwd, env);
 	free(oldwd);
 	return (0);
@@ -85,22 +82,22 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	char	*path;
 
 	path = cmd->args[1];
-	if (cmd->arg_count > 2 )
+	if (cmd->arg_count > 2)
 		ft_printfd(2, "minishell: cd: too many arguments\n");
 	if (cmd->arg_count > 2)
 		return (1);
-	if (cmd->arg_count == 1 || (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
+	if (cmd->arg_count == 1
+		|| (cmd->arg_count == 2 && ft_strncmp(cmd->args[1], "~", 2) == 0))
 	{
 		if (!find_env_val((*shell)->env_list, "HOME="))
-			return(1);
+			return (1);
 		else
 			path = find_env_val((*shell)->env_list, "HOME=");
-
 	}
 	else if (ft_strncmp(cmd->args[1], "-", 2) == 0)
 	{
 		if (!find_env_val((*shell)->env_list, "OLDPWD="))
-			return(1);
+			return (1);
 		else
 			path = find_env_val((*shell)->env_list, "OLDPWD=");
 	}
@@ -109,22 +106,24 @@ int	cd_builtin(t_cmd *cmd, t_shell_state **shell)
 	return (change_dir(path, (*shell)->env_list));
 }
 
-char	*find_env_val(t_env *env,char *node)
+char	*find_env_val(t_env *env, char *node)
 {
-	t_env *temp_env;
-	char *ret;
+	t_env	*temp_env;
+	char	*ret;
+	char	*clean_name;
 
 	temp_env = find_env(env, node);
 	if (temp_env && temp_env->value)
 	{
 		ret = ft_strrchr(temp_env->value, '=');
 		ret ++;
-		return(ret);
+		return (ret);
 	}
 	else
 	{
-		ft_printfd(2, "minishell: cd: %s not set\n", node);
+		clean_name = ft_strndup(node, ft_strlen(node) - 1);
+		ft_printfd(2, "minishell: cd: %s not set\n", clean_name);
+		free(clean_name);
 		return (NULL);
 	}
 }
-

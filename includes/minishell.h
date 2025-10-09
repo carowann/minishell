@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 18:03:03 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:08:01 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ void		print_cmd_list_detailed(t_cmd_list *cmd_list);
 void		print_heredoc_delimiters(t_cmd *cmd);
 
 //token_cleanup.c
-void	free_string_array(char **array, int count);
+void	free_string_array(char **array);
 
 //tokens_to_cmds_handlers.c
 int	handle_argument_token(t_token *token, t_cmd *cmd);
@@ -294,7 +294,7 @@ char	*find_env_val(t_env *env,char *node);
 //redirection
 int		open_ve_out(int *docfd, t_cmd *cmd);
 int		open_ve_doc(int *docfd, t_cmd *cmd);
-int		open_ve_error(t_cmd *cmd, t_shell_state **shell, char *exe_path);
+int		open_ve_error(t_shell_state **shell, char *exe_path);
 int		check_param_fd(int fd, va_list arg, char c);
 
 //pipe and fork
@@ -338,7 +338,7 @@ int		is_valid_cd_path(const char *path);
 int		execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell);
 int		open_ve(t_cmd *cmd);
 char	*conv_to_strn(char **args);
-int 	execve_matr_fail(char **envp, char **temp, t_cmd *cmd, t_shell_state **shell);
+int 	execve_matr_fail(char **envp, char **temp, t_shell_state **shell);
 int		execve_error(char **envp, char **temp, char *exe_path);
 
 // inbuilt commands

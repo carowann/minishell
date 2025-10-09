@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/07 12:35:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:06:54 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 	{
 		setup_signals(DFL);
 		if (open_ve(cmd) == -1)
-			exit(open_ve_error(cmd, shell, exe_path));
+			exit(open_ve_error(shell, exe_path));
 		envp = env_to_matrix((*shell)->env_list);
 		temp = dup_matrix(cmd->args);
 		if (!envp || !temp)
-			exit(execve_matr_fail(envp, temp, cmd, shell));
+			exit(execve_matr_fail(envp, temp, shell));
 		pipe_free_all(cmd, *shell);
 		execve(exe_path, temp, envp);
 		exit(execve_error(envp, temp, exe_path));

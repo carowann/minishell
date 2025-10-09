@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/06 16:59:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 17:43:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 18:08:06 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,13 @@ void	free_redirect_arrays(t_cmd *cmd)
 		return ;
 	if (cmd->input_files)
 	{
-		free_string_array(cmd->input_files, cmd->input_count);
+		free_string_array(cmd->input_files);
 		cmd->input_files = NULL;
 		cmd->input_count = 0;
 	}
 	if (cmd->output_files)
 	{
-		free_string_array(cmd->output_files, cmd->output_count);
+		free_string_array(cmd->output_files);
 		cmd->output_files = NULL;
 	}
 	if (cmd->output_modes)
@@ -69,7 +69,7 @@ void	free_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	if (cmd->args)
-		free_string_array(cmd->args, cmd->arg_count);
+		free_string_array(cmd->args);
 	if (cmd->heredoc_delimiter)
 		free(cmd->heredoc_delimiter);
 	if (cmd->heredoc_delimiters)

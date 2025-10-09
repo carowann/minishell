@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:11:35 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/24 16:06:50 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:02:16 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_matrix(char **matrix)
 }
 
 // Free the shell state and all its components, used in child processes
-void  free_shell(t_shell_state *shell)
+void	free_shell(t_shell_state *shell)
 {
 	if (!shell)
 		return ;

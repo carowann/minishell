@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   extra.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/09 16:41:44 by cwannhed          #+#    #+#             */
+/*   Updated: 2025/10/09 16:42:11 by cwannhed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
-char *get_all_line(int fd)
+char	*get_all_line(int fd)
 {
-	char *str;
-	char *line;
-	char *temp;
+	char	*str;
+	char	*line;
+	char	*temp;
 
 	str = NULL;
 	line = get_next_line(fd);
