@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 17:37:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:46:20 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	is_valid_cmd(char *cmd)
 {
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		return (1);
-    if (ft_strncmp(cmd, "cd", 3) == 0)
+	if (ft_strncmp(cmd, "cd", 3) == 0)
 		return (1);
-    if (ft_strncmp(cmd, "pwd", 4) == 0)
+	if (ft_strncmp(cmd, "pwd", 4) == 0)
 		return (1);
 	if (ft_strncmp(cmd, "export", 7) == 0)
 		return (1);
-    if (ft_strncmp(cmd, "unset", 6) == 0)
+	if (ft_strncmp(cmd, "unset", 6) == 0)
 		return (1);
 	if (ft_strncmp(cmd, "env", 4) == 0)
 		return (1);
@@ -32,7 +32,7 @@ int	is_valid_cmd(char *cmd)
 	return (0);
 }
 
-int command_select(t_cmd *cmd, t_shell_state **shell)
+int	command_select(t_cmd *cmd, t_shell_state **shell)
 {
 	int	fd[1];
 	int	result;
@@ -61,9 +61,9 @@ int command_select(t_cmd *cmd, t_shell_state **shell)
 	return (result);
 }
 
-int open_in(t_cmd *cmd, int *fd)
+int	open_in(t_cmd *cmd, int *fd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	fd[0] = STDOUT_FILENO;
@@ -87,37 +87,44 @@ int open_in(t_cmd *cmd, int *fd)
 	}
 	return (1);
 }
-int set_output(t_cmd *cmd, int *fd)
+
+int	set_output(t_cmd *cmd, int *fd)
 {
-	fd[0] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
-			| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
-		if (fd[0] < 0)
-		{
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
-			return (-1);
-		}
+	fd[0] = open(cmd->output_file,
+			O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
+			| (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
+	if (fd[0] < 0)
+	{
+		ft_printfd(1, "minishell: %s: ", cmd->output_file);
+		ft_printfd(1, "No such file or directory\n");
+		return (-1);
+	}
 	return (1);
 }
 
-
-int open_in_placebo(t_cmd *cmd, int *fd, int i, int bool)
+int	open_in_placebo(t_cmd *cmd, int *fd, int i, int bool)
 {
-	if ( bool == 0)
+	if (bool == 0)
 	{
 		fd[0] = open(cmd->input_files[i], O_RDONLY);
 		if (fd[0] < 0)
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_files[i]);
-		if (fd[0] < 0)
+		{
+			ft_printfd(1, "minishell: %s: ", cmd->input_files[i]);
+			ft_printfd(1, "No such file or directory\n");
 			return (-1);
+		}
 		close(fd[0]);
 		return (1);
 	}
-	fd[0] = open(cmd->output_files[i], O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
-		| (!cmd->append_mode * O_TRUNC),  OUTFILE_PERMS);
+	fd[0] = open(cmd->output_files[i],
+			O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
+			| (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
 	if (fd[0] < 0)
-		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_files[i]);
-	if (fd[0] < 0)
+	{
+		ft_printfd(1, "minishell: %s: ", cmd->output_files[i]);
+		ft_printfd(1, "No such file or directory\n");
 		return (-1);
+	}
 	close(fd[0]);
 	return (1);
 }

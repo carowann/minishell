@@ -6,17 +6,29 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/07 13:08:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:01:21 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int set_exit_status(t_shell_state **shell, int status);
-static int handle_pipeline(t_cmd *cmd, t_shell_state **shell);
+static int	set_exit_status(t_shell_state **shell, int status)
+{
+	(*shell)->last_exit_status = status;
+	return (status);
+}
+
+static int	handle_pipeline(t_cmd *cmd, t_shell_state **shell)
+{
+	int	result;
+
+	result = pipeman(cmd, cmd->next, *shell);
+	(*shell)->last_exit_status = result;
+	return (result);
+}
 
 // Function to execute a command based on its type
-int execute_cmd(t_cmd *cmd, t_shell_state **shell)
+int	execute_cmd(t_cmd *cmd, t_shell_state **shell)
 {
 	if (!cmd || !cmd->args || !cmd->args[0])
 		return (set_exit_status(shell, 1));
@@ -32,22 +44,7 @@ int execute_cmd(t_cmd *cmd, t_shell_state **shell)
 	return (handle_external_command(cmd, shell));
 }
 
-static int set_exit_status(t_shell_state **shell, int status)
-{
-	(*shell)->last_exit_status = status;
-	return (status);
-}
-
-static int handle_pipeline(t_cmd *cmd, t_shell_state **shell)
-{
-	int	result;
-
-	result = pipeman(cmd, cmd->next, *shell);
-	(*shell)->last_exit_status = result;
-	return (result);
-}
-
-int handle_builtin(t_cmd *cmd, t_shell_state **shell)
+int	handle_builtin(t_cmd *cmd, t_shell_state **shell)
 {
 	int	result;
 
@@ -57,7 +54,7 @@ int handle_builtin(t_cmd *cmd, t_shell_state **shell)
 	return (result);
 }
 
-int handle_external_command(t_cmd *cmd, t_shell_state **shell)
+int	handle_external_command(t_cmd *cmd, t_shell_state **shell)
 {
 	char	*exe_path;
 	int		result;
@@ -65,7 +62,8 @@ int handle_external_command(t_cmd *cmd, t_shell_state **shell)
 	exe_path = build_exe_path(*shell, cmd);
 	if (!exe_path)
 	{
-		ft_printfd(STDERR_FILENO, "minishell: %s: command not found\n", cmd->args[0]);
+		ft_printfd(STDERR_FILENO, "minishell: %s:", cmd->args[0]);
+		ft_printfd(STDERR_FILENO, " command not found\n");
 		return (set_exit_status(shell, 127));
 	}
 	setup_signals(EXECUTION);
