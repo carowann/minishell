@@ -6,13 +6,14 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 12:26:02 by ludovico          #+#    #+#             */
-/*   Updated: 2025/10/08 17:00:52 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:48:17 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pipefd)
+int	fork_and_execute(t_cmd *cmd_left, int *status,
+	t_shell_state *shell, int *pipefd)
 {
 	pid_t	left_pid;
 	pid_t	right_pid;
@@ -39,7 +40,7 @@ int fork_and_execute(t_cmd *cmd_left, int *status, t_shell_state *shell, int *pi
 	return (0);
 }
 
-int set_last_exit_status(t_shell_state *shell, int status)
+int	set_last_exit_status(t_shell_state *shell, int status)
 {
 	if (WIFEXITED(status))
 		shell->last_exit_status = WEXITSTATUS(status);
@@ -50,14 +51,14 @@ int set_last_exit_status(t_shell_state *shell, int status)
 	return (shell->last_exit_status);
 }
 
-int pipe_error(int *fd)
+int	pipe_error(int *fd)
 {
-    if (pipe(fd) == -1)
+	if (pipe(fd) == -1)
 	{
 		perror("pipe in heredoc failed");
 		return (1);
 	}
-    return (0);
+	return (0);
 }
 
 int	fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status)
@@ -71,10 +72,9 @@ int	fork_close(int *fd, pid_t *whait1, pid_t *whait2, int *status)
 	return (-1);
 }
 
-int fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status)
+int	fork_error(int *fd, pid_t *whait1, pid_t *whait2, int *status)
 {
 	perror("fork failed");
 	fork_close(fd, whait1, whait2, status);
 	return (-1);
 }
-

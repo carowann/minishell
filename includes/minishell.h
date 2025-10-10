@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 15:46:32 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:50:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,7 +332,6 @@ int		is_valid_cd_path(const char *path);
 //external command - execve
 int		execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell);
 int		open_ve(t_cmd *cmd);
-char	*conv_to_strn(char **args);
 int 	execve_matr_fail(char **envp, char **temp, t_shell_state **shell);
 int		execve_error(char **envp, char **temp, char *exe_path);
 

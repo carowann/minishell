@@ -6,46 +6,23 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:24:54 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/26 18:56:49 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:50:46 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // Function to read a line from standard input
-char *read_line(void) //TODO: change forbidden functions!!!!
-{
-	char buffer[1024];
-	if (fgets(buffer, sizeof(buffer), stdin) == NULL)
-		return NULL;
-	size_t len = strlen(buffer);
-	if (len > 0 && buffer[len - 1] == '\n')
-		buffer[len - 1] = '\0'; // Remove newline
-	return strdup(buffer);		// Allocate and return the string
-}
-
-char *conv_to_strn(char	**args)
-{
-	char	*str; //return
-	int		i; //index
-
-	i = 0;
-	if (!args[i])
-		return (ft_strdup(""));
-	if(args[i])
-		str = ft_strndup(args[i], ft_strlen(args[i]));
-	i++;
-	if(args[i])
-		str = ft_strjoin(str, " ");
-	while (args[i])
-	{
-		str = ft_strjoin(str, args[i]);
-		i++;
-		if(args[i])
-			str = ft_strjoin(str, " ");
-	}
-	return(str);
-}
+// char *read_line(void) //TODO: change forbidden functions!!!!
+// {
+// 	char buffer[1024];
+// 	if (fgets(buffer, sizeof(buffer), stdin) == NULL)
+// 		return NULL;
+// 	size_t len = strlen(buffer);
+// 	if (len > 0 && buffer[len - 1] == '\n')
+// 		buffer[len - 1] = '\0'; // Remove newline
+// 	return strdup(buffer);		// Allocate and return the string
+// }
 
 char **env_to_matrix(t_env *env)
 {

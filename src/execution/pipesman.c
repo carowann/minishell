@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 15:58:45 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:05:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 
 int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 {
-	int				status;
-	int				fd[2];
-	pid_t			pid;
+	int		status;
+	int		fd[2];
+	pid_t	pid;
 
 	while (cmd)
 	{
@@ -63,9 +63,9 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 	return (0);
 }
 
-int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
+int	exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
-	int result;
+	int	result;
 
 	shell->is_child = 1;
 	setup_signals(DFL);
@@ -80,9 +80,9 @@ int exec_pipeline_left(t_cmd *cmd, t_shell_state *shell, int *fd)
 	return (result);
 }
 
-int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
+int	exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 {
-	int result;
+	int	result;
 
 	shell->is_child = 1;
 	setup_signals(DFL);
@@ -94,7 +94,7 @@ int exec_pipeline_right(t_cmd *cmd, t_shell_state *shell, int *fd)
 	return (result);
 }
 
-int pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
+int	pipe_free_all(t_cmd *cmd_left, t_shell_state *shell)
 {
 	if (shell->current_cmd_list->head && cmd_left)
 		free_command_all(shell->current_cmd_list->head);
