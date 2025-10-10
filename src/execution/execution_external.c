@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/09 18:06:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:56:46 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	execve_temp(char *exe_path, t_cmd *cmd, t_shell_state **shell)
 
 int	open_ve(t_cmd *cmd)
 {
-	int fd[2];
+	int	fd[2];
 
 	fd[0] = -1;
-	fd[1] = -1; //inizializzo a -1 per capire se sono stati aperti altrimenti rischio conditional jump
+	fd[1] = -1;
 	if (open_ve_doc(fd, cmd) == -1)
 		return (-1);
 	else if (cmd->is_heredoc > 1)
@@ -84,10 +84,10 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	free(value_path_var);
 	exe_path = find_cmd_exe(all_exe_paths, cmd);
 	free_matrix(all_exe_paths);
-	return(exe_path);
+	return (exe_path);
 }
 
-int is_valid_exe_path(const char *path)
+int	is_valid_exe_path(const char *path)
 {
 	struct stat	statbuf;
 
@@ -100,9 +100,9 @@ int is_valid_exe_path(const char *path)
 	return (SUCCESS);
 }
 
-int open_ve_doc(int *docfd, t_cmd *cmd)
+int	open_ve_doc(int *docfd, t_cmd *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!cmd->input_file)
@@ -117,15 +117,14 @@ int open_ve_doc(int *docfd, t_cmd *cmd)
 		close(docfd[0]);
 		i++;
 	}
-    docfd[0] = open(cmd->input_file, O_RDONLY);
-    if (docfd[0] < 0)
-    {
-        ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
-        return (-1);
-    }
+	docfd[0] = open(cmd->input_file, O_RDONLY);
+	if (docfd[0] < 0)
+	{
+		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
+		return (-1);
+	}
 	if (cmd->is_heredoc == 0)
 		dup2(docfd[0], STDIN_FILENO);
-    close(docfd[0]);
-    return (0);
+	close(docfd[0]);
+	return (0);
 }
-

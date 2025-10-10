@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/09 18:06:21 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:01:04 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	open_ve_out(int *docfd, t_cmd *cmd)
 	while (i < cmd->output_count - 1)
 	{
 		docfd[1] = open(cmd->output_files[i],
-			O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) | (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
+				O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) | (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
 		if (docfd[1] < 0)
 			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_files[i]);
 		if (docfd[1] < 0)

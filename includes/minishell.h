@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 18:50:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:00:33 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,10 +353,7 @@ int		set_output(t_cmd *cmd, int *fd);
 int		open_in(t_cmd *cmd, int *fd);
 
 // signals
-void	save_signal_state(t_signal_state *state);
-void	restore_signal_state(t_signal_state *state);
 void	heredoc_exit_handler(int sig);
 void	setup_signals(int mode);
-void	heredoc_sigint_handler(int sig);
 
 #endif

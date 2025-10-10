@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/25 16:10:15 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 15:49:06 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 19:00:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	heredoc_exit_handler(int sig)
 {
 	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
-	//exit(128 + sig);
 	close(STDIN_FILENO);
 }
 
@@ -69,23 +68,4 @@ void	setup_signals(int mode)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 	}
-}
-
-void heredoc_sigint_handler(int sig)
-{
-	g_signal_received = sig;
-}
-
-void	save_signal_state(t_signal_state *state)
-{
-	state->sigint_handler = signal(SIGINT, SIG_DFL);
-	signal(SIGINT, state->sigint_handler);
-	state->sigquit_handler = signal(SIGQUIT, SIG_DFL);
-	signal(SIGQUIT, state->sigquit_handler);
-}
-
-void	restore_signal_state(t_signal_state *state)
-{
-	signal(SIGINT, state->sigint_handler);
-	signal(SIGQUIT, state->sigquit_handler);
 }

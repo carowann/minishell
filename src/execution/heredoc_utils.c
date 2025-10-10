@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 18:38:43 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/10 18:52:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 18:55:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,18 @@ int	heredoc_read_placebo(char **delimiter)
 			if (!line)
 			{
 				ft_printfd(2, "\nwarning: here-document delimited by end-of-file (wanted `%s')\n", delimiter[i]);
-				break;
+				break ;
 			}
 			if (strcmp(line, delimiter[i]) == 0)
 			{
 				free(line);
-				break;
+				break ;
 			}
 			free(line);
 		}
 		if (!line)
-			return (0);  // Esci se Ctrl+D
+			return (0); // Esci se Ctrl+D
 		i++;
 	}
 	return (0);
 }
-
