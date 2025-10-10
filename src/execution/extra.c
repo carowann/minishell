@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:41:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/09 16:42:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:42:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,11 @@ char	*get_all_line(int fd)
 	char	*temp;
 
 	str = NULL;
-	line = get_next_line(fd);
-	if (!line)
+	while (1)
 	{
-		free(str);
-		return (NULL);
-	}
-	temp = str;
-	str = ft_strjoin(str, line);
-	free(temp);
-	free(line);
-	while ((line = get_next_line(fd)))
-	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
 		temp = str;
 		str = ft_strjoin(str, line);
 		free(temp);
@@ -51,13 +44,12 @@ void	free_command_all(t_cmd *cmd)
 		free_cmd(cmd);
 		cmd = temp_cmd;
 	}
-	//free_cmd(cmd);
-	return ;
 }
 
-int heredoc_execve(t_cmd *cmd)
+int	heredoc_execve(t_cmd *cmd)
 {
-	int fd[2];
+	int	fd[2];
+
 	pipe(fd);
 	if (fd[0] < 0 || fd[1] < 0)
 	{
@@ -73,7 +65,8 @@ int heredoc_execve(t_cmd *cmd)
 	close(fd[0]);
 	return (0);
 }
-int heredoc_status(int *fd, t_shell_state *shell)
+
+int	heredoc_status(int *fd, t_shell_state *shell)
 {
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
@@ -82,9 +75,9 @@ int heredoc_status(int *fd, t_shell_state *shell)
 	return (-1);
 }
 
-int heredoc_closing(t_cmd *cmd, int *fd)
+int	heredoc_closing(t_cmd *cmd, int *fd)
 {
-	char *line;
+	char	*line;
 
 	close(fd[1]);
 	line = get_all_line(fd[0]);
@@ -99,7 +92,7 @@ int heredoc_closing(t_cmd *cmd, int *fd)
 		free(cmd->heredoc_delimiter);
 		cmd->heredoc_delimiter = ft_strdup(line);
 	}
-	cmd->is_heredoc = 2; //uso 2 per dire che e' stato gia' letto
+	cmd->is_heredoc = 2;
 	free(line);
 	return (0);
 }

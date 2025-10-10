@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 18:38:43 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/27 22:58:24 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:37:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,28 @@ int heredoc_read_placebo(char **delimiter)
 	int i;
 
 	i = 0;
-	while (delimiter[i+1])
+	while (delimiter[i + 1])
 	{
 		while (1)
 		{
 			ft_printfd(1, "> ");
 			line = read_line();
-			if (!line || strcmp(line, delimiter[i]) == 0)
+			if (!line)
+			{
+				ft_printfd(2, "\nwarning: here-document delimited by end-of-file (wanted `%s')\n", delimiter[i]);
 				break;
+			}
+			if (strcmp(line, delimiter[i]) == 0)
+			{
+				free(line);
+				break;
+			}
+			free(line);
 		}
-		i ++;
+		if (!line)
+			return (0);  // Esci se Ctrl+D
+		i++;
 	}
-	if (line)
-		free(line);
-	else if (!line) // && g_signal == NOT_RECEIVED
-		ft_printfd(2, "warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 	return (0);
 }
 
