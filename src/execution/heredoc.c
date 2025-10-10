@@ -6,93 +6,83 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 18:04:08 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 17:29:12 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *expand_in_heredoc(char *line, t_shell_state *shell);
-
-// int handle_heredoc(t_cmd *cmd, t_shell_state **shell)
-// {
-// 	int   pipefd[2];
-// 	pid_t pid;
-// 	int   status;
-
-// 	if (pipe_error(pipefd) == 1)
-// 		return (1);
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return (fork_error(pipefd, NULL, NULL, NULL));
-// 	if (pid == 0) //child uno, legge da stdin e scrive su pipefd[1]
-// 		exit(doc_child_write(cmd, pipefd, shell));
-// 	else
-// 	{
-// 		close(pipefd[1]);
-// 		waitpid(pid, &status, 0);
-// 		pid = fork();
-// 		if (pid == -1)
-// 			return (fork_error(pipefd, NULL, NULL, NULL));
-// 		if (pid == 0) //child due, legge da pipefd[0] e duplica su stdin
-// 			exit(doc_child_read(cmd, pipefd, shell));
-// 		close(pipefd[0]);
-// 		waitpid(pid, &status, 0);
-// 		return (set_last_exit_status(*shell, status));
-// 	}
-// }
-
-int heredoc_read(int *pipefd, const char *delimiter, t_shell_state *shell, int expand)
+static char	*read_heredoc_line(void)
 {
 	char	*line;
 
-	write(pipefd[1], "", 0); // Per evitare potenziali problemi di empty writes
+	if (g_signal_received == SIGINT)
+		return (NULL);
+	line = readline("> ");
+	if (g_signal_received == SIGINT)
+	{
+		if (line)
+			free(line);
+		return (NULL);
+	}
+	return (line);
+}
+
+static void	process_and_write_line(char *line, int fd,
+	t_shell_state *shell, int expand)
+{
+	if (expand && ft_strchr(line, '$'))
+		line = expand_in_heredoc(line, shell);
+	write(fd, line, ft_strlen(line));
+	write(fd, "\n", 1);
+	free(line);
+}
+
+int	heredoc_read(int *pipefd, const char *del,
+		t_shell_state *shell, int expand)
+{
+	char	*line;
+
 	while (1)
 	{
-		//ft_printfd(1, "> ");
-		//line = read_line();
-		if (g_signal_received == SIGINT)
+		line = read_heredoc_line();
+		if (!line && g_signal_received == SIGINT)
 			return (-1);
-		line = readline("> "); //TODO: check se va bene uguale
-		if (g_signal_received == SIGINT)
+		if (!line)
 		{
-			if (line)
-				free(line);
-			return (-1);
+			ft_printfd(2, "warning: here-document delimited by end-of-file ");
+			ft_printfd(2, "(wanted `%s')\n", del);
+			break ;
 		}
-		if (!line || ft_strcmp(line, delimiter) == 0) // TODO: era strcmp!!!! check forbidden functions
-			break;
-		if (expand && ft_strchr(line, '$'))
-			line = expand_in_heredoc(line, shell);
-		write(pipefd[1], line, ft_strlen(line)); //TODO: era strlen normale!!!! check forbidden functions
-		write(pipefd[1], "\n", 1);
-		free(line);
+		if (ft_strcmp(line, del) == 0)
+		{
+			free(line);
+			break ;
+		}
+		process_and_write_line(line, pipefd[1], shell, expand);
 	}
-	if (line)
-		free(line);
-	else if (!line) // && g_signal == NOT_RECEIVED
-		ft_printfd(2, "warning: here-document delimited by end-of-file (wanted `%s')\n", delimiter);
 	close(pipefd[1]);
 	return (0);
 }
 
-char *expand_in_heredoc(char *line, t_shell_state *shell)
+char	*expand_in_heredoc(char *line, t_shell_state *shell)
 {
-	char *expanded_line;
+	char	*expanded_line;
 
 	expanded_line = process_string_expansion(shell, line);
 	free(line);
 	return (expanded_line);
 }
 
-int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
+int	heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 {
 	signal(SIGINT, heredoc_exit_handler);
 	signal(SIGQUIT, SIG_DFL);
 	close(fd[0]);
 	if (cmd->heredoc_count > 1)
 		heredoc_read_placebo(cmd->heredoc_delimiters);
-	if (heredoc_read(fd, cmd->heredoc_delimiter, shell, cmd->heredoc_expand) == -1)
+	if (heredoc_read(fd,
+			cmd->heredoc_delimiter, shell, cmd->heredoc_expand) == -1)
 	{
 		close(fd[1]);
 		pipe_free_all(cmd, shell);
@@ -101,28 +91,4 @@ int heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 	close(fd[1]);
 	pipe_free_all(cmd, shell);
 	return (0);
-}
-
-int doc_child_write(t_cmd *cmd, int *fd, t_shell_state **shell)
-{
-	close(fd[0]);
-	heredoc_read(fd, cmd->heredoc_delimiter, *shell, cmd->heredoc_expand);
-	close(fd[1]);
-	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-	return(0);
-}
-
-int doc_child_read(t_cmd *cmd, int *fd, t_shell_state **shell)
-{
-	int	status_code;
-
-	dup2(fd[0], STDIN_FILENO);
-	close(fd[0]);
-	if (is_valid_cmd(cmd->args[0]))
-		handle_builtin(cmd, shell);
-	else
-		handle_external_command(cmd, shell);
-	status_code = (*shell)->last_exit_status;
-	pipe_free_all((*shell)->current_cmd_list->head, *shell);
-	return(status_code);
 }

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/08 17:41:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/10 15:58:45 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,9 @@
 // Manages the piping between two commands
 int	pipeman(t_cmd *cmd_left, t_cmd	*cmd_right, t_shell_state *shell)
 {
-	int		pipefd[2];
-	int		status;
+	int	pipefd[2];
+	int	status;
 
-	fflush(NULL); //TODO: remove forbidden function
 	setup_signals(PIPELINE);
 	if (set_up_heredoc(shell->current_cmd_list->head, shell) == -1)
 	{
