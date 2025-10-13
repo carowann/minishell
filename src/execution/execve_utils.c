@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/10 19:01:04 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:52:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,23 +75,21 @@ int	open_ve_out(int *docfd, t_cmd *cmd)
 	int	i;
 
 	i = 0;
-	while (i < cmd->output_count - 1)
+	while (i < cmd->output_count)
 	{
 		docfd[1] = open(cmd->output_files[i],
-				O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND) | (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
+				O_RDWR
+				| O_CREAT
+				| (cmd->append_mode * O_APPEND)
+				| (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
 		if (docfd[1] < 0)
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_files[i]);
-		if (docfd[1] < 0)
+		{
+			ft_printfd(1, "minishell: %s: ", cmd->output_files[i]);
+			ft_printfd(1, "No such file or directory\n");
 			return (-1);
+		}
 		close(docfd[1]);
 		i++;
-	}
-	docfd[1] = open(cmd->output_file, O_RDWR | O_CREAT | (cmd->append_mode * O_APPEND)
-			| (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
-	if (docfd[1] < 0)
-	{
-		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->output_file);
-		return (-1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/13 15:41:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:44:40 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,9 @@ int	is_valid_exe_path(const char *path)
 		return (126);
 	return (SUCCESS);
 }
-//TODO: testare approfonditamente apertura file, ho tolto l'apertura di input file singolo
+
+//TODO: testare approfonditamente apertura file,
+//ho tolto l'apertura di input file singolo
 int	open_ve_doc(int *docfd, t_cmd *cmd)
 {
 	int	i;
