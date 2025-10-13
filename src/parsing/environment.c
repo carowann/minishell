@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:19:41 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/09/03 16:33:14 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:21:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 t_env	*env_to_list(char **envp)
 {
 	t_env	*head;
-	int		i;  
+	int		i;
 	t_env	*current;
 
 	head = NULL;
 	i = 0;
 	while (envp[i])
 	{
-	current = malloc(sizeof(t_env));
+		current = malloc(sizeof(t_env));
 		if (!current)
 			return (NULL);
 		current->value = ft_strdup(envp[i]);
@@ -44,24 +44,22 @@ void	free_env(t_env *head)
 	t_env	*current;
 	t_env	*temp;
 
-	
 	if (!head)
 		return ;
 	current = head;
 	while (current)
 	{
 		temp = current->next;
-		if(current->value)
+		if (current->value)
 			free (current->value);
 		free(current);
 		current = temp;
 	}
-
-	return;
+	return ;
 }
 
 // Function to find an environment variable
-t_env *find_env(t_env *envar, char *arg)
+t_env	*find_env(t_env *envar, char *arg)
 {
 	t_env	*temp;
 	char	*copy;
@@ -76,8 +74,8 @@ t_env *find_env(t_env *envar, char *arg)
 	temp = envar;
 	while (temp)
 	{
-		if (ft_strncmp(temp->value, copy, i) == 0 &&
-			(temp->value[i] == '=' || temp->value[i] == '\0'))
+		if (ft_strncmp(temp->value, copy, i) == 0
+			&& (temp->value[i] == '=' || temp->value[i] == '\0'))
 		{
 			free(copy);
 			return (temp);
