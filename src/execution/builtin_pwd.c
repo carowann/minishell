@@ -6,12 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 18:21:29 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/10 17:33:11 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:56:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <linux/limits.h>
 
 int	pwd(int fd)
 {

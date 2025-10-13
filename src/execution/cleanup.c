@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 18:11:35 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/09 15:02:16 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:57:18 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,4 @@ void	free_matrix(char **matrix)
 		i++;
 	}
 	free(matrix);
-}
-
-// Free the shell state and all its components, used in child processes
-void	free_shell(t_shell_state *shell)
-{
-	if (!shell)
-		return ;
-	if (shell->env_list)
-		free_env(shell->env_list);
-	if (shell->current_cmd_list)
-		free_command_all(shell->current_cmd_list->head);
-	free(shell->current_cmd_list);
-	free(shell);
 }

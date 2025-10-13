@@ -6,13 +6,11 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/10 17:32:59 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:54:22 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//TODO: cwannhed@c1r6p8:~$ echo -n -n hello
 
 //	execution of command after vars are passed by echo
 int	echo_exec(char **str, int n_var, int fd)

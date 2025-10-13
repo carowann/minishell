@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 18:56:46 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:41:05 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	is_valid_exe_path(const char *path)
 		return (126);
 	return (SUCCESS);
 }
-
+//TODO: testare approfonditamente apertura file, ho tolto l'apertura di input file singolo
 int	open_ve_doc(int *docfd, t_cmd *cmd)
 {
 	int	i;
@@ -107,21 +107,17 @@ int	open_ve_doc(int *docfd, t_cmd *cmd)
 	i = 0;
 	if (!cmd->input_file)
 		return (0);
-	while (i < cmd->input_count - 1)
+	while (i < cmd->input_count)
 	{
 		docfd[0] = open(cmd->input_files[i], O_RDONLY);
 		if (docfd[0] < 0)
-			ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_files[i]);
-		if (docfd[0] < 0)
+		{
+			ft_printfd(1, "minishell: %s: ", cmd->input_files[i]);
+			ft_printfd(1, "No such file or directory\n");
 			return (-1);
+		}
 		close(docfd[0]);
 		i++;
-	}
-	docfd[0] = open(cmd->input_file, O_RDONLY);
-	if (docfd[0] < 0)
-	{
-		ft_printfd(1, "minishell: %s: No such file or directory\n", cmd->input_file);
-		return (-1);
 	}
 	if (cmd->is_heredoc == 0)
 		dup2(docfd[0], STDIN_FILENO);
