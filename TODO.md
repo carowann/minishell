@@ -16,12 +16,12 @@
 - [x]APRIRE IO PRIMA DEL FORK PER FAILITARE CLEANUP
 - [x] !!REDIRECT: leggere "TUTTI" i redirect, invece solo l'ultimo di ogni tipo
 - [x] fix echo -nnnnnnnnnnnnnnnnnnn
-- [x] minishell> cat < nonex | ls  non si vede il messaggio di errore di cat che fallisce :
+- [] minishell> cat < nonex | ls  non si vede il messaggio di errore di cat che fallisce :
 
 
-- [ ] rimuovere cartella env e spostare file
-- [ ] migliorare nomi file
-- [ ] cwannhed@c1r6p8:~$ cat << 'eof'
+- [x] rimuovere cartella env e spostare file
+- [x] migliorare nomi file
+- [x] cwannhed@c1r6p8:~$ cat << 'eof'
 > $HOME
 > '$HOME'
 > "$HOME"
