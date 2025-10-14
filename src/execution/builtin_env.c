@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:49:25 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/14 17:10:57 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:15:25 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	env(t_env *env, int fd, int print_all)
 	return (SUCCESS);
 }
 
-void print_env_export_format(int fd, char *env_var)
+void	print_env_export_format(int fd, char *env_var)
 {
 	int		i;
 	char	*key;
