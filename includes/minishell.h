@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/13 18:17:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:36:46 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ typedef struct s_shell_state
 
 /****************MAIN UTILS******************/
 
-void	shell_loop(t_shell_state **shell);
+int		shell_loop(t_shell_state **shell);
 char	*read_input_line(t_shell_state **shell);
 int		is_all_spaces(char *input);
 int		init_shell_state(t_shell_state *shell, char **envp);

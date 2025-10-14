@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/10/13 18:07:27 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/10/14 10:57:46 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,7 @@ INCLUDES = -I./includes -I./$(LIBFT_DIR)
 SRC =	src/main.c					\
 	src/shell_loop.c				\
 	src/shell_loop_utils.c				\
-	src/parsing/debug.c				\
 	src/parsing/environment.c			\
-	src/parsing/lexer.c				\
 	src/parsing/token_cleanup.c			\
 	src/parsing/cmd_cleanup.c			\
 	src/parsing/tokens_to_cmds_handlers.c		\
@@ -59,7 +57,6 @@ SRC =	src/main.c					\
 	src/execution/builtin_pwd.c			\
 	src/execution/builtin_unset.c			\
 	src/execution/builtin_execution.c		\
-	src/env/environment.c				\
 	src/execution/cleanup.c				\
 	src/execution/execution_external.c		\
 	src/execution/execution.c			\

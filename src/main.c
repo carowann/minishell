@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 13:09:04 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/13 16:41:32 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:38:00 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	int				status;
 
 	(void)argv;
+	status = 0;
 	if (argc != 1)
 	{
 		ft_putstr_fd(RED "Usage: ./minishell\n" RESET, STDERR_FILENO);
@@ -32,9 +33,6 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	}
 	setup_signals(INTERACTIVE);
-	shell_loop(&shell);
-	free_env(shell->env_list);
-	status = shell->exit_code;
-	free(shell);
+	status = shell_loop(&shell);
 	return (status);
 }

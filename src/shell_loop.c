@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:01:39 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/13 18:19:30 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 11:38:38 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,14 +71,24 @@ static int	process_input_line(t_shell_state **shell)
  * @param shell: pointer to shell state struct
  * @return: void
  */
-void	shell_loop(t_shell_state **shell)
+int	shell_loop(t_shell_state **shell)
 {
+	int	status;
+
 	while (!(*shell)->should_exit)
 	{
 		if (process_input_line(shell))
 			continue ;
 	}
-	return ;
+	if ((*shell)->current_cmd_list)
+	{
+		free_command_list((*shell)->current_cmd_list);
+		(*shell)->current_cmd_list = NULL;
+	}
+	free_env((*shell)->env_list);
+	status = (*shell)->exit_code;
+	free(*shell);
+	return (status);
 }
 
 /*
