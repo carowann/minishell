@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/13 14:54:22 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:06:15 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	echo_builtin(char **args, int fd)
 		ft_printfd(fd, "%s", "\n");
 		return (SUCCESS);
 	}
-	while (ft_strncmp(args[n_var], "-n", 2) == 0)
+	while (args[n_var] && ft_strncmp(args[n_var], "-n", 2) == 0)
 		n_var ++;
 	if (echo_exec(args, n_var, fd) == 0)
 		return (1);
