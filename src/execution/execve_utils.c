@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/13 15:52:25 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:38:34 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	open_ve_out(int *docfd, t_cmd *cmd)
 	i = 0;
 	while (i < cmd->output_count)
 	{
+		if (docfd[1] != -1)
+			close(docfd[1]);
 		docfd[1] = open(cmd->output_files[i],
 				O_RDWR
 				| O_CREAT
@@ -88,7 +90,6 @@ int	open_ve_out(int *docfd, t_cmd *cmd)
 			ft_printfd(1, "No such file or directory\n");
 			return (-1);
 		}
-		close(docfd[1]);
 		i++;
 	}
 	return (0);

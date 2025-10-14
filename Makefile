@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/10/14 10:57:46 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/10/14 14:44:33 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -133,9 +133,10 @@ $(SUPPRESSION_FILE):
 valgrind: $(NAME) $(SUPPRESSION_FILE)
 	@echo "$(BLUE)Running valgrind with readline suppression...$(RESET)"
 	valgrind --leak-check=full --show-leak-kinds=all \
-		--suppressions=$(SUPPRESSION_FILE) \
+		--trace-children=yes \
 		--track-origins=yes \
-		--quiet \
+		--track-fds=yes \
+		--suppressions=$(SUPPRESSION_FILE) \
 		./$(NAME)
 
 clean_valgrind:
