@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 17:49:25 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/10 17:33:02 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 17:15:25 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	env(t_env *env, int fd, int print_all)
 	{
 		if (copy->value && print_all == 1)
 		{
-			ft_printfd(fd, "declare -x ");
-			ft_printfd(fd, "%s\n", copy->value);
+			print_env_export_format(fd, copy->value);
 		}
 		else if (copy->value && ft_strchr(copy->value, '='))
 			ft_printfd(fd, "%s\n", copy->value);
@@ -32,4 +31,22 @@ int	env(t_env *env, int fd, int print_all)
 			copy = copy->next;
 	}
 	return (SUCCESS);
+}
+
+void	print_env_export_format(int fd, char *env_var)
+{
+	int		i;
+	char	*key;
+
+	i = 0;
+	while (env_var[i] && env_var[i] != '=')
+		i++;
+	key = ft_substr(env_var, 0, i);
+	if (!key)
+		return ;
+	if (env_var[i] == '=')
+		ft_printfd(fd, "declare -x %s=\"%s\"\n", key, env_var + i + 1);
+	else
+		ft_printfd(fd, "declare -x %s\n", key);
+	free(key);
 }

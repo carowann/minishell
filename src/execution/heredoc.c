@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 16:42:45 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 17:29:12 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:37:28 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	heredoc_sub(t_cmd *cmd, int *fd, t_shell_state *shell)
 		pipe_free_all(cmd, shell);
 		exit(130);
 	}
-	close(fd[1]);
 	pipe_free_all(cmd, shell);
 	return (0);
 }
