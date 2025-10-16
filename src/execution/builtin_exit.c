@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/16 09:41:55 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/16 18:31:31 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,46 @@ int	builtin_exit(t_cmd *cmd, t_shell_state *shell, int output_fd)
 	return (exit_code);
 }
 
-int	is_valid_number(char *arg)
+/*
+ * Converts string to long long and detects overflow
+ * @param str: string to convert
+ * @param result: pointer to store result
+ * @return: 1 if valid, 0 if overflow/invalid
+ */
+static int	safe_atoll(const char *str, long long *result)
+{
+	long long	num;
+	int			sign;
+	int			digit;
+
+	num = 0;
+	sign = 1;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+			sign = -1;
+		str++;
+	}
+	while (*str)
+	{
+		digit = *str - '0';
+		if (sign == 1 && (num > (LLONG_MAX - digit) / 10))
+			return (0);
+		if (sign == -1 && (num > (LLONG_MAX - digit) / 10))
+			return (0);
+		num = num * 10 + digit;
+		str++;
+	}
+	*result = num * sign;
+	return (1);
+}
+
+static int	is_valid_number(char *arg)
 {
 	if (*arg == '-' || *arg == '+')
 		arg++;
+	if (*arg == '\0')
+		return (0);
 	while (*arg)
 	{
 		if (!ft_isdigit(*arg))
@@ -54,19 +90,17 @@ int	is_valid_number(char *arg)
 
 int	validate_exit_arg(char *arg)
 {
-	int	exit_code;
+	long long	ll_exit_code;
+	int			exit_code;
 
-	if (!is_valid_number(arg))
+	if (!is_valid_number(arg) || !safe_atoll(arg, &ll_exit_code))
 	{
-		ft_printfd(STDERR_FILENO, "minishell: exit: %s: invalid arg\n", arg);
-		exit_code = 2;
+		ft_printfd(STDERR_FILENO,
+			"minishell: exit: %s: numeric argument required\n", arg);
+		return (2);
 	}
-	else
-	{
-		exit_code = ft_atoi(arg);
-		exit_code = exit_code % 256;
-		if (exit_code < 0)
-			exit_code = 256 + exit_code;
-	}
+	exit_code = (int)(ll_exit_code % 256);
+	if (exit_code < 0)
+		exit_code = 256 + exit_code;
 	return (exit_code);
 }

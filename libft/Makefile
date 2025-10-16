@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/15 15:51:55 by cwannhed          #+#    #+#              #
-#    Updated: 2025/09/03 14:08:36 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/10/16 18:33:22 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,12 +79,12 @@ OBJS = $(SRCS:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
-$(OBJ_DIR): 
+$(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: %.c $(HDR) | $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
-	
+
 $(NAME): $(OBJS)
 	@$(AR) $(NAME) $(OBJS)
 
