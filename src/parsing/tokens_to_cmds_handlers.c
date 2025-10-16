@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 12:54:25 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/09/26 10:38:10 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/15 15:36:36 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,50 @@ int	handle_pipe_token(t_cmd **cmd, t_cmd_list *cmd_list)
 }
 
 /*
+ * Prints appropriate syntax error message based on token type
+ * @param filename_token: token that caused the error (can be NULL)
+ * @return: always -1 (error indicator)
+ */
+static int	print_redirect_syntax_error(t_token *filename_token)
+{
+	char	*err_token;
+
+	if (!filename_token)
+	{
+		ft_printfd(2,
+			"minishell: syntax error near unexpected token `newline'\n");
+		return (-1);
+	}
+	if (filename_token->type == PIPE)
+	{
+		ft_printfd(2,
+			"minishell: syntax error near unexpected token `|'\n");
+		return (-1);
+	}
+	if (is_redirect_token(filename_token))
+	{
+		err_token = filename_token->content;
+		ft_printfd(2,
+			"minishell: syntax error near unexpected token `%s'\n", err_token);
+		return (-1);
+	}
+	return (0);
+}
+
+/*
+ * Validates redirect token has valid filename following it
+ * @param filename_token: token after redirect operator
+ * @return: 0 if valid, -1 if syntax error
+ */
+static int	validate_redirect_filename(t_token *filename_token)
+{
+	if (!filename_token || filename_token->type == PIPE
+		|| is_redirect_token(filename_token))
+		return (print_redirect_syntax_error(filename_token));
+	return (0);
+}
+
+/*
  * Analyses type of redirection and handles relative token
  * @param curr_token: token to analyse
  * @param cmd: command result of conversion
@@ -84,16 +128,8 @@ int	handle_redirect_token(t_token **token, t_cmd *cmd)
 	if (!token || !*token || !cmd)
 		return (-1);
 	filename_token = (*token)->next;
-	if (!filename_token || filename_token->type == PIPE)
-	{
-		ft_printfd(2, "minishell: syntax error\n");
+	if (validate_redirect_filename(filename_token) == -1)
 		return (-1);
-	}
-	if (is_redirect_token(filename_token))
-	{
-		ft_printfd(2, "minishell: syntax error\n");
-		return (-1);
-	}
 	if ((*token)->type == REDIRECT_IN)
 		return (set_input_redirect(cmd, (*filename_token).content, token));
 	else if ((*token)->type == REDIRECT_OUT)

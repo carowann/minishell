@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 16:29:56 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 17:46:20 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/16 09:42:42 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	command_select(t_cmd *cmd, t_shell_state **shell)
 	else if (ft_strncmp(cmd->args[0], "env", 4) == 0)
 		result = env((*shell)->env_list, fd[0], 0);
 	else if (ft_strncmp(cmd->args[0], "exit", 4) == SUCCESS)
-		return (builtin_exit(cmd, *shell));
+		return (builtin_exit(cmd, *shell, fd[0]));
 	else if (ft_printfd(2, "minishell: %s: command not found\n", cmd->args[0]))
 		result = 127;
 	if (fd[0] != STDOUT_FILENO)

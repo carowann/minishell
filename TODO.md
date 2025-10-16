@@ -27,3 +27,7 @@
 > "$HOME"
 non dovrebbe espandere
 controllare altri comportmaneti per espansione in heredoc
+
+- [x] fixare export senza argomenti, il valore deve essere tra virgolette
+- [ ] decidere se fixare roba minima di parsing tipo //////////
+- [x] invalid read echo -n

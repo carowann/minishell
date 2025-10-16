@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/14 17:15:18 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/16 12:05:06 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,7 +334,7 @@ int		export(t_cmd *cmd, t_shell_state **shell, int fd);
 int		unset(t_cmd *cmd, t_shell_state **shell);
 void	print_env_export_format(int fd, char *env_var);
 int		delete_env(t_env **env, t_env *to_delete);
-int		builtin_exit(t_cmd *cmd, t_shell_state *shell);
+int		builtin_exit(t_cmd *cmd, t_shell_state *shell, int output_fd);
 int		validate_exit_arg(char *arg);
 int		change_dir(char *path, t_env *env);
 int		cd_builtin(t_cmd *cmd, t_shell_state **shell);
