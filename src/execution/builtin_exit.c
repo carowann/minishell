@@ -6,16 +6,18 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 17:33:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/16 09:41:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	builtin_exit(t_cmd *cmd, t_shell_state *shell)
+int	builtin_exit(t_cmd *cmd, t_shell_state *shell, int output_fd)
 {
 	int	exit_code;
 
+	if (output_fd != STDOUT_FILENO && output_fd >= 0)
+		close(output_fd);
 	if (!shell->is_child)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
