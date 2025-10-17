@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/16 12:05:06 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/17 22:28:28 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ char	*get_value_from_env_str(char *env_str);
 char	*build_exe_path(t_shell_state *shell, t_cmd *cmd);
 char	*find_cmd_exe(char **paths, t_cmd *cmd);
 int		is_valid_exe_path(const char *path);
+
 // cleanup.c
 void	free_matrix(char **matrix);
 void	free_command_all(t_cmd *cmd);
@@ -330,6 +331,7 @@ int		pwd(int fd);
 int		echo_exec(char **str, int n_var, int fd);
 void	free_env(t_env *head);
 int		echo_builtin(char **args, int fd);
+int		echo_nskip(char *str);
 int		export(t_cmd *cmd, t_shell_state **shell, int fd);
 int		unset(t_cmd *cmd, t_shell_state **shell);
 void	print_env_export_format(int fd, char *env_var);
