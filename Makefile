@@ -6,7 +6,7 @@
 #    By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/11 12:30:56 by cwannhed          #+#    #+#              #
-#    Updated: 2025/10/14 14:44:33 by cwannhed         ###   ########.fr        #
+#    Updated: 2025/10/17 14:29:50 by cwannhed         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,12 @@ $(SUPPRESSION_FILE):
 	@echo "   Memcheck:Leak" >> $(SUPPRESSION_FILE)
 	@echo "   ..." >> $(SUPPRESSION_FILE)
 	@echo "   obj:*/libreadline.so*" >> $(SUPPRESSION_FILE)
+	@echo "}" >> $(SUPPRESSION_FILE)
+	@echo "{" >> $(SUPPRESSION_FILE)
+	@echo "   external_commands_leaks" >> $(SUPPRESSION_FILE)
+	@echo "   Memcheck:Leak" >> $(SUPPRESSION_FILE)
+	@echo "   ..." >> $(SUPPRESSION_FILE)
+	@echo "   obj:/usr/bin/*" >> $(SUPPRESSION_FILE)
 	@echo "}" >> $(SUPPRESSION_FILE)
 
 valgrind: $(NAME) $(SUPPRESSION_FILE)

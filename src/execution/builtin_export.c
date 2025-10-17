@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/13 15:42:54 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/17 12:28:17 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	export(t_cmd *cmd, t_shell_state **shell, int fd)
 		if (!is_valid_identifier(cmd->args[i]))
 		{
 			ft_printfd(2, "minishell: export: ");
-			ft_printfd(2, "`%s': invalid id\n", cmd->args[i]);
+			ft_printfd(2, "`%s': not a valid identifier\n", cmd->args[i]);
 			has_error = 1;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 12:01:54 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/15 10:40:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/17 15:01:51 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ char	*build_exe_path(t_shell_state *shell, t_cmd *cmd)
 	value_path_var = get_env_value(shell, "PATH");
 	if (!value_path_var || ft_strlen(value_path_var) == 0)
 	{
-		ft_putstr_fd("PATH environment variable not set\n", STDERR_FILENO);
 		free(value_path_var);
 		return (NULL);
 	}
