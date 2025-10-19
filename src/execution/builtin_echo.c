@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:02:22 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/17 22:35:40 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:02:52 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	echo_builtin(char **args, int fd)
 	return (SUCCESS);
 }
 
-int echo_nskip(char *str)
+int	echo_nskip(char *str)
 {
 	int	i;
 
