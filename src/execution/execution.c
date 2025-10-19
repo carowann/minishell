@@ -6,7 +6,7 @@
 /*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/17 22:52:06 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/19 17:21:50 by ludovico         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	handle_external_command(t_cmd *cmd, t_shell_state **shell)
 	{
 		fd[1] = -1;
 		open_ve_out(fd, cmd);
+		if (fd[1] != -1)
+			close(fd[1]);
 		ft_printfd(STDERR_FILENO, "minishell: %s:", cmd->args[0]);
 		ft_printfd(STDERR_FILENO, " command not found\n");
 		return (set_exit_status(shell, 127));
