@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/26 16:15:13 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/14 14:38:34 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/20 16:51:56 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	open_ve_out(int *docfd, t_cmd *cmd)
 				| O_CREAT
 				| (cmd->append_mode * O_APPEND)
 				| (!cmd->append_mode * O_TRUNC), OUTFILE_PERMS);
+		write(docfd[1], "", 0);
 		if (docfd[1] < 0)
 		{
 			ft_printfd(1, "minishell: %s: ", cmd->output_files[i]);
