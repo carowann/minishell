@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 12:32:17 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/17 22:28:28 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/20 11:18:09 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define OUTFILE_PERMS		0644
 # define SUCCESS			0
 # define FAILURE			1
+# define SIGINT_TERMINATION	-1
+# define HEREDOC_EOF		0
 
 # include "../libft/libft.h"
 # include <stdio.h>
