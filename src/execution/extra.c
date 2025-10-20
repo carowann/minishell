@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:41:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 15:42:28 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:48:29 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	heredoc_execve(t_cmd *cmd)
 int	heredoc_status(int *fd, t_shell_state *shell)
 {
 	close(fd[1]);
-	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	shell->last_exit_status = 130;
 	return (-1);

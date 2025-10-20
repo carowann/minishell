@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 18:05:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:31:25 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			if (pid == 0)
 				exit(heredoc_sub(cmd, fd, shell));
 			waitpid(pid, &status, 0);
-			if (WIFSIGNALED(status) && WEXITSTATUS(status) == 130)
+			if (WIFEXITED(status) && WEXITSTATUS(status) == 130)
 				return (heredoc_status(fd, shell));
 			heredoc_closing(cmd, fd);
 		}

@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/24 18:38:43 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/13 15:04:43 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/20 12:44:55 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	heredoc_read_loop(char **delimiter, char **line, int i)
 	while (1)
 	{
 		*line = readline("> ");
+		if (!*line && g_signal_received == SIGINT)
+			return (-1);
 		if (!*line)
 		{
 			ft_printfd(2, "\nwarning: here-document delimited by end-of-file");
@@ -36,13 +38,15 @@ static int	heredoc_read_loop(char **delimiter, char **line, int i)
 int	heredoc_read_placebo(char **delimiter)
 {
 	char	*line;
+	int		heredoc_status;
 	int		i;
 
 	i = 0;
 	while (delimiter[i + 1])
 	{
-		if (!heredoc_read_loop(delimiter, &line, i))
-			return (0);
+		heredoc_status = heredoc_read_loop(delimiter, &line, i);
+		if (heredoc_status == -1)
+			return (-1);
 		i++;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludovico <ludovico@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 13:03:03 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/19 17:21:50 by ludovico         ###   ########.fr       */
+/*   Updated: 2025/10/20 19:35:32 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,13 @@ int	execute_cmd(t_cmd *cmd, t_shell_state **shell)
 		return (handle_pipeline(cmd, shell));
 	if (cmd->is_heredoc == 1)
 	{
+		setup_signals(PIPELINE);
 		if (set_up_heredoc(cmd, *shell) == -1)
+		{
+			setup_signals(INTERACTIVE);
 			return ((*shell)->last_exit_status);
+		}
+		setup_signals(INTERACTIVE);
 	}
 	if (is_valid_cmd(cmd->args[0]))
 		return (handle_builtin(cmd, shell));
