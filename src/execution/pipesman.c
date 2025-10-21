@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipesman.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 15:00:38 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/10 18:05:05 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/20 17:35:57 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	set_up_heredoc(t_cmd *cmd, t_shell_state *shell)
 			pid = fork();
 			if (pid == 0)
 				exit(heredoc_sub(cmd, fd, shell));
+			printf("Waiting for heredoc child process...\n");
 			waitpid(pid, &status, 0);
 			if (WIFSIGNALED(status) && WEXITSTATUS(status) == 130)
 				return (heredoc_status(fd, shell));
