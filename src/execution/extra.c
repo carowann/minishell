@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
+/*   By: lzorzit <lzorzit@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 16:41:44 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/20 19:48:29 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/21 15:25:14 by lzorzit          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	heredoc_execve(t_cmd *cmd)
 	if (cmd->heredoc_delimiter)
 		write(fd[1], cmd->heredoc_delimiter, ft_strlen(cmd->heredoc_delimiter));
 	else
-		write(fd[1], "", 1);
+		write(fd[1], "", 0);
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
