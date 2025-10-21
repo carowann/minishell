@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/21 12:03:17 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/21 13:03:03 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,17 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
+static void	check_and_update_env(t_shell_state *shell, t_cmd *cmd, int i)
+{
+	if (!find_env((*shell).env_list, cmd->args[i]))
+		add_env(&(*shell).env_list, cmd->args[i]);
+	else
+	{
+		if (ft_strchr(cmd->args[i], '=') != NULL)
+			update_env(shell->env_list, cmd->args[i]);
+	}
+}
+
 int	export(t_cmd *cmd, t_shell_state **shell, int fd)
 {
 	int	i;
@@ -48,15 +59,7 @@ int	export(t_cmd *cmd, t_shell_state **shell, int fd)
 			has_error = 1;
 		}
 		else
-		{
-			if (!find_env((*shell)->env_list, cmd->args[i]))
-				add_env(&((*shell)->env_list), cmd->args[i]);
-			else
-			{
-				if (ft_strchr(cmd->args[i], '=') != NULL)
-					update_env((*shell)->env_list, cmd->args[i]);
-			}
-		}
+			check_and_update_env(*shell, cmd, i);
 		i++;
 	}
 	return (has_error);
