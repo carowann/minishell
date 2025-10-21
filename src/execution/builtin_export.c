@@ -6,7 +6,7 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 13:49:20 by lzorzit           #+#    #+#             */
-/*   Updated: 2025/10/20 09:37:00 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/21 12:03:17 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,10 @@ int	export(t_cmd *cmd, t_shell_state **shell, int fd)
 			if (!find_env((*shell)->env_list, cmd->args[i]))
 				add_env(&((*shell)->env_list), cmd->args[i]);
 			else
-				update_env((*shell)->env_list, cmd->args[i]);
+			{
+				if (ft_strchr(cmd->args[i], '=') != NULL)
+					update_env((*shell)->env_list, cmd->args[i]);
+			}
 		}
 		i++;
 	}
