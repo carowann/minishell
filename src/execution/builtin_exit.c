@@ -6,37 +6,63 @@
 /*   By: cwannhed <cwannhed@student.42firenze.it>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/02 15:27:41 by cwannhed          #+#    #+#             */
-/*   Updated: 2025/10/16 18:31:31 by cwannhed         ###   ########.fr       */
+/*   Updated: 2025/10/21 11:47:28 by cwannhed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	builtin_exit(t_cmd *cmd, t_shell_state *shell, int output_fd)
+/*
+ * Handles exit argument validation and determines exit behavior
+ * @param cmd: command structure with arguments
+ * @param shell: shell state
+ * @return: exit code to use, or error code (1 for too many args, 2 for invalid)
+ */
+static int	handle_exit_args(t_cmd *cmd, t_shell_state *shell)
 {
 	int	exit_code;
+
+	exit_code = validate_exit_arg(cmd->args[1]);
+	if (exit_code == 2)
+	{
+		shell->should_exit = 1;
+		shell->exit_code = 2;
+		return (2);
+	}
+	if (cmd->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		return (1);
+	}
+	shell->should_exit = 1;
+	shell->exit_code = exit_code;
+	return (exit_code);
+}
+
+int	builtin_exit(t_cmd *cmd, t_shell_state *shell, int output_fd)
+{
+	int	result;
 
 	if (output_fd != STDOUT_FILENO && output_fd >= 0)
 		close(output_fd);
 	if (!shell->is_child)
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 	if (!cmd->args[1])
-		exit_code = shell->last_exit_status;
-	else if (cmd->args[2])
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
-		return (1);
+		shell->should_exit = 1;
+		shell->exit_code = shell->last_exit_status;
+		result = shell->last_exit_status;
 	}
 	else
-		exit_code = validate_exit_arg(cmd->args[1]);
+		result = handle_exit_args(cmd, shell);
 	if (shell->is_child)
 	{
 		pipe_free_all(shell->current_cmd_list->head, shell);
-		exit(exit_code);
+		if (result == 1)
+			exit(shell->last_exit_status);
+		exit(result);
 	}
-	shell->should_exit = 1;
-	shell->exit_code = exit_code;
-	return (exit_code);
+	return (result);
 }
 
 /*
